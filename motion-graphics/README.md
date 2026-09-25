@@ -4,7 +4,7 @@ Three looping animations for the service pages on elysiummarkstg.wpenginepowered
 
 | Page | Replaces | Partial | Loop |
 |---|---|---|---|
-| `/web-design/` | the `elloop` process animation in `.media-content__loop` | `partials/web-design.html` | 10s |
+| `/web-design/` | the `elloop` process animation in `.media-content__loop` | `partials/web-design.html` | 9s |
 | `/digital-marketing-solutions` | `marketing-circle@2x-1.webp` in `.media-content__media` | `partials/digital-marketing.html` | 9s |
 | `/public-relations/` | `public-relations-graphic.webp` in `.media-content__media` | `partials/public-relations.html` | 10s |
 
@@ -12,9 +12,19 @@ Open `preview.html` in a browser to see all three. Run `node motion-graphics/bui
 
 ## What each one shows
 
-- **Web Design:** Strategy sends SEO Copy, Design, and Development into an empty browser. Each stage lights up as it builds its part of the page: headline copy types in, design shapes pop in, and a code panel gives way to real components. Then the site goes live. Speed, SEO, and GEO scores fill to 100, a cursor clicks Get Started, and a "New lead" notification lands.
-- **Digital Marketing:** A comet travels around the Paid → Organic → Lifecycle loop. Each node fires as the comet passes: the megaphone's coin flips, the organic bars grow, and leads drop through the funnel and come out converted. A growth line in the center climbs with each stage.
-- **Public Relations:** Paid and Organic are already flowing into "Your Story." Earned starts out as a dashed, empty slot, which answers the "Is earned media missing?" headline. Then it fills in teal, the hub lights up, and coverage spreads out: Press Feature, Podcast Guest, Influencer Post, and Search Visibility with a rising trend line.
+Each graphic makes one point from its section's copy, in three steps or fewer.
+
+- **Web Design: one page, built in parallel.** Strategy lays out a wireframe. Then SEO Copy, Design, and Development fill the page in *at the same time*: three progress bars run together and finish together, while words, visuals, and working parts appear side by side on the page. A client feedback bubble asks for a bolder headline, the headline updates, and the client approves ("feedback in real time").
+- **Digital Marketing: follow one customer.** One person moves around the loop. They see your ad (Paid), later search and find you (Organic), then get an email and order again (Lifecycle), and the insights flow back into the next ad. Each card lights up as the customer arrives, which shows the channels handing off to each other.
+- **Public Relations: from story to results.** Your story is written, becomes a featured piece of earned coverage, and that coverage lights up the three results the copy promises: search visibility, foot traffic, and quality leads.
+
+## Changing the timing
+
+`emg-motion.css` is generated. Timelines live at the top of `tools/build-css.py` as `(element, reveal type, start %, end %)`. Edit the numbers, then run:
+
+```
+python3 motion-graphics/tools/build-css.py && node motion-graphics/build-preview.js
+```
 
 ## Installing in the theme
 
@@ -46,4 +56,4 @@ The graphics size to their container (`width: min(100%, 720px)`). They pick up t
 
 ## Copy to confirm
 
-"Capture Demand" comes from the current Digital Marketing graphic. "Build Your Presence" and "Convert & Retain" are my best read of the partly hidden captions under the other two nodes, and the four PR coverage-card labels are new. Edit the text in the partials if the team wants different wording.
+Small labels written for these graphics that the team may want to reword: "Then, all at once:", the feedback bubble ("Can the headline pop more?" / "Love it. Approved!"), "One team · every channel feeds the next", the three customer captions, and "Earned coverage". Edit them in the partials.

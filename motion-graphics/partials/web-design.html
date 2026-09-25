@@ -1,217 +1,158 @@
-<!-- EMG motion graphic: Web Design · "Strategy to launch"
-     Drop-in replacement for the .elloop block inside .media-content__loop.
-     Needs emg-motion.css (and optionally emg-motion.js). -->
-<div class="emg-mg emg-build" role="img" aria-label="Strategy feeds SEO copy, design, and development into a new website, which launches with top speed and search scores and starts turning visitors into leads">
+<!-- EMG motion graphic: Web Design · "One page, built in parallel"
+     Strategy lays out the page, then copy, design, and development fill it in
+     at the same time, and client feedback lands in real time.
+     Drop-in replacement for the .elloop block inside .media-content__loop. -->
+<div class="emg-mg emg-build" role="img" aria-label="Strategy lays out the page, then SEO copy, design, and development fill it in at the same time, with client feedback applied in real time">
 	<svg viewBox="0 0 720 470" aria-hidden="true" focusable="false">
 		<defs>
-			<filter id="emgb-glow" x="-200%" y="-200%" width="500%" height="500%">
-				<feGaussianBlur stdDeviation="3.5" result="b"/>
-				<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-			</filter>
 			<filter id="emgb-shadow" x="-20%" y="-20%" width="140%" height="150%">
 				<feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#073c72" flood-opacity=".14"/>
 			</filter>
 			<filter id="emgb-shadow-sm" x="-30%" y="-40%" width="160%" height="200%">
-				<feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#073c72" flood-opacity=".16"/>
+				<feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#073c72" flood-opacity=".18"/>
 			</filter>
-			<path id="emgb-r-copy" d="M110 235 C172 235 176 120 246 120 H330"/>
-			<path id="emgb-r-design" d="M110 235 H330"/>
-			<path id="emgb-r-dev" d="M110 235 C172 235 176 350 246 350 H330"/>
-			<clipPath id="emgb-clip"><rect x="330" y="36" width="374" height="398" rx="14"/></clipPath>
+			<clipPath id="emgb-clip"><rect x="250" y="30" width="454" height="410" rx="14"/></clipPath>
 		</defs>
 
-		<!-- Pipes -->
-		<path class="emg-pipe s-blue" d="M110 235 C172 235 176 120 246 120 H330"/>
-		<path class="emg-pipe s-teal" d="M110 235 H330"/>
-		<path class="emg-pipe s-pink" d="M110 235 C172 235 176 350 246 350 H330"/>
+		<!-- ============ Left: the process ============ -->
+		<g class="a reset">
+			<!-- Strategy -->
+			<rect x="58" y="74" width="152" height="6" rx="3" class="track"/>
+			<rect x="58" y="74" width="152" height="6" rx="3" class="f-navy a grow emgb-bar-strat"/>
+			<circle cx="34" cy="72" r="13" class="f-navy"/>
+			<path d="M28 72.5l4 4 7.5-8" class="tick a pop emgb-done-strat"/>
+			<text x="58" y="66" class="lbl f-navy">STRATEGY</text>
 
-		<!-- Packets (one pass per cycle, timed to each build phase) -->
-		<g class="emg-packet" filter="url(#emgb-glow)">
-			<circle r="7" class="f-blue"/>
-			<animateMotion dur="10s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.09;1" calcMode="linear"><mpath href="#emgb-r-copy"/></animateMotion>
-			<animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;1;1;0;0" keyTimes="0;.01;.08;.095;1"/>
-		</g>
-		<g class="emg-packet" filter="url(#emgb-glow)">
-			<circle r="7" class="f-teal"/>
-			<animateMotion dur="10s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.18;.27;1" calcMode="linear"><mpath href="#emgb-r-design"/></animateMotion>
-			<animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;.18;.19;.26;.275;1"/>
-		</g>
-		<g class="emg-packet" filter="url(#emgb-glow)">
-			<circle r="7" class="f-pink"/>
-			<animateMotion dur="10s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.36;.45;1" calcMode="linear"><mpath href="#emgb-r-dev"/></animateMotion>
-			<animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;.36;.37;.44;.455;1"/>
-		</g>
+			<text x="58" y="132" class="lbl-sm muted">THEN, ALL AT ONCE:</text>
+			<path d="M34 90 V140 M34 140 V346" class="bracket"/>
+			<path d="M34 176 H20 M34 256 H20 M34 336 H20" class="bracket"/>
 
-		<!-- Strategy node -->
-		<circle class="emgb-pulse s-navy" cx="74" cy="235" r="36"/>
-		<circle class="emgb-pulse emgb-pulse--late s-navy" cx="74" cy="235" r="36"/>
-		<circle cx="74" cy="235" r="36" class="f-navy"/>
-		<g class="emgb-target">
-			<circle cx="74" cy="235" r="17" fill="none" stroke="#fff" stroke-width="3"/>
-			<circle cx="74" cy="235" r="8.5" fill="none" stroke="#fff" stroke-width="3"/>
-			<circle cx="74" cy="235" r="2.8" fill="#fff"/>
-		</g>
-		<text x="74" y="298" class="emg-label emg-label--lg f-navy" text-anchor="middle">STRATEGY</text>
+			<!-- Copy -->
+			<rect x="58" y="182" width="152" height="6" rx="3" class="track"/>
+			<rect x="58" y="182" width="152" height="6" rx="3" class="f-blue a grow emgb-bar-copy"/>
+			<circle cx="34" cy="176" r="13" class="f-blue"/>
+			<path d="M28 176.5l4 4 7.5-8" class="tick a pop emgb-done"/>
+			<text x="58" y="172" class="lbl f-navy">SEO COPY</text>
 
-		<!-- Stage pills -->
-		<g>
-			<rect x="222" y="107" width="96" height="26" rx="13" class="emgb-pill s-blue"/>
-			<text x="270" y="124" class="emg-label f-navy" text-anchor="middle">SEO COPY</text>
-			<g class="emgb-pill-on emgb-pill-on--copy">
-				<rect x="222" y="107" width="96" height="26" rx="13" class="f-blue"/>
-				<text x="270" y="124" class="emg-label" fill="#fff" text-anchor="middle">SEO COPY</text>
-			</g>
-		</g>
-		<g>
-			<rect x="222" y="222" width="96" height="26" rx="13" class="emgb-pill s-teal"/>
-			<text x="270" y="239" class="emg-label f-navy" text-anchor="middle">DESIGN</text>
-			<g class="emgb-pill-on emgb-pill-on--design">
-				<rect x="222" y="222" width="96" height="26" rx="13" class="f-teal"/>
-				<text x="270" y="239" class="emg-label" fill="#fff" text-anchor="middle">DESIGN</text>
-			</g>
-		</g>
-		<g>
-			<rect x="222" y="337" width="96" height="26" rx="13" class="emgb-pill s-pink"/>
-			<text x="270" y="354" class="emg-label f-navy" text-anchor="middle">DEVELOPMENT</text>
-			<g class="emgb-pill-on emgb-pill-on--dev">
-				<rect x="222" y="337" width="96" height="26" rx="13" class="f-pink"/>
-				<text x="270" y="354" class="emg-label" fill="#fff" text-anchor="middle">DEVELOPMENT</text>
-			</g>
+			<!-- Design -->
+			<rect x="58" y="262" width="152" height="6" rx="3" class="track"/>
+			<rect x="58" y="262" width="152" height="6" rx="3" class="f-teal a grow emgb-bar-design"/>
+			<circle cx="34" cy="256" r="13" class="f-teal"/>
+			<path d="M28 256.5l4 4 7.5-8" class="tick a pop emgb-done"/>
+			<text x="58" y="252" class="lbl f-navy">DESIGN</text>
+
+			<!-- Development -->
+			<rect x="58" y="342" width="152" height="6" rx="3" class="track"/>
+			<rect x="58" y="342" width="152" height="6" rx="3" class="f-pink a grow emgb-bar-dev"/>
+			<circle cx="34" cy="336" r="13" class="f-pink"/>
+			<path d="M28 336.5l4 4 7.5-8" class="tick a pop emgb-done"/>
+			<text x="58" y="332" class="lbl f-navy">DEVELOPMENT</text>
 		</g>
 
-		<!-- Browser frame -->
-		<rect x="330" y="36" width="374" height="398" rx="14" fill="#fff" filter="url(#emgb-shadow)"/>
+		<!-- ============ Right: the page ============ -->
+		<rect x="250" y="30" width="454" height="410" rx="14" fill="#fff" filter="url(#emgb-shadow)"/>
 		<g clip-path="url(#emgb-clip)">
-			<rect x="330" y="36" width="374" height="30" fill="#f4f7fa"/>
-			<line x1="330" y1="66" x2="704" y2="66" class="emgb-hair"/>
-			<circle cx="348" cy="51" r="3.5" class="emgb-skel-dot"/>
-			<circle cx="360" cy="51" r="3.5" class="emgb-skel-dot"/>
-			<circle cx="372" cy="51" r="3.5" class="emgb-skel-dot"/>
-			<rect x="390" y="43" width="200" height="16" rx="8" fill="#fff" class="emgb-hair"/>
-			<path d="M399 49.5v-1.6a3 3 0 0 1 6 0v1.6M397.8 49.5h8.4v5.6h-8.4z" fill="none" class="emgb-lock"/>
-			<text x="412" y="55" class="emgb-url">yourbrand.com</text>
-			<rect x="410" y="45" width="92" height="12" fill="#fff" class="emgb-url-mask"/>
-			<g class="emgb-live">
-				<rect x="630" y="43" width="58" height="16" rx="8" class="emgb-live-bg"/>
-				<circle cx="642" cy="51" r="3.2" class="f-teal emgb-live-dot"/>
-				<text x="651" y="54.5" class="emg-label emg-label--xs f-navy">LIVE</text>
+			<rect x="250" y="30" width="454" height="28" fill="#f4f7fa"/>
+			<line x1="250" y1="58" x2="704" y2="58" class="hair"/>
+			<circle cx="268" cy="44" r="3.5" class="chrome-dot"/>
+			<circle cx="280" cy="44" r="3.5" class="chrome-dot"/>
+			<circle cx="292" cy="44" r="3.5" class="chrome-dot"/>
+			<rect x="312" y="37" width="230" height="14" rx="7" fill="#fff" class="hair"/>
+
+			<!-- Wireframe from strategy: draws in first, stays underneath -->
+			<g class="wire a emgb-wire">
+				<circle cx="284" cy="80" r="7" class="a wire-in w1"/>
+				<rect x="556" y="77" width="30" height="6" rx="3" class="a wire-in w1"/>
+				<rect x="594" y="77" width="28" height="6" rx="3" class="a wire-in w1"/>
+				<rect x="634" y="72" width="50" height="16" rx="8" class="a wire-in w1"/>
+				<rect x="272" y="116" width="160" height="14" rx="7" class="a wire-in w2"/>
+				<rect x="272" y="136" width="120" height="14" rx="7" class="a wire-in w2"/>
+				<rect x="272" y="162" width="150" height="5" rx="2.5" class="a wire-in w2"/>
+				<rect x="272" y="172" width="126" height="5" rx="2.5" class="a wire-in w2"/>
+				<rect x="272" y="188" width="80" height="22" rx="11" class="a wire-in w2"/>
+				<rect x="462" y="100" width="222" height="114" rx="14" class="a wire-in w2"/>
+				<rect x="412" y="236" width="130" height="8" rx="4" class="a wire-in w3"/>
+				<rect x="272" y="256" width="130" height="80" rx="10" class="a wire-in w3"/>
+				<rect x="413" y="256" width="130" height="80" rx="10" class="a wire-in w3"/>
+				<rect x="554" y="256" width="130" height="80" rx="10" class="a wire-in w3"/>
+				<rect x="272" y="364" width="300" height="26" rx="8" class="a wire-in w4"/>
+				<rect x="582" y="364" width="102" height="26" rx="13" class="a wire-in w4"/>
 			</g>
 
-			<!-- Skeleton (empty page) -->
-			<g class="emgb-skel">
-				<circle cx="362" cy="89" r="7"/>
-				<rect x="556" y="86" width="34" height="6" rx="3"/>
-				<rect x="598" y="86" width="30" height="6" rx="3"/>
-				<rect x="640" y="81" width="46" height="16" rx="8"/>
-				<rect x="350" y="122" width="140" height="12" rx="6"/>
-				<rect x="350" y="140" width="100" height="12" rx="6"/>
-				<rect x="350" y="164" width="136" height="5" rx="2.5"/>
-				<rect x="350" y="174" width="112" height="5" rx="2.5"/>
-				<rect x="350" y="190" width="78" height="22" rx="11"/>
-				<rect x="457" y="244" width="120" height="8" rx="4"/>
+			<g class="a reset">
+				<!-- DESIGN (teal) -->
+				<rect x="462" y="100" width="222" height="114" rx="14" class="panel a fade emgb-d1"/>
+				<circle cx="560" cy="152" r="40" class="f-teal a pop emgb-d2" opacity=".88"/>
+				<circle cx="612" cy="184" r="22" class="f-blue a pop emgb-d3" opacity=".85"/>
+				<circle cx="496" cy="126" r="10" fill="none" stroke-width="3" class="s-pink a pop emgb-d3"/>
+				<g class="a fade emgb-d4">
+					<rect x="272" y="256" width="130" height="80" rx="10" class="card-fill"/>
+					<rect x="413" y="256" width="130" height="80" rx="10" class="card-fill"/>
+					<rect x="554" y="256" width="130" height="80" rx="10" class="card-fill"/>
+				</g>
+				<circle cx="292" cy="276" r="9" class="f-teal a pop emgb-d5"/>
+				<circle cx="433" cy="276" r="9" class="f-pink a pop emgb-d6"/>
+				<circle cx="574" cy="276" r="9" class="f-blue a pop emgb-d7"/>
+
+				<!-- COPY (blue) -->
+				<rect x="272" y="104" width="40" height="4" rx="2" class="f-pink a grow emgb-c1"/>
+				<g class="emgb-headline">
+					<rect x="272" y="116" width="160" height="14" rx="7" class="f-blue a grow emgb-c2"/>
+					<rect x="272" y="136" width="120" height="14" rx="7" class="f-blue a grow emgb-c3"/>
+				</g>
+				<rect x="272" y="162" width="150" height="5" rx="2.5" class="ink a grow emgb-c4"/>
+				<rect x="272" y="172" width="126" height="5" rx="2.5" class="ink a grow emgb-c5"/>
+				<rect x="412" y="236" width="130" height="8" rx="4" class="f-navy a grow emgb-c6" opacity=".8"/>
+				<g class="a grow emgb-c7">
+					<rect x="284" y="298" width="96" height="5" rx="2.5" class="f-navy" opacity=".55"/>
+					<rect x="284" y="310" width="70" height="5" rx="2.5" class="f-navy" opacity=".25"/>
+				</g>
+				<g class="a grow emgb-c8">
+					<rect x="425" y="298" width="96" height="5" rx="2.5" class="f-navy" opacity=".55"/>
+					<rect x="425" y="310" width="70" height="5" rx="2.5" class="f-navy" opacity=".25"/>
+				</g>
+				<g class="a grow emgb-c9">
+					<rect x="566" y="298" width="96" height="5" rx="2.5" class="f-navy" opacity=".55"/>
+					<rect x="566" y="310" width="70" height="5" rx="2.5" class="f-navy" opacity=".25"/>
+				</g>
+
+				<!-- DEVELOPMENT (pink): the working parts -->
+				<circle cx="284" cy="80" r="7" class="f-navy a pop emgb-k1"/>
+				<rect x="556" y="77" width="30" height="6" rx="3" class="ink a grow emgb-k1"/>
+				<rect x="594" y="77" width="28" height="6" rx="3" class="ink a grow emgb-k1"/>
+				<rect x="634" y="72" width="50" height="16" rx="8" class="f-pink a pop emgb-k2"/>
+				<g class="a pop emgb-k3">
+					<rect x="272" y="188" width="80" height="22" rx="11" class="f-pink"/>
+					<text x="312" y="202.5" class="lbl-xs" fill="#fff" text-anchor="middle">GET STARTED</text>
+				</g>
+				<g class="a fade emgb-k4">
+					<rect x="272" y="256" width="130" height="80" rx="10" class="card-edge"/>
+					<rect x="413" y="256" width="130" height="80" rx="10" class="card-edge"/>
+					<rect x="554" y="256" width="130" height="80" rx="10" class="card-edge"/>
+				</g>
+				<g class="a fade emgb-k5">
+					<rect x="272" y="364" width="300" height="26" rx="8" fill="#fff" class="field"/>
+					<text x="284" y="381" class="field-text">Your email</text>
+					<rect x="340" y="370" width="1.6" height="14" class="f-navy caret"/>
+				</g>
+				<g class="a pop emgb-k6">
+					<rect x="582" y="364" width="102" height="26" rx="13" class="f-pink"/>
+					<text x="633" y="380.5" class="lbl-xs" fill="#fff" text-anchor="middle">SUBMIT</text>
+				</g>
 			</g>
-			<g class="emgb-skel-outline">
-				<rect x="516" y="108" width="172" height="118" rx="14"/>
-				<rect x="350" y="262" width="104" height="80" rx="10"/>
-				<rect x="465" y="262" width="104" height="80" rx="10"/>
-				<rect x="580" y="262" width="104" height="80" rx="10"/>
-			</g>
 
-			<!-- Built layer -->
-			<g class="emgb-built">
-				<circle cx="362" cy="89" r="7" class="f-navy emgb-pop emgb-t-nav"/>
-				<rect x="556" y="86" width="34" height="6" rx="3" class="emgb-ink emgb-grow emgb-t-nav"/>
-				<rect x="598" y="86" width="30" height="6" rx="3" class="emgb-ink emgb-grow emgb-t-nav"/>
-
-				<!-- Copy -->
-				<rect x="350" y="110" width="44" height="4" rx="2" class="f-pink emgb-grow emgb-t-c0"/>
-				<rect x="350" y="122" width="140" height="12" rx="6" class="f-blue emgb-grow emgb-t-c1"/>
-				<rect x="350" y="140" width="100" height="12" rx="6" class="f-blue emgb-grow emgb-t-c2"/>
-				<rect x="350" y="164" width="136" height="5" rx="2.5" class="emgb-ink emgb-grow emgb-t-c3"/>
-				<rect x="350" y="174" width="112" height="5" rx="2.5" class="emgb-ink emgb-grow emgb-t-c4"/>
-				<rect x="457" y="244" width="120" height="8" rx="4" class="f-navy emgb-grow emgb-t-c4" opacity=".8"/>
-
-				<!-- Design -->
-				<rect x="516" y="108" width="172" height="118" rx="14" class="emgb-panel emgb-fadein emgb-t-d0"/>
-				<circle cx="594" cy="160" r="40" class="f-teal emgb-pop emgb-t-d1" opacity=".88"/>
-				<circle cx="640" cy="196" r="22" class="f-blue emgb-pop emgb-t-d2" opacity=".85"/>
-				<circle cx="544" cy="132" r="10" fill="none" stroke-width="3" class="s-pink emgb-pop emgb-t-d3"/>
-				<g class="emgb-fadein emgb-t-d3">
-					<circle cx="536" cy="206" r="5" class="f-pink"/>
-					<circle cx="550" cy="206" r="5" class="f-teal"/>
-					<circle cx="564" cy="206" r="5" class="f-navy"/>
-				</g>
-
-				<!-- Development: code panel, then components -->
-				<g class="emgb-code">
-					<rect x="346" y="256" width="342" height="92" rx="10" fill="#0b1f3a"/>
-					<text x="362" y="281" class="emgb-code-tag">&lt;/&gt;</text>
-					<rect x="396" y="274" width="70" height="5" rx="2.5" class="f-pink emgb-grow emgb-t-k1"/>
-					<rect x="474" y="274" width="44" height="5" rx="2.5" class="f-teal emgb-grow emgb-t-k1"/>
-					<rect x="376" y="290" width="96" height="5" rx="2.5" fill="#fff" opacity=".55" class="emgb-grow emgb-t-k2"/>
-					<rect x="480" y="290" width="60" height="5" rx="2.5" class="f-teal emgb-grow emgb-t-k2"/>
-					<rect x="376" y="306" width="54" height="5" rx="2.5" class="f-pink emgb-grow emgb-t-k3"/>
-					<rect x="438" y="306" width="110" height="5" rx="2.5" fill="#fff" opacity=".55" class="emgb-grow emgb-t-k3"/>
-					<rect x="396" y="322" width="80" height="5" rx="2.5" fill="#fff" opacity=".35" class="emgb-grow emgb-t-k4"/>
-					<rect x="362" y="322" width="26" height="5" rx="2.5" class="f-pink emgb-grow emgb-t-k4"/>
-				</g>
-
-				<g class="emgb-card emgb-t-card1">
-					<rect x="350" y="262" width="104" height="80" rx="10" class="emgb-card-bg"/>
-					<circle cx="368" cy="282" r="8" class="f-teal"/>
-					<rect x="362" y="302" width="72" height="5" rx="2.5" class="f-navy" opacity=".55"/>
-					<rect x="362" y="314" width="54" height="5" rx="2.5" class="f-navy" opacity=".25"/>
-				</g>
-				<g class="emgb-card emgb-t-card2">
-					<rect x="465" y="262" width="104" height="80" rx="10" class="emgb-card-bg"/>
-					<circle cx="483" cy="282" r="8" class="f-pink"/>
-					<rect x="477" y="302" width="72" height="5" rx="2.5" class="f-navy" opacity=".55"/>
-					<rect x="477" y="314" width="54" height="5" rx="2.5" class="f-navy" opacity=".25"/>
-				</g>
-				<g class="emgb-card emgb-t-card3">
-					<rect x="580" y="262" width="104" height="80" rx="10" class="emgb-card-bg"/>
-					<circle cx="598" cy="282" r="8" class="f-blue"/>
-					<rect x="592" y="302" width="72" height="5" rx="2.5" class="f-navy" opacity=".55"/>
-					<rect x="592" y="314" width="54" height="5" rx="2.5" class="f-navy" opacity=".25"/>
-				</g>
-
-				<!-- CTAs -->
-				<rect x="640" y="81" width="46" height="16" rx="8" class="f-pink emgb-pop emgb-t-cta"/>
-				<g class="emgb-cta emgb-t-cta">
-					<rect x="350" y="190" width="78" height="22" rx="11" class="f-pink"/>
-					<text x="389" y="204.2" class="emg-label emg-label--xs" fill="#fff" text-anchor="middle">GET STARTED</text>
-				</g>
-
-				<!-- Launch scores -->
-				<g class="emgb-scores">
-					<circle cx="376" cy="394" r="18" class="emgb-gauge-track"/>
-					<circle cx="376" cy="394" r="18" class="emgb-gauge s-teal" transform="rotate(-90 376 394)"/>
-					<text x="376" y="397.5" class="emg-label emg-label--sm f-navy" text-anchor="middle">100</text>
-					<text x="376" y="426" class="emg-label emg-label--xs emgb-muted" text-anchor="middle">SPEED</text>
-
-					<circle cx="432" cy="394" r="18" class="emgb-gauge-track"/>
-					<circle cx="432" cy="394" r="18" class="emgb-gauge emgb-gauge--2 s-teal" transform="rotate(-90 432 394)"/>
-					<text x="432" y="397.5" class="emg-label emg-label--sm f-navy" text-anchor="middle">100</text>
-					<text x="432" y="426" class="emg-label emg-label--xs emgb-muted" text-anchor="middle">SEO</text>
-
-					<circle cx="488" cy="394" r="18" class="emgb-gauge-track"/>
-					<circle cx="488" cy="394" r="18" class="emgb-gauge emgb-gauge--3 s-teal" transform="rotate(-90 488 394)"/>
-					<text x="488" y="397.5" class="emg-label emg-label--sm f-navy" text-anchor="middle">100</text>
-					<text x="488" y="426" class="emg-label emg-label--xs emgb-muted" text-anchor="middle">GEO</text>
-				</g>
-
-				<!-- Click + lead -->
-				<circle cx="389" cy="201" r="14" fill="none" stroke-width="2.5" class="s-pink emgb-ripple"/>
-				<g class="emgb-toast">
-					<rect x="534" y="370" width="154" height="48" rx="12" fill="#fff" class="emgb-hair" filter="url(#emgb-shadow-sm)"/>
-					<circle cx="557" cy="394" r="12" class="f-teal"/>
-					<path d="M551.5 394.5l3.8 3.8 7.2-7.6" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-					<text x="577" y="390" class="emg-label emg-label--sm f-navy">NEW LEAD</text>
-					<text x="577" y="404" class="emgb-sub">Demo request · just now</text>
-				</g>
-				<path class="emgb-cursor" d="M660 420v24l6.4-6.2 4.4 10 4.6-2-4.4-9.8h8.8z"/>
+			<!-- Real-time feedback -->
+			<g class="a emgb-bubble">
+				<rect x="442" y="108" width="176" height="44" rx="12" fill="#fff" class="hair" filter="url(#emgb-shadow-sm)"/>
+				<path d="M450 130 l-10 6 12 1z" fill="#fff"/>
+				<circle cx="464" cy="130" r="11" class="f-navy"/>
+				<circle cx="464" cy="126.5" r="4" fill="#fff"/>
+				<path d="M456.5 137.5a7.5 7.5 0 0 1 15 0" fill="#fff"/>
+				<text x="482" y="126" class="lbl-xs muted">CLIENT FEEDBACK</text>
+				<text x="482" y="141" class="bubble-text a emgb-ask">Can the headline pop more?</text>
+				<text x="482" y="141" class="bubble-text a emgb-yes">Love it. Approved!</text>
 			</g>
 		</g>
-		<rect x="330.5" y="36.5" width="373" height="397" rx="14" fill="none" class="emgb-hair"/>
+		<rect x="250.5" y="30.5" width="453" height="409" rx="14" fill="none" class="hair"/>
 	</svg>
 </div>

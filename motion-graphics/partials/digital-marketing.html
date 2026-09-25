@@ -1,121 +1,106 @@
-<!-- EMG motion graphic: Digital Marketing · "One continuous growth loop"
-     Drop-in replacement for marketing-circle@2x-1.webp inside .media-content__media.
-     Needs emg-motion.css (and optionally emg-motion.js). -->
-<div class="emg-mg emg-loop" role="img" aria-label="Paid advertising, organic marketing, and lifecycle marketing working as one continuous growth loop">
-	<svg viewBox="0 8 600 490" aria-hidden="true" focusable="false">
+<!-- EMG motion graphic: Digital Marketing · "Follow one customer"
+     One person moves through paid, organic, and lifecycle, and what we learn
+     feeds the next campaign. Shows the channels handing off to each other.
+     Drop-in replacement for marketing-circle@2x-1.webp inside .media-content__media. -->
+<div class="emg-mg emg-loop" role="img" aria-label="One customer sees your ad, later searches and finds you, then gets an email and buys again, and those insights feed the next ad">
+	<svg viewBox="0 0 600 470" aria-hidden="true" focusable="false">
 		<defs>
-			<radialGradient id="emgl-disc" cx="50%" cy="45%" r="60%">
-				<stop offset="0%" class="stop-pink" stop-opacity=".10"/>
-				<stop offset="70%" class="stop-pink" stop-opacity=".05"/>
-				<stop offset="100%" class="stop-pink" stop-opacity="0"/>
-			</radialGradient>
-			<linearGradient id="emgl-trail" x1="0" y1="0" x2="1" y2="0">
-				<stop offset="0%" class="stop-teal" stop-opacity="0"/>
-				<stop offset="100%" class="stop-pink" stop-opacity="1"/>
-			</linearGradient>
+			<filter id="emgl-shadow" x="-30%" y="-30%" width="160%" height="170%">
+				<feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#073c72" flood-opacity=".13"/>
+			</filter>
 			<filter id="emgl-glow" x="-200%" y="-200%" width="500%" height="500%">
 				<feGaussianBlur stdDeviation="5" result="b"/>
 				<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
 			</filter>
-			<filter id="emgl-shadow" x="-40%" y="-40%" width="180%" height="180%">
-				<feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#073c72" flood-opacity=".13"/>
-			</filter>
-			<path id="emgl-arc-top" d="M-75.3 -20.2 A78 78 0 0 1 75.3 -20.2"/>
-			<path id="emgl-arc-bot" d="M-69.3 40 A80 80 0 0 0 69.3 40"/>
+			<!-- Full loop, starting at Paid (top) and running clockwise -->
+			<path id="emgl-route" d="M300 100 A185 185 0 0 1 460.2 377.5 A185 185 0 0 1 139.8 377.5 A185 185 0 0 1 300 100"/>
 		</defs>
 
+		<!-- Track -->
+		<path class="track-arc s-pink" d="M300 100 A185 185 0 0 1 460.2 377.5"/>
+		<path class="track-arc s-teal" d="M460.2 377.5 A185 185 0 0 1 139.8 377.5"/>
+		<path class="return-arc" d="M139.8 377.5 A185 185 0 0 1 300 100"/>
+		<path class="return-flow a emgl-return" d="M139.8 377.5 A185 185 0 0 1 300 100"/>
+
+		<!-- The customer (travels behind the cards, which light up as they arrive) -->
+		<g class="emg-packet">
+			<circle r="15" class="f-navy" filter="url(#emgl-glow)"/>
+			<circle r="15" fill="none" stroke="#fff" stroke-width="2.5"/>
+			<circle cy="-3.5" r="4.5" fill="#fff"/>
+			<path d="M-8 8a8 8 0 0 1 16 0z" fill="#fff"/>
+			<animateMotion dur="9s" repeatCount="indefinite" calcMode="spline"
+				keyTimes="0;.2;.33;.53;.66;.86;1" keyPoints="0;0;.3333;.3333;.6667;.6667;1"
+				keySplines="0 0 1 1;.45 0 .25 1;0 0 1 1;.45 0 .25 1;0 0 1 1;.45 0 .25 1"><mpath href="#emgl-route"/></animateMotion>
+		</g>
+
+		<!-- Insights chip on the return arc -->
+		<rect x="72" y="178" width="100" height="26" rx="13" fill="#fff" stroke="#c9d3de" stroke-width="2"/>
+		<text x="122" y="195" class="lbl-xs muted" text-anchor="middle">INSIGHTS</text>
+		<g class="a emgl-insight">
+			<rect x="72" y="178" width="100" height="26" rx="13" class="f-navy"/>
+			<text x="122" y="195" class="lbl-xs" fill="#fff" text-anchor="middle">INSIGHTS</text>
+		</g>
+
 		<!-- Center -->
-		<circle cx="300" cy="300" r="128" fill="url(#emgl-disc)"/>
-		<text x="300" y="242" class="emg-label emg-label--sm emgl-muted" text-anchor="middle">ONE CONTINUOUS</text>
-		<text x="300" y="268" class="emg-label emg-label--xl f-navy" text-anchor="middle">GROWTH LOOP</text>
-		<line x1="236" y1="364" x2="366" y2="364" class="emgl-axis"/>
-		<path class="emgl-chart" pathLength="100" d="M236 354 C252 352 260 342 274 340 S296 332 306 322 S330 314 340 306 S356 294 366 286"/>
-		<g class="emgl-chart-dots">
-			<circle cx="274" cy="340" r="4.5" class="f-pink emgl-cdot emgl-cdot--1"/>
-			<circle cx="306" cy="322" r="4.5" class="f-teal emgl-cdot emgl-cdot--2"/>
-			<circle cx="340" cy="306" r="4.5" class="f-navy emgl-cdot emgl-cdot--3"/>
-			<path d="M358 284 L368 284 L368 294" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="s-pink emgl-cdot emgl-cdot--4"/>
+		<text x="300" y="262" class="lbl-xl f-navy" text-anchor="middle">ONE TEAM</text>
+		<text x="300" y="284" class="center-sub" text-anchor="middle">every channel feeds the next</text>
+
+		<!-- ===== Paid (top) ===== -->
+		<text x="300" y="34" class="lbl f-pink" text-anchor="middle">PAID</text>
+		<rect x="225" y="46" width="150" height="104" rx="14" fill="#fff" filter="url(#emgl-shadow)"/>
+		<rect x="225" y="46" width="150" height="104" rx="14" class="card-ring s-pink a emgl-on-1"/>
+		<circle cx="245" cy="64" r="6" class="f-navy" opacity=".85"/>
+		<rect x="256" y="61" width="40" height="5" rx="2.5" class="ink"/>
+		<text x="362" y="66" class="lbl-xxs muted" text-anchor="end">AD</text>
+		<rect x="237" y="76" width="126" height="44" rx="8" class="ad-img"/>
+		<circle cx="286" cy="98" r="14" class="f-teal" opacity=".85"/>
+		<circle cx="310" cy="106" r="8" class="f-blue" opacity=".8"/>
+		<rect x="237" y="126" width="126" height="16" rx="8" class="f-pink"/>
+		<text x="300" y="137" class="lbl-xxs" fill="#fff" text-anchor="middle">LEARN MORE</text>
+		<circle cx="330" cy="134" r="9" fill="none" stroke="#fff" stroke-width="2.5" class="a emgl-tap"/>
+		<text x="300" y="172" class="caption" text-anchor="middle">Sees your ad</text>
+
+		<!-- ===== Organic (bottom right) ===== -->
+		<text x="460" y="312" class="lbl f-teal-deep" text-anchor="middle">ORGANIC</text>
+		<rect x="385" y="325" width="150" height="104" rx="14" fill="#fff" filter="url(#emgl-shadow)"/>
+		<rect x="385" y="325" width="150" height="104" rx="14" class="card-ring s-teal a emgl-on-2"/>
+		<rect x="397" y="337" width="126" height="20" rx="10" fill="#fff" class="hair-s"/>
+		<circle cx="410" cy="346" r="4" fill="none" stroke-width="1.8" class="s-navy"/>
+		<line x1="413" y1="349" x2="416" y2="352" stroke-width="1.8" stroke-linecap="round" class="s-navy"/>
+		<text x="422" y="350.5" class="search-text">your brand</text>
+		<rect x="421" y="340" width="62" height="14" fill="#fff" class="a emgl-typemask"/>
+		<rect x="397" y="364" width="126" height="20" rx="6" class="f-teal a emgl-hit"/>
+		<rect x="405" y="369" width="70" height="4" rx="2" class="f-blue"/>
+		<rect x="405" y="376" width="96" height="3" rx="1.5" class="ink"/>
+		<g class="a pop emgl-rank">
+			<circle cx="511" cy="374" r="9" class="f-teal"/>
+			<text x="511" y="377.3" class="lbl-xxs" fill="#fff" text-anchor="middle">#1</text>
 		</g>
+		<rect x="405" y="392" width="60" height="4" rx="2" class="ink"/>
+		<rect x="405" y="399" width="88" height="3" rx="1.5" class="ink" opacity=".6"/>
+		<rect x="405" y="410" width="54" height="4" rx="2" class="ink"/>
+		<rect x="405" y="417" width="80" height="3" rx="1.5" class="ink" opacity=".6"/>
+		<text x="460" y="451" class="caption" text-anchor="middle">Searches and finds you</text>
 
-		<!-- Loop track: three colored thirds -->
-		<path class="emgl-track s-pink" d="M300 110 A190 190 0 0 1 464.5 395"/>
-		<path class="emgl-track s-teal" d="M464.5 395 A190 190 0 0 1 135.5 395"/>
-		<path class="emgl-track s-navy" d="M135.5 395 A190 190 0 0 1 300 110"/>
-
-		<!-- Direction chevrons -->
-		<path class="emgl-chev s-pink" d="M-5 -7 L4 0 L-5 7" transform="translate(464.5 205) rotate(60)"/>
-		<path class="emgl-chev s-teal" d="M-5 -7 L4 0 L-5 7" transform="translate(300 490) rotate(180)"/>
-		<path class="emgl-chev s-navy" d="M-5 -7 L4 0 L-5 7" transform="translate(135.5 205) rotate(300)"/>
-
-		<!-- Orbiting comet + trail -->
-		<g class="emgl-orbit">
-			<circle cx="300" cy="300" r="190" class="emgl-trail" pathLength="100" transform="rotate(-90 300 300)"/>
-			<circle cx="300" cy="110" r="8" class="f-pink" filter="url(#emgl-glow)"/>
-			<circle cx="300" cy="110" r="3.5" fill="#fff"/>
+		<!-- ===== Lifecycle (bottom left) ===== -->
+		<text x="140" y="312" class="lbl f-navy" text-anchor="middle">LIFECYCLE</text>
+		<rect x="65" y="325" width="150" height="104" rx="14" fill="#fff" filter="url(#emgl-shadow)"/>
+		<rect x="65" y="325" width="150" height="104" rx="14" class="card-ring s-navy a emgl-on-3"/>
+		<rect x="79" y="339" width="30" height="22" rx="4" fill="none" stroke-width="2" class="s-navy"/>
+		<path d="M79 341 l15 11 15-11" fill="none" stroke-width="2" stroke-linejoin="round" class="s-navy"/>
+		<rect x="118" y="341" width="70" height="5" rx="2.5" class="f-navy" opacity=".7"/>
+		<rect x="118" y="352" width="50" height="4" rx="2" class="ink"/>
+		<rect x="79" y="370" width="122" height="4" rx="2" class="ink"/>
+		<rect x="79" y="379" width="100" height="4" rx="2" class="ink"/>
+		<rect x="79" y="394" width="72" height="18" rx="9" class="f-pink"/>
+		<text x="115" y="406" class="lbl-xxs" fill="#fff" text-anchor="middle">SHOP AGAIN</text>
+		<g class="a emgl-order">
+			<rect x="77" y="391" width="126" height="24" rx="12" fill="#fff" class="s-teal" stroke-width="2"/>
+			<circle cx="92" cy="403" r="7" class="f-teal"/>
+			<path d="M88.8 403.2l2.2 2.2 4-4.4" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+			<text x="104" y="406.5" class="lbl-xxs f-navy">ORDER PLACED</text>
 		</g>
+		<text x="140" y="451" class="caption" text-anchor="middle">Buys, then buys again</text>
 
-		<!-- Node: Paid Advertising (top) -->
-		<g transform="translate(300 110)">
-			<circle r="58" class="emgl-halo s-pink emgl-t-1"/>
-			<g class="emgl-node emgl-t-1">
-				<circle r="58" fill="#fff" filter="url(#emgl-shadow)"/>
-				<circle r="58" fill="none" stroke-width="7" class="s-pink"/>
-				<g fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="s-pink">
-					<path d="M-26 -6 L-2 -18 V14 L-26 4 Z"/>
-					<path d="M-20 5 L-16 18 H-9 L-12 7"/>
-					<path class="emgl-wave emgl-wave--1" d="M6 -9 Q12 -1 6 7"/>
-					<path class="emgl-wave emgl-wave--2" d="M12 -15 Q22 -1 12 13"/>
-				</g>
-				<g class="emgl-coin">
-					<circle cx="20" cy="-24" r="10" class="f-pink"/>
-					<text x="20" y="-19.5" class="emg-label emg-label--sm" fill="#fff" text-anchor="middle">$</text>
-				</g>
-			</g>
-			<text class="emg-label emg-label--md f-pink" text-anchor="middle"><textPath href="#emgl-arc-top" startOffset="50%">PAID ADVERTISING</textPath></text>
-		</g>
-
-		<!-- Node: Organic Marketing (bottom right) -->
-		<g transform="translate(464.5 395)">
-			<circle r="58" class="emgl-halo s-teal emgl-t-2"/>
-			<g class="emgl-node emgl-t-2">
-				<circle r="58" fill="#fff" filter="url(#emgl-shadow)"/>
-				<circle r="58" fill="none" stroke-width="7" class="s-teal"/>
-				<rect x="-27" y="-22" width="54" height="42" rx="6" fill="none" stroke-width="3" class="s-teal"/>
-				<line x1="-27" y1="-13" x2="27" y2="-13" stroke-width="3" class="s-teal"/>
-				<rect x="-17" y="4" width="7" height="10" rx="1.5" class="f-teal emgl-bar emgl-bar--1"/>
-				<rect x="-6" y="-2" width="7" height="16" rx="1.5" class="f-teal emgl-bar emgl-bar--2"/>
-				<rect x="5" y="-6" width="7" height="20" rx="1.5" class="f-teal emgl-bar emgl-bar--3"/>
-				<g class="emgl-sprout">
-					<path d="M18 14 V-2" fill="none" stroke-width="2.6" stroke-linecap="round" class="s-navy"/>
-					<path d="M18 2 C18 -6 24 -8 26 -8 C26 -2 22 2 18 2 Z" class="f-navy"/>
-				</g>
-			</g>
-			<text class="emg-label emg-label--md f-teal-deep" text-anchor="middle"><textPath href="#emgl-arc-top" startOffset="50%">ORGANIC MARKETING</textPath></text>
-		</g>
-
-		<!-- Node: Lifecycle Marketing (bottom left) -->
-		<g transform="translate(135.5 395)">
-			<circle r="58" class="emgl-halo s-navy emgl-t-3"/>
-			<g class="emgl-node emgl-t-3">
-				<circle r="58" fill="#fff" filter="url(#emgl-shadow)"/>
-				<circle r="58" fill="none" stroke-width="7" class="s-navy"/>
-				<circle cx="-9" cy="-30" r="4" class="f-pink emgl-drop emgl-drop--1"/>
-				<circle cx="3" cy="-34" r="4" class="f-teal emgl-drop emgl-drop--2"/>
-				<circle cx="12" cy="-28" r="4" class="f-blue emgl-drop emgl-drop--3"/>
-				<path d="M-24 -16 H24 L6 4 V14 L-6 20 V4 Z" fill="none" stroke-width="3" stroke-linejoin="round" class="s-navy"/>
-				<g class="emgl-out">
-					<circle cx="0" cy="34" r="8" class="f-pink"/>
-					<path d="M-3.5 34 l2.5 2.5 4.5-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-				</g>
-			</g>
-			<text class="emg-label emg-label--md f-navy" text-anchor="middle"><textPath href="#emgl-arc-top" startOffset="50%">LIFECYCLE MARKETING</textPath></text>
-		</g>
-
-		<!-- Sub-captions -->
-		<g class="emgl-caption">
-			<text transform="translate(300 110)" class="emg-label emg-label--xs f-pink" text-anchor="middle"><textPath href="#emgl-arc-bot" startOffset="50%">CAPTURE DEMAND</textPath></text>
-			<text transform="translate(464.5 395)" class="emg-label emg-label--xs f-teal-deep" text-anchor="middle"><textPath href="#emgl-arc-bot" startOffset="50%">BUILD YOUR PRESENCE</textPath></text>
-			<text transform="translate(135.5 395)" class="emg-label emg-label--xs f-navy" text-anchor="middle"><textPath href="#emgl-arc-bot" startOffset="50%">CONVERT &amp; RETAIN</textPath></text>
-		</g>
 	</svg>
 </div>

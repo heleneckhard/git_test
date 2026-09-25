@@ -1,0 +1,285 @@
+#!/usr/bin/env python3
+"""Generates ../emg-motion.css from the timelines below.
+
+Each graphic loops on a fixed cycle. A timeline entry says which element
+(CSS selector inside the graphic), which reveal type, and when it happens
+as a percentage of the cycle. To retime something, edit the numbers here
+and run:  python3 motion-graphics/tools/build-css.py
+
+Entries marked tail=True sit outside the graphic's fading "reset" group,
+so they fade themselves out at the end of the loop.
+"""
+from pathlib import Path
+
+OUT = Path(__file__).resolve().parent.parent / "emg-motion.css"
+
+# Reveal types: (hidden state, finished state, optional overshoot state)
+TYPES = {
+    "grow": ("transform: scaleX(0)", "transform: scaleX(1)", None),
+    "rise": ("transform: scaleY(0)", "transform: scaleY(1)", None),
+    "pop":  ("transform: scale(0)", "transform: scale(1)", "transform: scale(1.14)"),
+    "fade": ("opacity: 0; transform: translateY(6px)", "opacity: 1; transform: none", None),
+    "draw": ("stroke-dashoffset: 100", "stroke-dashoffset: 0", None),
+    "on":   ("opacity: 0", "opacity: 1", None),
+}
+TAIL = (95, 98)  # fade-out window for tail elements
+
+
+def keyframes(name, kind, start, end, tail=False):
+    off, on, over = TYPES[kind]
+    if tail and "opacity" not in off:
+        off, on = off + "; opacity: 0", on + "; opacity: 1"
+    frames = [f"0%, {start}% {{ {off}; }}"]
+    if over:
+        mid = round(end - (end - start) * 0.3, 2)
+        frames.append(f"{mid}% {{ {over}; }}")
+    if tail:
+        frames.append(f"{end}%, {TAIL[0]}% {{ {on}; }}")
+        frames.append(f"{TAIL[1]}%, 100% {{ {off.split(';')[0] if kind in ('on', 'fade') else 'opacity: 0'}; }}")
+    else:
+        frames.append(f"{end}%, 100% {{ {on}; }}")
+    return f"@keyframes {name} {{ " + " ".join(frames) + " }"
+
+
+def timeline(prefix, scope, entries):
+    lines = []
+    for i, (sel, kind, start, end, *rest) in enumerate(entries):
+        tail = bool(rest and rest[0])
+        name = f"{prefix}-{i:02d}"
+        lines.append(keyframes(name, kind, start, end, tail))
+        lines.append(f"{scope} {sel} {{ animation-name: {name}; }}")
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------- Web Design (9s)
+WEB = [
+    # Strategy lays out the page
+    (".wire .w1", "on", 1, 4, True), (".wire .w2", "on", 3, 7, True),
+    (".wire .w3", "on", 6, 10, True), (".wire .w4", "on", 9, 13, True),
+    (".emgb-bar-strat", "grow", 0, 12), (".emgb-done-strat", "pop", 12, 15),
+    # Copy, design, development: all at once
+    (".emgb-bar-copy", "grow", 16, 54), (".emgb-bar-design", "grow", 16, 55),
+    (".emgb-bar-dev", "grow", 16, 56), (".emgb-done", "pop", 56, 59),
+    (".grow.emgb-c1", "grow", 17, 20), (".grow.emgb-c2", "grow", 19, 24),
+    (".grow.emgb-c3", "grow", 22, 27), (".grow.emgb-c4", "grow", 27, 31),
+    (".grow.emgb-c5", "grow", 30, 34), (".grow.emgb-c6", "grow", 34, 38),
+    (".grow.emgb-c7", "grow", 38, 42), (".grow.emgb-c8", "grow", 42, 46),
+    (".grow.emgb-c9", "grow", 46, 50),
+    (".fade.emgb-d1", "fade", 18, 22), (".pop.emgb-d2", "pop", 21, 25),
+    (".pop.emgb-d3", "pop", 25, 29), (".fade.emgb-d4", "fade", 30, 34),
+    (".pop.emgb-d5", "pop", 34, 37), (".pop.emgb-d6", "pop", 38, 41),
+    (".pop.emgb-d7", "pop", 42, 45),
+    (".pop.emgb-k1", "pop", 18, 22), (".grow.emgb-k1", "grow", 18, 22),
+    (".pop.emgb-k2", "pop", 24, 27), (".pop.emgb-k3", "pop", 28, 31),
+    (".fade.emgb-k4", "fade", 36, 40), (".fade.emgb-k5", "fade", 46, 50),
+    (".pop.emgb-k6", "pop", 50, 53),
+]
+
+# ---------------------------------------------------------- Digital Marketing (9s)
+# Customer holds at Paid 0-20%, Organic 33-53%, Lifecycle 66-86%, returns 86-100%.
+LOOP = [
+    (".emgl-rank", "pop", 45, 48, True),
+]
+
+# ----------------------------------------------------------- Public Relations (10s)
+PR = [
+    (".emge-s1", "grow", 2, 5), (".emge-s2", "grow", 4, 7), (".emge-s3", "grow", 6, 9),
+    (".emge-s4", "grow", 8, 11), (".emge-s5", "grow", 10, 12), (".emge-s6", "pop", 12, 15),
+    (".emge-l0", "draw", 15, 19, True), (".emge-l0h", "on", 18, 20, True),
+    (".emge-h1", "grow", 19, 22), (".emge-h2", "pop", 21, 24), (".emge-h3", "grow", 23, 27),
+    (".emge-h4", "grow", 25, 29), (".emge-h5", "fade", 28, 32), (".emge-h6", "grow", 31, 35),
+    (".emge-l1", "draw", 36, 40, True), (".emge-on1", "on", 39, 42, True),
+    (".emge-i1", "pop", 39, 42, True), (".emge-v1", "draw", 41, 49, True),
+    (".emge-v1h", "on", 48, 50, True),
+    (".emge-l2", "draw", 47, 51, True), (".emge-on2", "on", 50, 53, True),
+    (".emge-i2", "pop", 50, 53, True),
+    (".emge-b1", "rise", 51, 54, True), (".emge-b2", "rise", 52.5, 55.5, True),
+    (".emge-b3", "rise", 54, 57, True), (".emge-b4", "rise", 55.5, 58.5, True),
+    (".emge-b5", "rise", 57, 60, True),
+    (".emge-l3", "draw", 58, 62, True), (".emge-on3", "on", 61, 64, True),
+    (".emge-i3", "pop", 61, 64, True),
+    (".emge-q1", "pop", 63, 66, True), (".emge-q2", "pop", 65, 68, True),
+    (".emge-q3", "pop", 67, 70, True), (".emge-q4", "pop", 69, 72, True),
+]
+
+BASE = r"""/* =========================================================
+   EMG motion graphics  (GENERATED by tools/build-css.py; edit timings there)
+   - .emg-build  · Web Design        · one page, built in parallel   (9s)
+   - .emg-loop   · Digital Marketing · follow one customer          (9s)
+   - .emg-earned · Public Relations  · from story to results        (10s)
+
+   SVG + CSS only (SMIL moves the customer dot). Every element's resting
+   style is its finished state, so prefers-reduced-motion just turns
+   animation off and shows the completed graphic.
+   ========================================================= */
+
+.emg-mg {
+  --emg-navy: #073c72;
+  --emg-blue: #0a477f;
+  --emg-teal: #36c5c1;
+  --emg-teal-deep: #20a9a5;
+  --emg-pink: #ec1674;
+  --emg-ink-soft: #cfd8e3;
+  --emg-hair: rgba(7, 60, 114, .12);
+  --emg-skel: #eef2f6;
+  --emg-cycle: 9s;
+  position: relative;
+  width: min(100%, 720px);
+  margin: 0 auto;
+  font-family: var(--heading-font-pt, 'Futura', 'Jost', 'Century Gothic', Arial, sans-serif);
+  color: var(--emg-navy);
+}
+.emg-earned { --emg-cycle: 10s; }
+.emg-mg svg { display: block; width: 100%; height: auto; overflow: visible; }
+.emg-mg * { transform-box: fill-box; transform-origin: center; }
+/* Elements positioned with an SVG transform attribute keep plain SVG semantics */
+.emg-mg [transform] { transform-box: view-box; transform-origin: 0 0; }
+
+/* Timeline plumbing: anything with class "a" runs on the graphic's cycle */
+.emg-mg .a {
+  animation-duration: var(--emg-cycle);
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(.22, .8, .24, 1);
+}
+.emg-mg .grow { transform-origin: left center; }
+.emg-mg .rise { transform-origin: center bottom; }
+.emg-mg .draw { stroke-dasharray: 100; }
+.emg-mg .reset { animation-name: emg-reset; animation-timing-function: linear; }
+@keyframes emg-reset { 0%, 93% { opacity: 1; } 97%, 100% { opacity: 0; } }
+
+/* Palette */
+.emg-mg .f-navy { fill: var(--emg-navy); }
+.emg-mg .f-blue { fill: var(--emg-blue); }
+.emg-mg .f-teal { fill: var(--emg-teal); }
+.emg-mg .f-teal-deep { fill: var(--emg-teal-deep); }
+.emg-mg .f-pink { fill: var(--emg-pink); }
+.emg-mg .s-navy { stroke: var(--emg-navy); }
+.emg-mg .s-blue { stroke: var(--emg-blue); }
+.emg-mg .s-teal { stroke: var(--emg-teal); }
+.emg-mg .s-pink { stroke: var(--emg-pink); }
+
+/* Type */
+.emg-mg .lbl { font-size: 13px; font-weight: 700; letter-spacing: .12em; }
+.emg-mg .lbl-sm { font-size: 12.5px; font-weight: 700; letter-spacing: .06em; }
+.emg-mg .lbl-xs { font-size: 9px; font-weight: 700; letter-spacing: .1em; }
+.emg-mg .lbl-xxs { font-size: 7.5px; font-weight: 700; letter-spacing: .08em; }
+.emg-mg .lbl-xl { font-size: 24px; font-weight: 700; letter-spacing: .08em; }
+.emg-mg .caption { font-size: 14px; font-weight: 500; fill: var(--emg-navy); }
+.emg-mg .center-sub { font-size: 12.5px; font-weight: 500; fill: rgba(7, 60, 114, .6); }
+.emg-mg .muted { fill: rgba(7, 60, 114, .55); }
+
+/* Shared shapes */
+.emg-mg .ink { fill: var(--emg-ink-soft); }
+.emg-mg .track { fill: var(--emg-skel); }
+.emg-mg .hair { stroke: var(--emg-hair); stroke-width: 1; }
+.emg-mg .hair-s { stroke: rgba(7, 60, 114, .2); stroke-width: 1.2; }
+.emg-mg .tick { fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.emg-mg .tick-sm { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.emg-mg .card-ring { fill: none; stroke-width: 3; }
+.emg-mg .wire circle, .emg-mg .wire rect { fill: none; stroke: rgba(7, 60, 114, .2); stroke-width: 1.5; stroke-dasharray: 4 4; }
+
+/* ---------- Web Design ---------- */
+.emg-build .bracket { fill: none; stroke: rgba(7, 60, 114, .25); stroke-width: 2; stroke-linecap: round; }
+.emg-build .chrome-dot { fill: rgba(7, 60, 114, .18); }
+.emg-build .panel { fill: rgba(54, 197, 193, .15); }
+.emg-build .card-fill { fill: rgba(54, 197, 193, .06); }
+.emg-build .card-edge { fill: none; stroke: rgba(236, 22, 116, .4); stroke-width: 1.5; }
+.emg-build .field { stroke: rgba(7, 60, 114, .25); stroke-width: 1.5; }
+.emg-build .field-text { font-size: 10px; font-weight: 500; fill: rgba(7, 60, 114, .4); }
+.emg-build .caret { animation: emg-blink 1s steps(1) infinite; }
+@keyframes emg-blink { 50% { opacity: 0; } }
+.emg-build .bubble-text { font-size: 10px; font-weight: 500; fill: var(--emg-navy); }
+
+/* The wireframe steps aside once the real page is built */
+.emg-build .emgb-wire { animation-name: emgb-wire; animation-timing-function: linear; }
+@keyframes emgb-wire { 0%, 55% { opacity: 1; } 60%, 100% { opacity: 0; } }
+
+/* Feedback: the headline gets bolder, the client approves */
+.emg-build .emgb-headline { transform-origin: left center; animation: emgb-bolder var(--emg-cycle) cubic-bezier(.3, 1.4, .5, 1) infinite both; }
+@keyframes emgb-bolder { 0%, 66% { transform: scale(1); } 70%, 100% { transform: scale(1.16); } }
+.emg-build .emgb-headline rect { fill: var(--emg-blue); }
+.emg-build .emgb-bubble { animation-name: emgb-bubble; }
+@keyframes emgb-bubble { 0%, 59% { opacity: 0; transform: translateY(10px); } 62%, 88% { opacity: 1; transform: none; } 92%, 100% { opacity: 0; transform: none; } }
+.emg-build .emgb-ask { opacity: 0; animation-name: emgb-ask; animation-timing-function: linear; }
+@keyframes emgb-ask { 0%, 70% { opacity: 1; } 71%, 100% { opacity: 0; } }
+.emg-build .emgb-yes { animation-name: emgb-yes; animation-timing-function: linear; }
+@keyframes emgb-yes { 0%, 71% { opacity: 0; } 72%, 100% { opacity: 1; } }
+
+/* ---------- Digital Marketing ---------- */
+.emg-loop .track-arc { fill: none; stroke-width: 3; opacity: .3; stroke-linecap: round; }
+.emg-loop .return-arc { fill: none; stroke: rgba(7, 60, 114, .3); stroke-width: 3; stroke-dasharray: 2 8; stroke-linecap: round; }
+.emg-loop .return-flow {
+  fill: none; stroke: var(--emg-navy); stroke-width: 3; stroke-dasharray: 2 8; stroke-linecap: round;
+  animation: emg-dash 1s linear infinite, emgl-return var(--emg-cycle) linear infinite both;
+}
+@keyframes emg-dash { to { stroke-dashoffset: -20; } }
+@keyframes emgl-return { 0%, 84% { opacity: 0; } 87%, 97% { opacity: 1; } 100% { opacity: 0; } }
+.emg-loop .ad-img { fill: rgba(54, 197, 193, .15); }
+.emg-loop .search-text { font-size: 10px; font-weight: 500; fill: var(--emg-navy); }
+
+.emg-loop .emgl-on-1 { animation-name: emgl-on-1; }
+.emg-loop .emgl-on-2 { animation-name: emgl-on-2; }
+.emg-loop .emgl-on-3 { animation-name: emgl-on-3; }
+@keyframes emgl-on-1 { 0%, 18% { opacity: 1; } 22%, 97% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes emgl-on-2 { 0%, 31% { opacity: 0; } 34%, 51% { opacity: 1; } 55%, 100% { opacity: 0; } }
+@keyframes emgl-on-3 { 0%, 64% { opacity: 0; } 67%, 84% { opacity: 1; } 88%, 100% { opacity: 0; } }
+
+.emg-loop .emgl-tap { opacity: 0; animation-name: emgl-tap; animation-timing-function: ease-out; }
+@keyframes emgl-tap { 0%, 6% { opacity: 0; transform: scale(.4); } 7% { opacity: 1; transform: scale(.5); } 13%, 100% { opacity: 0; transform: scale(1.9); } }
+.emg-loop .emgl-typemask { transform: scaleX(0); transform-origin: right center; animation-name: emgl-type; animation-timing-function: steps(10, end); }
+@keyframes emgl-type { 0%, 35% { transform: scaleX(1); } 43%, 97% { transform: scaleX(0); } 98%, 100% { transform: scaleX(1); } }
+.emg-loop .emgl-hit { opacity: .2; animation-name: emgl-hit; }
+@keyframes emgl-hit { 0%, 43% { opacity: 0; } 46%, 95% { opacity: .2; } 98%, 100% { opacity: 0; } }
+.emg-loop .emgl-order { animation-name: emgl-order; }
+@keyframes emgl-order { 0%, 72% { opacity: 0; transform: scale(.6); } 76% { opacity: 1; transform: scale(1.08); } 78%, 95% { opacity: 1; transform: none; } 98%, 100% { opacity: 0; transform: none; } }
+.emg-loop .emgl-insight { animation-name: emgl-insight; }
+@keyframes emgl-insight { 0%, 85% { opacity: 0; transform: scale(1); } 89% { opacity: 1; transform: scale(1.1); } 92%, 97% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
+/* White halo so labels stay legible where the loop passes behind them */
+.emg-loop .lbl, .emg-loop .caption { stroke: #fff; stroke-width: 6px; stroke-linejoin: round; paint-order: stroke; }
+
+/* ---------- Public Relations ---------- */
+.emg-earned .link-base { fill: none; stroke: rgba(7, 60, 114, .1); stroke-width: 3; stroke-linecap: round; }
+.emg-earned .link { fill: none; stroke: rgba(7, 60, 114, .55); stroke-width: 3; stroke-linecap: round; }
+.emg-earned .rule { stroke: rgba(7, 60, 114, .2); stroke-width: 1.5; transform-origin: center; }
+.emg-earned .img { fill: rgba(54, 197, 193, .15); }
+.emg-earned .off-icon { fill: #c9d3de; }
+.emg-earned .trend-base { fill: none; stroke: var(--emg-skel); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.emg-earned .trend { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.emg-earned .bar-base, .emg-earned .lead-base { fill: var(--emg-skel); }
+.emg-earned .emge-h1 { transform-origin: center; }
+.emg-earned .emge-wire { animation-name: emge-wire; animation-timing-function: linear; }
+@keyframes emge-wire { 0%, 28% { opacity: 1; } 34%, 100% { opacity: 0; } }
+.emg-earned .emge-story-ring { animation-name: emge-story; }
+@keyframes emge-story { 0%, 1% { opacity: 0; } 4%, 16% { opacity: 1; } 20%, 100% { opacity: 0; } }
+.emg-earned .emge-pen { opacity: 0; animation-name: emge-pen; animation-timing-function: ease-in-out; }
+@keyframes emge-pen {
+  0%, 1% { opacity: 0; transform: translate(-60px, 0); }
+  3% { opacity: 1; transform: translate(-50px, 4px); }
+  6% { opacity: 1; transform: translate(-10px, 26px); }
+  9% { opacity: 1; transform: translate(-24px, 40px); }
+  12% { opacity: 1; transform: translate(-40px, 62px); }
+  15%, 100% { opacity: 0; transform: translate(-40px, 62px); }
+}
+"""
+
+TAILCSS = r"""
+/* =========================================================
+   Paused (off-screen, via emg-motion.js) + reduced motion
+   ========================================================= */
+.emg-mg.is-paused *, .emg-mg.is-paused *::before, .emg-mg.is-paused *::after { animation-play-state: paused !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .emg-mg *, .emg-mg *::before, .emg-mg *::after { animation: none !important; }
+  .emg-mg .emg-packet, .emg-mg .emgb-bubble { display: none; }
+}
+"""
+
+css = (BASE
+       + "\n/* ---------- Generated timelines ---------- */\n"
+       + timeline("emgb", ".emg-build", WEB) + "\n"
+       + timeline("emgl", ".emg-loop", LOOP) + "\n"
+       + timeline("emge", ".emg-earned", PR) + "\n"
+       + TAILCSS)
+OUT.write_text(css)
+print("Wrote", OUT)

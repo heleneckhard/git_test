@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMG Motion Graphics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root { --navy: #073c72; --pink: #ec1674; --bg: #ffffff; --muted: #44526a; --line: #e4e8ef; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #ffffff; } }
+:root[data-theme="dark"] { --bg: #ffffff; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--navy); font-family: 'Jost', 'Futura', Arial, sans-serif; }
+header.top { background: var(--navy); color: #fff; padding: 28px 16px; text-align: center; }
+header.top h1 { margin: 0; font-size: clamp(22px, 4vw, 32px); letter-spacing: .04em; text-transform: uppercase; }
+header.top p { margin: 8px auto 0; max-width: 640px; color: #c7d6e6; font-size: 15px; }
+.demo { max-width: 1240px; margin: 0 auto; padding: 56px 16px; border-bottom: 1px solid var(--line); }
+.demo__tag { margin: 0 0 24px; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--pink); }
+.demo__tag span { color: var(--muted); font-weight: 500; letter-spacing: .04em; text-transform: none; font-size: 13px; }
+.demo__row { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
+.demo__copy { text-align: center; }
+.demo__copy h2 { margin: 0 0 14px; font-size: clamp(24px, 3vw, 38px); line-height: 1.05; text-transform: uppercase; font-weight: 500; }
+.demo__copy h2 .pink { color: var(--pink); font-weight: 700; }
+.demo__copy p { margin: 0; font-size: 17px; line-height: 1.4; }
+@media (max-width: 820px) { .demo__row { grid-template-columns: 1fr; gap: 28px; } }
+/* =========================================================
+   EMG motion graphics
+   - .emg-build  · Web Design       · strategy to launch (10s loop)
+   - .emg-loop   · Digital Marketing · growth loop       (9s loop)
+   - .emg-earned · Public Relations  · earned media      (10s loop)
+
+   Pure SVG + CSS (SMIL only for the travelling dots). No libraries.
+   Every element's resting style is its finished state, so
+   prefers-reduced-motion simply switches animation off and
+   shows the completed graphic.
+   ========================================================= */
+
+.emg-mg {
+  --emg-navy: #073c72;
+  --emg-blue: #0a477f;
+  --emg-teal: #36c5c1;
+  --emg-teal-deep: #20a9a5;
+  --emg-pink: #ec1674;
+  --emg-ink-soft: rgba(7, 60, 114, .2);
+  --emg-hair: rgba(7, 60, 114, .12);
+  --emg-skel: #eef2f6;
+  position: relative;
+  width: min(100%, 720px);
+  margin: 0 auto;
+  font-family: var(--heading-font-pt, 'Futura', 'Jost', 'Century Gothic', Arial, sans-serif);
+  color: var(--emg-navy);
+}
+.emg-mg svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* Palette helpers */
+.emg-mg .f-navy { fill: var(--emg-navy); }
+.emg-mg .f-blue { fill: var(--emg-blue); }
+.emg-mg .f-teal { fill: var(--emg-teal); }
+.emg-mg .f-teal-deep { fill: var(--emg-teal-deep); }
+.emg-mg .f-pink { fill: var(--emg-pink); }
+.emg-mg .s-navy { stroke: var(--emg-navy); }
+.emg-mg .s-blue { stroke: var(--emg-blue); }
+.emg-mg .s-teal { stroke: var(--emg-teal); }
+.emg-mg .s-pink { stroke: var(--emg-pink); }
+.emg-mg .stop-pink { stop-color: var(--emg-pink); }
+.emg-mg .stop-teal { stop-color: var(--emg-teal); }
+.emg-mg .stop-blue { stop-color: var(--emg-blue); }
+
+.emg-mg .emg-label { font-weight: 700; font-size: 11px; letter-spacing: .08em; }
+.emg-mg .emg-label--xs { font-size: 7.5px; letter-spacing: .1em; }
+.emg-mg .emg-label--sm { font-size: 10px; }
+.emg-mg .emg-label--md { font-size: 14px; letter-spacing: .1em; }
+.emg-mg .emg-label--lg { font-size: 15px; letter-spacing: .12em; }
+.emg-mg .emg-label--xl { font-size: 22px; letter-spacing: .06em; }
+
+.emg-mg .emg-pipe {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 9 12;
+  animation: emg-flow 2s linear infinite;
+}
+@keyframes emg-flow { to { stroke-dashoffset: -42; } }
+
+/* Shared animation plumbing (zero specificity, so element rules win) */
+:where(.emg-mg) :where([class*="emgb-t-"], [class*="emge-t-"], .emgb-code, .emgb-built, .emgb-pill-on, .emgb-gauge, .emgb-scores, .emgb-ripple, .emgb-toast, .emgb-cursor, .emgb-live, .emgb-url-mask, .emge-built, .emge-earn-fill, .emge-earn-flow, .emge-earn-text, .emge-badge, .emge-spark, .emge-hub-halo, .emge-ring-lit, .emge-ripples, .emge-trend, .emge-trend-tip, .emgl-node, .emgl-halo, .emgl-chart, .emgl-cdot, .emgl-orbit) {
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(.22, .8, .24, 1);
+}
+.emg-build * { transform-box: fill-box; transform-origin: center; }
+.emg-earned * { transform-box: fill-box; transform-origin: center; }
+.emg-loop * { transform-box: fill-box; transform-origin: center; }
+/* Elements positioned with an SVG transform attribute keep plain SVG semantics */
+.emg-mg [transform] { transform-box: view-box; transform-origin: 0 0; }
+
+
+/* =========================================================
+   WEB DESIGN · .emg-build
+   Timeline (10s): copy 8–22% · design 26–42% · dev 44–66%
+   · launch scores 66–76% · click + lead 72–90% · reset 93–98%
+   ========================================================= */
+
+.emg-build .emg-label--lg { font-size: 13px; letter-spacing: .12em; }
+.emg-build .emg-label { font-size: 9.5px; }
+.emg-build .emg-label--xs { font-size: 7px; }
+.emg-build .emg-label--sm { font-size: 10px; }
+
+.emgb-pulse { fill: none; stroke-width: 2; opacity: 0; animation: emgb-pulse 2.5s cubic-bezier(.2,.6,.3,1) infinite; }
+.emgb-pulse--late { animation-delay: 1.25s; }
+@keyframes emgb-pulse { 0% { transform: scale(1); opacity: .45; } 100% { transform: scale(1.9); opacity: 0; } }
+.emgb-target { animation: emgb-spin 10s linear infinite; }
+@keyframes emgb-spin { 0%, 100% { transform: scale(1); } 4% { transform: scale(1.12); } 8% { transform: scale(1); } }
+
+.emgb-pill { fill: #fff; stroke-width: 2; }
+.emgb-pill-on { animation-duration: 10s; }
+.emgb-pill-on--copy   { animation-name: emgb-pill-copy; }
+.emgb-pill-on--design { animation-name: emgb-pill-design; }
+.emgb-pill-on--dev    { animation-name: emgb-pill-dev; }
+@keyframes emgb-pill-copy   { 0%, 5% { opacity: 0; } 8%, 23% { opacity: 1; } 27%, 100% { opacity: 0; } }
+@keyframes emgb-pill-design { 0%, 23% { opacity: 0; } 26%, 41% { opacity: 1; } 45%, 100% { opacity: 0; } }
+@keyframes emgb-pill-dev    { 0%, 41% { opacity: 0; } 44%, 62% { opacity: 1; } 66%, 100% { opacity: 0; } }
+.emgb-pill-on { opacity: 0; }
+
+.emgb-hair { stroke: var(--emg-hair); stroke-width: 1; }
+line.emgb-hair { stroke-width: 1; }
+rect.emgb-hair { fill: #fff; }
+rect.emgb-hair[fill="none"] { fill: none; }
+.emgb-skel-dot { fill: rgba(7, 60, 114, .18); }
+.emgb-lock { stroke: rgba(7, 60, 114, .45); stroke-width: 1.3; }
+.emgb-url { font-size: 8.5px; font-weight: 500; fill: rgba(7, 60, 114, .7); letter-spacing: .02em; }
+.emgb-url-mask { transform-origin: right center; animation: emgb-url 10s steps(13, end) infinite both; transform: scaleX(0); }
+@keyframes emgb-url { 0%, 1% { transform: scaleX(1); } 9%, 100% { transform: scaleX(0); } }
+
+.emgb-live { animation: emgb-live 10s infinite both; }
+.emgb-live-bg { fill: rgba(54, 197, 193, .16); }
+@keyframes emgb-live { 0%, 67% { opacity: 0; transform: translateX(6px); } 71%, 100% { opacity: 1; transform: none; } }
+.emgb-live-dot { animation: emgb-blink 1.2s ease-in-out infinite; }
+@keyframes emgb-blink { 50% { opacity: .35; } }
+
+.emgb-skel { fill: var(--emg-skel); }
+.emgb-skel-outline rect { fill: none; stroke: rgba(7, 60, 114, .13); stroke-width: 1.5; stroke-dasharray: 5 5; }
+
+.emgb-ink { fill: var(--emg-ink-soft); }
+.emgb-panel { fill: rgba(54, 197, 193, .15); }
+.emgb-card-bg { fill: rgba(236, 22, 116, .04); stroke: rgba(236, 22, 116, .38); stroke-width: 1.5; }
+.emgb-code-tag { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; font-weight: 700; fill: var(--emg-pink); }
+.emgb-muted { fill: rgba(7, 60, 114, .55); }
+.emgb-sub { font-size: 7.5px; font-weight: 500; fill: rgba(7, 60, 114, .6); }
+
+/* Whole built layer fades out at the end so the loop restarts clean */
+.emgb-built { animation: emgb-reset 10s linear infinite both; }
+@keyframes emgb-reset { 0%, 93% { opacity: 1; } 97%, 100% { opacity: 0; } }
+
+/* Generic reveal types (timing set per element below) */
+.emgb-grow   { transform-origin: left center; }
+.emgb-grow,
+.emgb-pop,
+.emgb-fadein,
+.emgb-card,
+.emgb-cta    { animation-duration: 10s; }
+
+@keyframes emgb-grow-c0 { 0%, 7%  { transform: scaleX(0); } 10%, 100% { transform: scaleX(1); } }
+@keyframes emgb-grow-c1 { 0%, 9%  { transform: scaleX(0); } 13%, 100% { transform: scaleX(1); } }
+@keyframes emgb-grow-c2 { 0%, 11% { transform: scaleX(0); } 15%, 100% { transform: scaleX(1); } }
+@keyframes emgb-grow-c3 { 0%, 14% { transform: scaleX(0); } 18%, 100% { transform: scaleX(1); } }
+@keyframes emgb-grow-c4 { 0%, 16% { transform: scaleX(0); } 21%, 100% { transform: scaleX(1); } }
+@keyframes emgb-pop-nav { 0%, 5%  { transform: scale(0); } 8%, 100% { transform: scale(1); } }
+@keyframes emgb-grow-nav{ 0%, 5%  { transform: scaleX(0); } 9%, 100% { transform: scaleX(1); } }
+
+.emgb-grow.emgb-t-c0 { animation-name: emgb-grow-c0; }
+.emgb-grow.emgb-t-c1 { animation-name: emgb-grow-c1; }
+.emgb-grow.emgb-t-c2 { animation-name: emgb-grow-c2; }
+.emgb-grow.emgb-t-c3 { animation-name: emgb-grow-c3; }
+.emgb-grow.emgb-t-c4 { animation-name: emgb-grow-c4; }
+.emgb-pop.emgb-t-nav { animation-name: emgb-pop-nav; }
+.emgb-grow.emgb-t-nav { animation-name: emgb-grow-nav; }
+
+@keyframes emgb-panel { 0%, 26% { opacity: 0; transform: scale(.92); } 31%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes emgb-pop-d1 { 0%, 29% { transform: scale(0); } 34% { transform: scale(1.1); } 36%, 100% { transform: scale(1); } }
+@keyframes emgb-pop-d2 { 0%, 32% { transform: scale(0); } 37% { transform: scale(1.12); } 39%, 100% { transform: scale(1); } }
+@keyframes emgb-pop-d3 { 0%, 35% { transform: scale(0); } 39% { transform: scale(1.15); } 41%, 100% { transform: scale(1); } }
+@keyframes emgb-fade-d3 { 0%, 36% { opacity: 0; transform: translateY(4px); } 41%, 100% { opacity: 1; transform: none; } }
+.emgb-fadein.emgb-t-d0 { animation-name: emgb-panel; }
+.emgb-pop.emgb-t-d1 { animation-name: emgb-pop-d1; }
+.emgb-pop.emgb-t-d2 { animation-name: emgb-pop-d2; }
+.emgb-pop.emgb-t-d3 { animation-name: emgb-pop-d3; }
+.emgb-fadein.emgb-t-d3 { animation-name: emgb-fade-d3; }
+
+/* Code panel slides in, types, and hands off to real components */
+.emgb-code { opacity: 0; animation: emgb-code 10s infinite both; }
+@keyframes emgb-code {
+  0%, 44% { opacity: 0; transform: translateY(18px); }
+  48%, 57% { opacity: 1; transform: none; }
+  61%, 100% { opacity: 0; transform: translateY(-8px); }
+}
+@keyframes emgb-grow-k1 { 0%, 48% { transform: scaleX(0); } 51%, 100% { transform: scaleX(1); } }
+@keyframes emgb-grow-k2 { 0%, 50% { transform: scaleX(0); } 53%, 100% { transform: scaleX(1); } }
+@keyframes emgb-grow-k3 { 0%, 52% { transform: scaleX(0); } 55%, 100% { transform: scaleX(1); } }
+@keyframes emgb-grow-k4 { 0%, 54% { transform: scaleX(0); } 57%, 100% { transform: scaleX(1); } }
+.emgb-grow.emgb-t-k1 { animation-name: emgb-grow-k1; }
+.emgb-grow.emgb-t-k2 { animation-name: emgb-grow-k2; }
+.emgb-grow.emgb-t-k3 { animation-name: emgb-grow-k3; }
+.emgb-grow.emgb-t-k4 { animation-name: emgb-grow-k4; }
+
+@keyframes emgb-card1 { 0%, 58% { opacity: 0; transform: translateY(16px); } 62% { opacity: 1; transform: translateY(-2px); } 64%, 100% { opacity: 1; transform: none; } }
+@keyframes emgb-card2 { 0%, 60% { opacity: 0; transform: translateY(16px); } 64% { opacity: 1; transform: translateY(-2px); } 66%, 100% { opacity: 1; transform: none; } }
+@keyframes emgb-card3 { 0%, 62% { opacity: 0; transform: translateY(16px); } 66% { opacity: 1; transform: translateY(-2px); } 68%, 100% { opacity: 1; transform: none; } }
+.emgb-card.emgb-t-card1 { animation-name: emgb-card1; }
+.emgb-card.emgb-t-card2 { animation-name: emgb-card2; }
+.emgb-card.emgb-t-card3 { animation-name: emgb-card3; }
+
+/* CTAs, then the click pulse */
+@keyframes emgb-pop-cta { 0%, 62% { transform: scale(0); } 66% { transform: scale(1.12); } 68%, 100% { transform: scale(1); } }
+@keyframes emgb-cta {
+  0%, 62% { transform: scale(0); }
+  66% { transform: scale(1.1); }
+  68%, 80% { transform: scale(1); }
+  82% { transform: scale(.92); }
+  85%, 100% { transform: scale(1); }
+}
+.emgb-pop.emgb-t-cta { animation-name: emgb-pop-cta; }
+.emgb-cta.emgb-t-cta { animation-name: emgb-cta; }
+
+/* Launch scores */
+.emgb-scores { animation: emgb-scores 10s infinite both; }
+@keyframes emgb-scores { 0%, 64% { opacity: 0; transform: translateY(8px); } 67%, 100% { opacity: 1; transform: none; } }
+.emgb-gauge-track { fill: none; stroke: var(--emg-skel); stroke-width: 5; }
+.emgb-gauge {
+  fill: none; stroke-width: 5; stroke-linecap: round;
+  stroke-dasharray: 113.1; stroke-dashoffset: 0;
+  animation: emgb-gauge 10s infinite both;
+}
+.emgb-gauge--2 { animation-name: emgb-gauge2; }
+.emgb-gauge--3 { animation-name: emgb-gauge3; }
+@keyframes emgb-gauge  { 0%, 66% { stroke-dashoffset: 113.1; } 73%, 100% { stroke-dashoffset: 0; } }
+@keyframes emgb-gauge2 { 0%, 68% { stroke-dashoffset: 113.1; } 75%, 100% { stroke-dashoffset: 0; } }
+@keyframes emgb-gauge3 { 0%, 70% { stroke-dashoffset: 113.1; } 77%, 100% { stroke-dashoffset: 0; } }
+
+/* Cursor glides to Get Started, clicks, lead lands */
+.emgb-cursor {
+  fill: var(--emg-navy); stroke: #fff; stroke-width: 1.5; stroke-linejoin: round;
+  transform-origin: left top;
+  opacity: 0;
+  animation: emgb-cursor 10s infinite both;
+}
+@keyframes emgb-cursor {
+  0%, 71% { opacity: 0; transform: translate(0, 0); }
+  73% { opacity: 1; transform: translate(0, 0); }
+  80% { opacity: 1; transform: translate(-268px, -215px); animation-timing-function: ease-in-out; }
+  82% { opacity: 1; transform: translate(-268px, -215px) scale(.85); }
+  84% { opacity: 1; transform: translate(-268px, -215px) scale(1); }
+  90% { opacity: 1; transform: translate(-250px, -200px); }
+  93%, 100% { opacity: 0; transform: translate(-250px, -200px); }
+}
+.emgb-ripple { opacity: 0; animation: emgb-ripple 10s infinite both; animation-timing-function: ease-out; }
+@keyframes emgb-ripple {
+  0%, 81% { opacity: 0; transform: scale(.4); }
+  82% { opacity: .9; transform: scale(.5); }
+  90%, 100% { opacity: 0; transform: scale(2.6); }
+}
+.emgb-toast { animation: emgb-toast 10s infinite both; }
+@keyframes emgb-toast {
+  0%, 83% { opacity: 0; transform: translateX(24px) scale(.96); }
+  87% { opacity: 1; transform: translateX(-3px); }
+  89%, 100% { opacity: 1; transform: none; }
+}
+
+
+/* =========================================================
+   DIGITAL MARKETING · .emg-loop
+   Comet orbits every 9s; each node fires as it passes
+   (paid 0% · organic 33.3% · lifecycle 66.7%)
+   ========================================================= */
+
+.emg-loop .emgl-muted { fill: rgba(7, 60, 114, .55); letter-spacing: .22em; }
+.emg-loop .emgl-caption .emg-label { font-size: 10px; letter-spacing: .12em; }
+.emgl-axis { stroke: rgba(7, 60, 114, .12); stroke-width: 2; stroke-linecap: round; }
+.emgl-chart {
+  fill: none; stroke: var(--emg-navy); stroke-width: 3.5; stroke-linecap: round;
+  stroke-dasharray: 100; stroke-dashoffset: 0;
+  animation: emgl-chart 9s linear infinite both;
+}
+@keyframes emgl-chart { 0% { stroke-dashoffset: 100; } 90%, 96% { stroke-dashoffset: 0; opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+.emgl-cdot { animation-duration: 9s; }
+.emgl-cdot--1 { animation-name: emgl-cdot1; }
+.emgl-cdot--2 { animation-name: emgl-cdot2; }
+.emgl-cdot--3 { animation-name: emgl-cdot3; }
+.emgl-cdot--4 { animation-name: emgl-cdot4; }
+@keyframes emgl-cdot1 { 0%, 22% { transform: scale(0); } 26% { transform: scale(1.4); } 29%, 96% { transform: scale(1); } 100% { transform: scale(0); } }
+@keyframes emgl-cdot2 { 0%, 46% { transform: scale(0); } 50% { transform: scale(1.4); } 53%, 96% { transform: scale(1); } 100% { transform: scale(0); } }
+@keyframes emgl-cdot3 { 0%, 69% { transform: scale(0); } 73% { transform: scale(1.4); } 76%, 96% { transform: scale(1); } 100% { transform: scale(0); } }
+@keyframes emgl-cdot4 { 0%, 88% { opacity: 0; transform: translate(-6px, 6px); } 91%, 96% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+
+.emgl-track { fill: none; stroke-width: 3; opacity: .28; stroke-linecap: round; }
+.emgl-chev { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: .7; }
+
+.emg-loop .emgl-orbit {
+  transform-box: view-box;
+  transform-origin: 300px 300px;
+  animation: emgl-orbit 9s linear infinite;
+}
+@keyframes emgl-orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.emgl-trail {
+  fill: none; stroke: url(#emgl-trail); stroke-width: 6; stroke-linecap: round;
+  stroke-dasharray: 20 80; stroke-dashoffset: 20;
+}
+
+.emgl-node, .emgl-halo { animation-duration: 9s; }
+.emgl-halo { fill: none; stroke-width: 3; opacity: 0; }
+.emgl-t-1.emgl-node { animation-name: emgl-node1; }
+.emgl-t-2.emgl-node { animation-name: emgl-node2; }
+.emgl-t-3.emgl-node { animation-name: emgl-node3; }
+.emgl-t-1.emgl-halo { animation-name: emgl-halo1; }
+.emgl-t-2.emgl-halo { animation-name: emgl-halo2; }
+.emgl-t-3.emgl-halo { animation-name: emgl-halo3; }
+@keyframes emgl-node1 { 0% { transform: scale(1.07); } 7%, 96% { transform: scale(1); } 100% { transform: scale(1.07); } }
+@keyframes emgl-node2 { 0%, 31% { transform: scale(1); } 34% { transform: scale(1.07); } 41%, 100% { transform: scale(1); } }
+@keyframes emgl-node3 { 0%, 64.5% { transform: scale(1); } 67.5% { transform: scale(1.07); } 74%, 100% { transform: scale(1); } }
+@keyframes emgl-halo1 { 0% { opacity: .6; transform: scale(1); } 12%, 100% { opacity: 0; transform: scale(1.45); } }
+@keyframes emgl-halo2 { 0%, 33.3% { opacity: 0; transform: scale(1); } 33.4% { opacity: .6; transform: scale(1); } 46%, 100% { opacity: 0; transform: scale(1.45); } }
+@keyframes emgl-halo3 { 0%, 66.6% { opacity: 0; transform: scale(1); } 66.7% { opacity: .6; transform: scale(1); } 79%, 100% { opacity: 0; transform: scale(1.45); } }
+
+/* Paid: megaphone waves + coin */
+.emgl-wave { animation: emgl-wave 9s infinite both; }
+.emgl-wave--2 { animation-name: emgl-wave2; }
+@keyframes emgl-wave  { 0%, 2% { opacity: 1; } 8%, 16% { opacity: .25; } 20%, 94% { opacity: 1; } 97%, 100% { opacity: .25; } }
+@keyframes emgl-wave2 { 0%, 4% { opacity: 1; } 10%, 18% { opacity: .15; } 22%, 94% { opacity: 1; } 98%, 100% { opacity: .15; } }
+.emgl-coin { animation: emgl-coin 9s cubic-bezier(.3,.7,.3,1) infinite both; }
+@keyframes emgl-coin { 0% { transform: translateY(0); } 3% { transform: translateY(-8px) scaleX(-1); } 7%, 100% { transform: translateY(0) scaleX(1); } }
+
+/* Organic: bars grow + sprout */
+.emgl-bar { transform-origin: bottom center; animation: emgl-bar 9s infinite both; }
+.emgl-bar--2 { animation-name: emgl-bar2; }
+.emgl-bar--3 { animation-name: emgl-bar3; }
+@keyframes emgl-bar  { 0%, 31% { transform: scaleY(.35); } 35%, 96% { transform: scaleY(1); } 100% { transform: scaleY(.35); } }
+@keyframes emgl-bar2 { 0%, 32% { transform: scaleY(.3); } 37%, 96% { transform: scaleY(1); } 100% { transform: scaleY(.3); } }
+@keyframes emgl-bar3 { 0%, 33% { transform: scaleY(.25); } 39%, 96% { transform: scaleY(1); } 100% { transform: scaleY(.25); } }
+.emgl-sprout { transform-origin: bottom center; animation: emgl-sprout 9s infinite both; }
+@keyframes emgl-sprout { 0%, 36% { transform: scale(0); } 41% { transform: scale(1.15); } 44%, 96% { transform: scale(1); } 100% { transform: scale(0); } }
+
+/* Lifecycle: leads drop through the funnel, a converted customer comes out */
+.emgl-drop { animation: emgl-drop 9s infinite both; animation-timing-function: cubic-bezier(.5,0,.8,.4); }
+.emgl-drop--2 { animation-name: emgl-drop2; }
+.emgl-drop--3 { animation-name: emgl-drop3; }
+@keyframes emgl-drop  { 0%, 62% { opacity: 1; transform: none; } 68% { opacity: 0; transform: translate(8px, 28px); } 69%, 72% { opacity: 0; transform: translateY(-10px); } 76%, 100% { opacity: 1; transform: none; } }
+@keyframes emgl-drop2 { 0%, 64% { opacity: 1; transform: none; } 70% { opacity: 0; transform: translate(-3px, 32px); } 71%, 74% { opacity: 0; transform: translateY(-10px); } 78%, 100% { opacity: 1; transform: none; } }
+@keyframes emgl-drop3 { 0%, 66% { opacity: 1; transform: none; } 72% { opacity: 0; transform: translate(-12px, 26px); } 73%, 76% { opacity: 0; transform: translateY(-10px); } 80%, 100% { opacity: 1; transform: none; } }
+.emgl-out { animation: emgl-out 9s infinite both; }
+@keyframes emgl-out { 0%, 70% { opacity: 0; transform: translateY(-12px) scale(.6); } 75% { opacity: 1; transform: translateY(2px) scale(1.1); } 78%, 94% { opacity: 1; transform: none; } 99%, 100% { opacity: 0; transform: none; } }
+
+
+/* =========================================================
+   PUBLIC RELATIONS · .emg-earned
+   Timeline (10s): earned fills 10–22% · hub lights 24–30%
+   · coverage cards 34–60% · trend 60–68% · reset 93–98%
+   ========================================================= */
+
+.emg-earned .emg-label--sm { font-size: 12.5px; letter-spacing: .06em; }
+.emge-ribbon { fill: none; stroke-width: 36; stroke-linecap: round; }
+.emge-flow { fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 2 14; opacity: .45; animation: emge-flow 1.4s linear infinite; }
+@keyframes emge-flow { to { stroke-dashoffset: -32; } }
+.emge-dollar { font-size: 30px; font-weight: 700; }
+
+.emge-ghost { stroke: #eef2f6; }
+.emge-ghost-edge { fill: none; stroke: rgba(7, 60, 114, .22); stroke-width: 2; stroke-dasharray: 6 7; stroke-linecap: round; transform: none; }
+.emge-ghost-text { fill: rgba(7, 60, 114, .3); }
+.emge-ghost-badge { stroke: rgba(7, 60, 114, .25); stroke-width: 2.5; stroke-dasharray: 5 5; }
+.emge-ghost-star { stroke: rgba(7, 60, 114, .3); }
+
+.emge-orbit-dots { fill: none; stroke: rgba(7, 60, 114, .22); stroke-width: 2; stroke-dasharray: 1 9; stroke-linecap: round; animation: emge-spin 40s linear infinite; }
+@keyframes emge-spin { to { transform: rotate(360deg); } }
+.emge-ring-base { stroke: rgba(7, 60, 114, .1); }
+.emg-earned .emge-hub-small { fill: rgba(255, 255, 255, .7); letter-spacing: .3em; }
+
+.emge-built { animation: emge-reset 10s linear infinite both; }
+@keyframes emge-reset { 0%, 93% { opacity: 1; } 97%, 100% { opacity: 0; } }
+
+.emge-earn-fill { stroke-dasharray: 100; stroke-dashoffset: 0; animation: emge-fill 10s infinite both; animation-timing-function: cubic-bezier(.45, 0, .3, 1); }
+@keyframes emge-fill { 0%, 10% { stroke-dashoffset: 100; opacity: 0; } 10.5% { opacity: 1; } 22%, 100% { stroke-dashoffset: 0; opacity: 1; } }
+path.emge-earn-flow { animation: emge-flow 1.4s linear infinite, emge-appear 10s linear infinite both; }
+g.emge-earn-flow { animation: emge-appear-full 10s linear infinite both; }
+@keyframes emge-appear { 0%, 21% { opacity: 0; } 24%, 100% { opacity: .45; } }
+@keyframes emge-appear-full { 0%, 21% { opacity: 0; } 24%, 100% { opacity: 1; } }
+.emge-earn-text { animation: emge-text 10s infinite both; }
+@keyframes emge-text { 0%, 13% { opacity: 0; } 17%, 100% { opacity: 1; } }
+.emge-badge { animation: emge-badge 10s infinite both; }
+@keyframes emge-badge { 0%, 8% { opacity: 0; transform: scale(.4) rotate(-40deg); } 12% { opacity: 1; transform: scale(1.18) rotate(6deg); } 15%, 100% { opacity: 1; transform: none; } }
+.emge-spark { opacity: 0; animation: emge-spark 10s infinite both; animation-timing-function: ease-out; }
+@keyframes emge-spark { 0%, 11% { opacity: 0; transform: scale(.6); } 13% { opacity: 1; transform: scale(1); } 20%, 100% { opacity: 0; transform: scale(1.35); } }
+
+.emge-hub-halo { opacity: 0; animation: emge-halo 10s infinite both; }
+@keyframes emge-halo { 0%, 23% { opacity: 0; transform: scale(.8); } 29% { opacity: .55; transform: scale(1.15); } 36%, 100% { opacity: .22; transform: scale(1); } }
+.emge-ring-lit { stroke-dasharray: 100; stroke-dashoffset: 0; animation: emge-ring 10s infinite both; animation-timing-function: cubic-bezier(.5, 0, .2, 1); }
+@keyframes emge-ring { 0%, 22% { stroke-dashoffset: 100; } 30%, 100% { stroke-dashoffset: 0; } }
+
+.emge-ripples { animation: emge-ripples 10s infinite both; }
+@keyframes emge-ripples { 0%, 28% { opacity: 0; } 32%, 100% { opacity: 1; } }
+.emge-ripple { fill: none; stroke-width: 2; opacity: 0; animation: emge-ripple 3s ease-out infinite; }
+.emge-ripple--2 { animation-delay: 1s; }
+.emge-ripple--3 { animation-delay: 2s; }
+@keyframes emge-ripple { 0% { opacity: .55; transform: scale(1); } 100% { opacity: 0; transform: scale(1.9); } }
+
+.emge-link { stroke: rgba(7, 60, 114, .3); stroke-width: 2; stroke-dasharray: 3 5; stroke-linecap: round; animation-duration: 10s; }
+.emge-card { animation-duration: 10s; }
+@keyframes emge-link1 { 0%, 32% { opacity: 0; } 34%, 100% { opacity: 1; } }
+@keyframes emge-link2 { 0%, 40% { opacity: 0; } 42%, 100% { opacity: 1; } }
+@keyframes emge-link3 { 0%, 48% { opacity: 0; } 50%, 100% { opacity: 1; } }
+@keyframes emge-link4 { 0%, 56% { opacity: 0; } 58%, 100% { opacity: 1; } }
+.emge-link.emge-t-1 { animation-name: emge-link1; }
+.emge-link.emge-t-2 { animation-name: emge-link2; }
+.emge-link.emge-t-3 { animation-name: emge-link3; }
+.emge-link.emge-t-4 { animation-name: emge-link4; }
+@keyframes emge-card1 { 0%, 33% { opacity: 0; transform: translateX(-26px) scale(.85); } 37% { opacity: 1; transform: translateX(3px) scale(1.03); } 39%, 100% { opacity: 1; transform: none; } }
+@keyframes emge-card2 { 0%, 41% { opacity: 0; transform: translateX(-26px) scale(.85); } 45% { opacity: 1; transform: translateX(3px) scale(1.03); } 47%, 100% { opacity: 1; transform: none; } }
+@keyframes emge-card3 { 0%, 49% { opacity: 0; transform: translateX(-26px) scale(.85); } 53% { opacity: 1; transform: translateX(3px) scale(1.03); } 55%, 100% { opacity: 1; transform: none; } }
+@keyframes emge-card4 { 0%, 57% { opacity: 0; transform: translateX(-26px) scale(.85); } 61% { opacity: 1; transform: translateX(3px) scale(1.03); } 63%, 100% { opacity: 1; transform: none; } }
+.emge-card.emge-t-1 { animation-name: emge-card1; }
+.emge-card.emge-t-2 { animation-name: emge-card2; }
+.emge-card.emge-t-3 { animation-name: emge-card3; }
+.emge-card.emge-t-4 { animation-name: emge-card4; }
+.emge-bar { fill: rgba(7, 60, 114, .14); }
+.emge-trend { stroke-dasharray: 100; stroke-dashoffset: 0; animation: emge-trend 10s infinite both; }
+@keyframes emge-trend { 0%, 61% { stroke-dashoffset: 100; } 69%, 100% { stroke-dashoffset: 0; } }
+.emge-trend-tip { animation: emge-tip 10s infinite both; }
+@keyframes emge-tip { 0%, 68% { opacity: 0; } 70%, 100% { opacity: 1; } }
+
+
+/* =========================================================
+   Paused (off-screen, via emg-motion.js) + reduced motion
+   ========================================================= */
+.emg-mg.is-paused *, .emg-mg.is-paused *::before, .emg-mg.is-paused *::after { animation-play-state: paused !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .emg-mg *, .emg-mg *::before, .emg-mg *::after { animation: none !important; }
+  .emg-mg .emg-packet, .emg-mg .emgb-cursor, .emg-mg .emgb-ripple, .emg-mg .emgb-code,
+  .emg-mg .emgb-pill-on, .emg-mg .emgl-orbit, .emg-mg .emgl-halo, .emg-mg .emge-spark,
+  .emg-mg .emge-ripples, .emg-mg .emgb-pulse { display: none; }
+  .emg-mg .emgb-url-mask { transform: scaleX(0); }
+}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Motion Graphics</h1>
+  <p>Three looping, code-only animations for the Web Design, Digital Marketing, and Public Relations pages.</p>
+</header>
+
+<section class="demo">
+  <p class="demo__tag">Web Design <span>· Replaces the current "elloop" process animation</span></p>
+  <div class="demo__row">
+    <div class="demo__media"><div class="emg-mg emg-build" role="img" aria-label="Strategy feeds SEO copy, design, and development into a new website, which launches with top speed and search scores and starts turning visitors into leads">
+	<svg viewBox="0 0 720 470" aria-hidden="true" focusable="false">
+		<defs>
+			<filter id="emgb-glow" x="-200%" y="-200%" width="500%" height="500%">
+				<feGaussianBlur stdDeviation="3.5" result="b"/>
+				<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+			</filter>
+			<filter id="emgb-shadow" x="-20%" y="-20%" width="140%" height="150%">
+				<feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#073c72" flood-opacity=".14"/>
+			</filter>
+			<filter id="emgb-shadow-sm" x="-30%" y="-40%" width="160%" height="200%">
+				<feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#073c72" flood-opacity=".16"/>
+			</filter>
+			<path id="emgb-r-copy" d="M110 235 C172 235 176 120 246 120 H330"/>
+			<path id="emgb-r-design" d="M110 235 H330"/>
+			<path id="emgb-r-dev" d="M110 235 C172 235 176 350 246 350 H330"/>
+			<clipPath id="emgb-clip"><rect x="330" y="36" width="374" height="398" rx="14"/></clipPath>
+		</defs>
+
+		<!-- Pipes -->
+		<path class="emg-pipe s-blue" d="M110 235 C172 235 176 120 246 120 H330"/>
+		<path class="emg-pipe s-teal" d="M110 235 H330"/>
+		<path class="emg-pipe s-pink" d="M110 235 C172 235 176 350 246 350 H330"/>
+
+		<!-- Packets (one pass per cycle, timed to each build phase) -->
+		<g class="emg-packet" filter="url(#emgb-glow)">
+			<circle r="7" class="f-blue"/>
+			<animateMotion dur="10s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.09;1" calcMode="linear"><mpath href="#emgb-r-copy"/></animateMotion>
+			<animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;1;1;0;0" keyTimes="0;.01;.08;.095;1"/>
+		</g>
+		<g class="emg-packet" filter="url(#emgb-glow)">
+			<circle r="7" class="f-teal"/>
+			<animateMotion dur="10s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.18;.27;1" calcMode="linear"><mpath href="#emgb-r-design"/></animateMotion>
+			<animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;.18;.19;.26;.275;1"/>
+		</g>
+		<g class="emg-packet" filter="url(#emgb-glow)">
+			<circle r="7" class="f-pink"/>
+			<animateMotion dur="10s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.36;.45;1" calcMode="linear"><mpath href="#emgb-r-dev"/></animateMotion>
+			<animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;.36;.37;.44;.455;1"/>
+		</g>
+
+		<!-- Strategy node -->
+		<circle class="emgb-pulse s-navy" cx="74" cy="235" r="36"/>
+		<circle class="emgb-pulse emgb-pulse--late s-navy" cx="74" cy="235" r="36"/>
+		<circle cx="74" cy="235" r="36" class="f-navy"/>
+		<g class="emgb-target">
+			<circle cx="74" cy="235" r="17" fill="none" stroke="#fff" stroke-width="3"/>
+			<circle cx="74" cy="235" r="8.5" fill="none" stroke="#fff" stroke-width="3"/>
+			<circle cx="74" cy="235" r="2.8" fill="#fff"/>
+		</g>
+		<text x="74" y="298" class="emg-label emg-label--lg f-navy" text-anchor="middle">STRATEGY</text>
+
+		<!-- Stage pills -->
+		<g>
+			<rect x="222" y="107" width="96" height="26" rx="13" class="emgb-pill s-blue"/>
+			<text x="270" y="124" class="emg-label f-navy" text-anchor="middle">SEO COPY</text>
+			<g class="emgb-pill-on emgb-pill-on--copy">
+				<rect x="222" y="107" width="96" height="26" rx="13" class="f-blue"/>
+				<text x="270" y="124" class="emg-label" fill="#fff" text-anchor="middle">SEO COPY</text>
+			</g>
+		</g>
+		<g>
+			<rect x="222" y="222" width="96" height="26" rx="13" class="emgb-pill s-teal"/>
+			<text x="270" y="239" class="emg-label f-navy" text-anchor="middle">DESIGN</text>
+			<g class="emgb-pill-on emgb-pill-on--design">
+				<rect x="222" y="222" width="96" height="26" rx="13" class="f-teal"/>
+				<text x="270" y="239" class="emg-label" fill="#fff" text-anchor="middle">DESIGN</text>
+			</g>
+		</g>
+		<g>
+			<rect x="222" y="337" width="96" height="26" rx="13" class="emgb-pill s-pink"/>
+			<text x="270" y="354" class="emg-label f-navy" text-anchor="middle">DEVELOPMENT</text>
+			<g class="emgb-pill-on emgb-pill-on--dev">
+				<rect x="222" y="337" width="96" height="26" rx="13" class="f-pink"/>
+				<text x="270" y="354" class="emg-label" fill="#fff" text-anchor="middle">DEVELOPMENT</text>
+			</g>
+		</g>
+
+		<!-- Browser frame -->
+		<rect x="330" y="36" width="374" height="398" rx="14" fill="#fff" filter="url(#emgb-shadow)"/>
+		<g clip-path="url(#emgb-clip)">
+			<rect x="330" y="36" width="374" height="30" fill="#f4f7fa"/>
+			<line x1="330" y1="66" x2="704" y2="66" class="emgb-hair"/>
+			<circle cx="348" cy="51" r="3.5" class="emgb-skel-dot"/>
+			<circle cx="360" cy="51" r="3.5" class="emgb-skel-dot"/>
+			<circle cx="372" cy="51" r="3.5" class="emgb-skel-dot"/>
+			<rect x="390" y="43" width="200" height="16" rx="8" fill="#fff" class="emgb-hair"/>
+			<path d="M399 49.5v-1.6a3 3 0 0 1 6 0v1.6M397.8 49.5h8.4v5.6h-8.4z" fill="none" class="emgb-lock"/>
+			<text x="412" y="55" class="emgb-url">yourbrand.com</text>
+			<rect x="410" y="45" width="92" height="12" fill="#fff" class="emgb-url-mask"/>
+			<g class="emgb-live">
+				<rect x="630" y="43" width="58" height="16" rx="8" class="emgb-live-bg"/>
+				<circle cx="642" cy="51" r="3.2" class="f-teal emgb-live-dot"/>
+				<text x="651" y="54.5" class="emg-label emg-label--xs f-navy">LIVE</text>
+			</g>
+
+			<!-- Skeleton (empty page) -->
+			<g class="emgb-skel">
+				<circle cx="362" cy="89" r="7"/>
+				<rect x="556" y="86" width="34" height="6" rx="3"/>
+				<rect x="598" y="86" width="30" height="6" rx="3"/>
+				<rect x="640" y="81" width="46" height="16" rx="8"/>
+				<rect x="350" y="122" width="140" height="12" rx="6"/>
+				<rect x="350" y="140" width="100" height="12" rx="6"/>
+				<rect x="350" y="164" width="136" height="5" rx="2.5"/>
+				<rect x="350" y="174" width="112" height="5" rx="2.5"/>
+				<rect x="350" y="190" width="78" height="22" rx="11"/>
+				<rect x="457" y="244" width="120" height="8" rx="4"/>
+			</g>
+			<g class="emgb-skel-outline">
+				<rect x="516" y="108" width="172" height="118" rx="14"/>
+				<rect x="350" y="262" width="104" height="80" rx="10"/>
+				<rect x="465" y="262" width="104" height="80" rx="10"/>
+				<rect x="580" y="262" width="104" height="80" rx="10"/>
+			</g>
+
+			<!-- Built layer -->
+			<g class="emgb-built">
+				<circle cx="362" cy="89" r="7" class="f-navy emgb-pop emgb-t-nav"/>
+				<rect x="556" y="86" width="34" height="6" rx="3" class="emgb-ink emgb-grow emgb-t-nav"/>
+				<rect x="598" y="86" width="30" height="6" rx="3" class="emgb-ink emgb-grow emgb-t-nav"/>
+
+				<!-- Copy -->
+				<rect x="350" y="110" width="44" height="4" rx="2" class="f-pink emgb-grow emgb-t-c0"/>
+				<rect x="350" y="122" width="140" height="12" rx="6" class="f-blue emgb-grow emgb-t-c1"/>
+				<rect x="350" y="140" width="100" height="12" rx="6" class="f-blue emgb-grow emgb-t-c2"/>
+				<rect x="350" y="164" width="136" height="5" rx="2.5" class="emgb-ink emgb-grow emgb-t-c3"/>
+				<rect x="350" y="174" width="112" height="5" rx="2.5" class="emgb-ink emgb-grow emgb-t-c4"/>
+				<rect x="457" y="244" width="120" height="8" rx="4" class="f-navy emgb-grow emgb-t-c4" opacity=".8"/>
+
+				<!-- Design -->
+				<rect x="516" y="108" width="172" height="118" rx="14" class="emgb-panel emgb-fadein emgb-t-d0"/>
+				<circle cx="594" cy="160" r="40" class="f-teal emgb-pop emgb-t-d1" opacity=".88"/>
+				<circle cx="640" cy="196" r="22" class="f-blue emgb-pop emgb-t-d2" opacity=".85"/>
+				<circle cx="544" cy="132" r="10" fill="none" stroke-width="3" class="s-pink emgb-pop emgb-t-d3"/>
+				<g class="emgb-fadein emgb-t-d3">
+					<circle cx="536" cy="206" r="5" class="f-pink"/>
+					<circle cx="550" cy="206" r="5" class="f-teal"/>
+					<circle cx="564" cy="206" r="5" class="f-navy"/>
+				</g>
+
+				<!-- Development: code panel, then components -->
+				<g class="emgb-code">
+					<rect x="346" y="256" width="342" height="92" rx="10" fill="#0b1f3a"/>
+					<text x="362" y="281" class="emgb-code-tag">&lt;/&gt;</text>
+					<rect x="396" y="274" width="70" height="5" rx="2.5" class="f-pink emgb-grow emgb-t-k1"/>
+					<rect x="474" y="274" width="44" height="5" rx="2.5" class="f-teal emgb-grow emgb-t-k1"/>
+					<rect x="376" y="290" width="96" height="5" rx="2.5" fill="#fff" opacity=".55" class="emgb-grow emgb-t-k2"/>
+					<rect x="480" y="290" width="60" height="5" rx="2.5" class="f-teal emgb-grow emgb-t-k2"/>
+					<rect x="376" y="306" width="54" height="5" rx="2.5" class="f-pink emgb-grow emgb-t-k3"/>
+					<rect x="438" y="306" width="110" height="5" rx="2.5" fill="#fff" opacity=".55" class="emgb-grow emgb-t-k3"/>
+					<rect x="396" y="322" width="80" height="5" rx="2.5" fill="#fff" opacity=".35" class="emgb-grow emgb-t-k4"/>
+					<rect x="362" y="322" width="26" height="5" rx="2.5" class="f-pink emgb-grow emgb-t-k4"/>
+				</g>
+
+				<g class="emgb-card emgb-t-card1">
+					<rect x="350" y="262" width="104" height="80" rx="10" class="emgb-card-bg"/>
+					<circle cx="368" cy="282" r="8" class="f-teal"/>
+					<rect x="362" y="302" width="72" height="5" rx="2.5" class="f-navy" opacity=".55"/>
+					<rect x="362" y="314" width="54" height="5" rx="2.5" class="f-navy" opacity=".25"/>
+				</g>
+				<g class="emgb-card emgb-t-card2">
+					<rect x="465" y="262" width="104" height="80" rx="10" class="emgb-card-bg"/>
+					<circle cx="483" cy="282" r="8" class="f-pink"/>
+					<rect x="477" y="302" width="72" height="5" rx="2.5" class="f-navy" opacity=".55"/>
+					<rect x="477" y="314" width="54" height="5" rx="2.5" class="f-navy" opacity=".25"/>
+				</g>
+				<g class="emgb-card emgb-t-card3">
+					<rect x="580" y="262" width="104" height="80" rx="10" class="emgb-card-bg"/>
+					<circle cx="598" cy="282" r="8" class="f-blue"/>
+					<rect x="592" y="302" width="72" height="5" rx="2.5" class="f-navy" opacity=".55"/>
+					<rect x="592" y="314" width="54" height="5" rx="2.5" class="f-navy" opacity=".25"/>
+				</g>
+
+				<!-- CTAs -->
+				<rect x="640" y="81" width="46" height="16" rx="8" class="f-pink emgb-pop emgb-t-cta"/>
+				<g class="emgb-cta emgb-t-cta">
+					<rect x="350" y="190" width="78" height="22" rx="11" class="f-pink"/>
+					<text x="389" y="204.2" class="emg-label emg-label--xs" fill="#fff" text-anchor="middle">GET STARTED</text>
+				</g>
+
+				<!-- Launch scores -->
+				<g class="emgb-scores">
+					<circle cx="376" cy="394" r="18" class="emgb-gauge-track"/>
+					<circle cx="376" cy="394" r="18" class="emgb-gauge s-teal" transform="rotate(-90 376 394)"/>
+					<text x="376" y="397.5" class="emg-label emg-label--sm f-navy" text-anchor="middle">100</text>
+					<text x="376" y="426" class="emg-label emg-label--xs emgb-muted" text-anchor="middle">SPEED</text>
+
+					<circle cx="432" cy="394" r="18" class="emgb-gauge-track"/>
+					<circle cx="432" cy="394" r="18" class="emgb-gauge emgb-gauge--2 s-teal" transform="rotate(-90 432 394)"/>
+					<text x="432" y="397.5" class="emg-label emg-label--sm f-navy" text-anchor="middle">100</text>
+					<text x="432" y="426" class="emg-label emg-label--xs emgb-muted" text-anchor="middle">SEO</text>
+
+					<circle cx="488" cy="394" r="18" class="emgb-gauge-track"/>
+					<circle cx="488" cy="394" r="18" class="emgb-gauge emgb-gauge--3 s-teal" transform="rotate(-90 488 394)"/>
+					<text x="488" y="397.5" class="emg-label emg-label--sm f-navy" text-anchor="middle">100</text>
+					<text x="488" y="426" class="emg-label emg-label--xs emgb-muted" text-anchor="middle">GEO</text>
+				</g>
+
+				<!-- Click + lead -->
+				<circle cx="389" cy="201" r="14" fill="none" stroke-width="2.5" class="s-pink emgb-ripple"/>
+				<g class="emgb-toast">
+					<rect x="534" y="370" width="154" height="48" rx="12" fill="#fff" class="emgb-hair" filter="url(#emgb-shadow-sm)"/>
+					<circle cx="557" cy="394" r="12" class="f-teal"/>
+					<path d="M551.5 394.5l3.8 3.8 7.2-7.6" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+					<text x="577" y="390" class="emg-label emg-label--sm f-navy">NEW LEAD</text>
+					<text x="577" y="404" class="emgb-sub">Demo request · just now</text>
+				</g>
+				<path class="emgb-cursor" d="M660 420v24l6.4-6.2 4.4 10 4.6-2-4.4-9.8h8.8z"/>
+			</g>
+		</g>
+		<rect x="330.5" y="36.5" width="373" height="397" rx="14" fill="none" class="emgb-hair"/>
+	</svg>
+</div>
+</div>
+    <div class="demo__copy"><h2><span class="pink">Our Website</span><br>Development Process</h2><p>Every Elysium website starts with strategy. Before design begins, we interview your key stakeholders, study your audience and competitors, and create a sitemap. From there, copy, design, and development run in parallel.</p></div>
+  </div>
+</section>
+
+<section class="demo">
+  <p class="demo__tag">Digital Marketing <span>· Replaces marketing-circle@2x-1.webp</span></p>
+  <div class="demo__row">
+    <div class="demo__media"><div class="emg-mg emg-loop" role="img" aria-label="Paid advertising, organic marketing, and lifecycle marketing working as one continuous growth loop">
+	<svg viewBox="0 8 600 490" aria-hidden="true" focusable="false">
+		<defs>
+			<radialGradient id="emgl-disc" cx="50%" cy="45%" r="60%">
+				<stop offset="0%" class="stop-pink" stop-opacity=".10"/>
+				<stop offset="70%" class="stop-pink" stop-opacity=".05"/>
+				<stop offset="100%" class="stop-pink" stop-opacity="0"/>
+			</radialGradient>
+			<linearGradient id="emgl-trail" x1="0" y1="0" x2="1" y2="0">
+				<stop offset="0%" class="stop-teal" stop-opacity="0"/>
+				<stop offset="100%" class="stop-pink" stop-opacity="1"/>
+			</linearGradient>
+			<filter id="emgl-glow" x="-200%" y="-200%" width="500%" height="500%">
+				<feGaussianBlur stdDeviation="5" result="b"/>
+				<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+			</filter>
+			<filter id="emgl-shadow" x="-40%" y="-40%" width="180%" height="180%">
+				<feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#073c72" flood-opacity=".13"/>
+			</filter>
+			<path id="emgl-arc-top" d="M-75.3 -20.2 A78 78 0 0 1 75.3 -20.2"/>
+			<path id="emgl-arc-bot" d="M-69.3 40 A80 80 0 0 0 69.3 40"/>
+		</defs>
+
+		<!-- Center -->
+		<circle cx="300" cy="300" r="128" fill="url(#emgl-disc)"/>
+		<text x="300" y="242" class="emg-label emg-label--sm emgl-muted" text-anchor="middle">ONE CONTINUOUS</text>
+		<text x="300" y="268" class="emg-label emg-label--xl f-navy" text-anchor="middle">GROWTH LOOP</text>
+		<line x1="236" y1="364" x2="366" y2="364" class="emgl-axis"/>
+		<path class="emgl-chart" pathLength="100" d="M236 354 C252 352 260 342 274 340 S296 332 306 322 S330 314 340 306 S356 294 366 286"/>
+		<g class="emgl-chart-dots">
+			<circle cx="274" cy="340" r="4.5" class="f-pink emgl-cdot emgl-cdot--1"/>
+			<circle cx="306" cy="322" r="4.5" class="f-teal emgl-cdot emgl-cdot--2"/>
+			<circle cx="340" cy="306" r="4.5" class="f-navy emgl-cdot emgl-cdot--3"/>
+			<path d="M358 284 L368 284 L368 294" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="s-pink emgl-cdot emgl-cdot--4"/>
+		</g>
+
+		<!-- Loop track: three colored thirds -->
+		<path class="emgl-track s-pink" d="M300 110 A190 190 0 0 1 464.5 395"/>
+		<path class="emgl-track s-teal" d="M464.5 395 A190 190 0 0 1 135.5 395"/>
+		<path class="emgl-track s-navy" d="M135.5 395 A190 190 0 0 1 300 110"/>
+
+		<!-- Direction chevrons -->
+		<path class="emgl-chev s-pink" d="M-5 -7 L4 0 L-5 7" transform="translate(464.5 205) rotate(60)"/>
+		<path class="emgl-chev s-teal" d="M-5 -7 L4 0 L-5 7" transform="translate(300 490) rotate(180)"/>
+		<path class="emgl-chev s-navy" d="M-5 -7 L4 0 L-5 7" transform="translate(135.5 205) rotate(300)"/>
+
+		<!-- Orbiting comet + trail -->
+		<g class="emgl-orbit">
+			<circle cx="300" cy="300" r="190" class="emgl-trail" pathLength="100" transform="rotate(-90 300 300)"/>
+			<circle cx="300" cy="110" r="8" class="f-pink" filter="url(#emgl-glow)"/>
+			<circle cx="300" cy="110" r="3.5" fill="#fff"/>
+		</g>
+
+		<!-- Node: Paid Advertising (top) -->
+		<g transform="translate(300 110)">
+			<circle r="58" class="emgl-halo s-pink emgl-t-1"/>
+			<g class="emgl-node emgl-t-1">
+				<circle r="58" fill="#fff" filter="url(#emgl-shadow)"/>
+				<circle r="58" fill="none" stroke-width="7" class="s-pink"/>
+				<g fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="s-pink">
+					<path d="M-26 -6 L-2 -18 V14 L-26 4 Z"/>
+					<path d="M-20 5 L-16 18 H-9 L-12 7"/>
+					<path class="emgl-wave emgl-wave--1" d="M6 -9 Q12 -1 6 7"/>
+					<path class="emgl-wave emgl-wave--2" d="M12 -15 Q22 -1 12 13"/>
+				</g>
+				<g class="emgl-coin">
+					<circle cx="20" cy="-24" r="10" class="f-pink"/>
+					<text x="20" y="-19.5" class="emg-label emg-label--sm" fill="#fff" text-anchor="middle">$</text>
+				</g>
+			</g>
+			<text class="emg-label emg-label--md f-pink" text-anchor="middle"><textPath href="#emgl-arc-top" startOffset="50%">PAID ADVERTISING</textPath></text>
+		</g>
+
+		<!-- Node: Organic Marketing (bottom right) -->
+		<g transform="translate(464.5 395)">
+			<circle r="58" class="emgl-halo s-teal emgl-t-2"/>
+			<g class="emgl-node emgl-t-2">
+				<circle r="58" fill="#fff" filter="url(#emgl-shadow)"/>
+				<circle r="58" fill="none" stroke-width="7" class="s-teal"/>
+				<rect x="-27" y="-22" width="54" height="42" rx="6" fill="none" stroke-width="3" class="s-teal"/>
+				<line x1="-27" y1="-13" x2="27" y2="-13" stroke-width="3" class="s-teal"/>
+				<rect x="-17" y="4" width="7" height="10" rx="1.5" class="f-teal emgl-bar emgl-bar--1"/>
+				<rect x="-6" y="-2" width="7" height="16" rx="1.5" class="f-teal emgl-bar emgl-bar--2"/>
+				<rect x="5" y="-6" width="7" height="20" rx="1.5" class="f-teal emgl-bar emgl-bar--3"/>
+				<g class="emgl-sprout">
+					<path d="M18 14 V-2" fill="none" stroke-width="2.6" stroke-linecap="round" class="s-navy"/>
+					<path d="M18 2 C18 -6 24 -8 26 -8 C26 -2 22 2 18 2 Z" class="f-navy"/>
+				</g>
+			</g>
+			<text class="emg-label emg-label--md f-teal-deep" text-anchor="middle"><textPath href="#emgl-arc-top" startOffset="50%">ORGANIC MARKETING</textPath></text>
+		</g>
+
+		<!-- Node: Lifecycle Marketing (bottom left) -->
+		<g transform="translate(135.5 395)">
+			<circle r="58" class="emgl-halo s-navy emgl-t-3"/>
+			<g class="emgl-node emgl-t-3">
+				<circle r="58" fill="#fff" filter="url(#emgl-shadow)"/>
+				<circle r="58" fill="none" stroke-width="7" class="s-navy"/>
+				<circle cx="-9" cy="-30" r="4" class="f-pink emgl-drop emgl-drop--1"/>
+				<circle cx="3" cy="-34" r="4" class="f-teal emgl-drop emgl-drop--2"/>
+				<circle cx="12" cy="-28" r="4" class="f-blue emgl-drop emgl-drop--3"/>
+				<path d="M-24 -16 H24 L6 4 V14 L-6 20 V4 Z" fill="none" stroke-width="3" stroke-linejoin="round" class="s-navy"/>
+				<g class="emgl-out">
+					<circle cx="0" cy="34" r="8" class="f-pink"/>
+					<path d="M-3.5 34 l2.5 2.5 4.5-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</g>
+			</g>
+			<text class="emg-label emg-label--md f-navy" text-anchor="middle"><textPath href="#emgl-arc-top" startOffset="50%">LIFECYCLE MARKETING</textPath></text>
+		</g>
+
+		<!-- Sub-captions -->
+		<g class="emgl-caption">
+			<text transform="translate(300 110)" class="emg-label emg-label--xs f-pink" text-anchor="middle"><textPath href="#emgl-arc-bot" startOffset="50%">CAPTURE DEMAND</textPath></text>
+			<text transform="translate(464.5 395)" class="emg-label emg-label--xs f-teal-deep" text-anchor="middle"><textPath href="#emgl-arc-bot" startOffset="50%">BUILD YOUR PRESENCE</textPath></text>
+			<text transform="translate(135.5 395)" class="emg-label emg-label--xs f-navy" text-anchor="middle"><textPath href="#emgl-arc-bot" startOffset="50%">CONVERT &amp; RETAIN</textPath></text>
+		</g>
+	</svg>
+</div>
+</div>
+    <div class="demo__copy"><h2><span class="pink">Full-Funnel Marketing</span><br>Built Around Your Business</h2><p>With Elysium, your paid advertising strategists, organic marketing specialists, and lifecycle marketers all work as an integrated team to fuel one continuous growth loop.</p></div>
+  </div>
+</section>
+
+<section class="demo">
+  <p class="demo__tag">Public Relations <span>· Replaces public-relations-graphic.webp</span></p>
+  <div class="demo__row">
+    <div class="demo__media"><div class="emg-mg emg-earned" role="img" aria-label="Paid and organic channels are flowing, earned media fills in, and your story spreads into press, podcasts, influencer posts, and search visibility">
+	<svg viewBox="0 0 790 470" aria-hidden="true" focusable="false">
+		<defs>
+			<linearGradient id="emge-ring" x1="0" y1="0" x2="1" y2="1">
+				<stop offset="0%" class="stop-pink"/>
+				<stop offset="50%" class="stop-blue"/>
+				<stop offset="100%" class="stop-teal"/>
+			</linearGradient>
+			<radialGradient id="emge-core" cx="40%" cy="35%" r="75%">
+				<stop offset="0%" stop-color="#15508a"/>
+				<stop offset="100%" stop-color="#062c55"/>
+			</radialGradient>
+			<filter id="emge-glow" x="-200%" y="-200%" width="500%" height="500%">
+				<feGaussianBlur stdDeviation="4" result="b"/>
+				<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+			</filter>
+			<filter id="emge-halo" x="-60%" y="-60%" width="220%" height="220%">
+				<feGaussianBlur stdDeviation="14"/>
+			</filter>
+			<filter id="emge-shadow" x="-30%" y="-50%" width="160%" height="220%">
+				<feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#073c72" flood-opacity=".15"/>
+			</filter>
+			<path id="emge-r-paid" d="M56 104 H270 C340 104 360 196 412 210"/>
+			<path id="emge-r-org" d="M56 235 H408"/>
+			<path id="emge-r-earn" d="M56 366 H270 C340 366 360 274 412 260"/>
+		</defs>
+
+		<!-- Paid + organic ribbons (always flowing) -->
+		<path class="emge-ribbon s-pink" d="M56 104 H270 C340 104 360 196 412 210"/>
+		<path class="emge-ribbon s-blue" d="M56 235 H408"/>
+		<path class="emge-flow" d="M56 104 H270 C340 104 360 196 412 210"/>
+		<path class="emge-flow" d="M56 235 H408"/>
+		<text x="98" y="110" class="emg-label emg-label--lg" fill="#fff">PAID</text>
+		<text x="98" y="241" class="emg-label emg-label--lg" fill="#fff">ORGANIC</text>
+
+		<g class="emg-packet" filter="url(#emge-glow)">
+			<circle r="5" fill="#fff"/>
+			<animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#emge-r-paid"/></animateMotion>
+		</g>
+		<g class="emg-packet" filter="url(#emge-glow)">
+			<circle r="5" fill="#fff"/>
+			<animateMotion dur="2.6s" begin=".9s" repeatCount="indefinite"><mpath href="#emge-r-org"/></animateMotion>
+		</g>
+
+		<!-- Earned: ghost state (missing) -->
+		<path class="emge-ribbon emge-ghost" d="M56 366 H270 C340 366 360 274 412 260"/>
+		<path class="emge-ghost-edge" d="M56 366 H270 C340 366 360 274 412 260"/>
+		<text x="98" y="372" class="emg-label emg-label--lg emge-ghost-text">EARNED</text>
+
+		<!-- Badges -->
+		<circle cx="56" cy="104" r="27" fill="#fff" stroke-width="5" class="s-pink"/>
+		<text x="56" y="112" class="emge-dollar f-pink" text-anchor="middle">$</text>
+
+		<circle cx="56" cy="235" r="27" fill="#fff" stroke-width="5" class="s-blue"/>
+		<path d="M44 246 C44 228 56 222 69 222 C69 238 60 246 44 246 Z M44 246 L58 232" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="s-blue"/>
+
+		<circle cx="56" cy="366" r="27" fill="#fff" class="emge-ghost-badge"/>
+		<path d="M56 351 l4.4 9 9.9 1.4-7.2 7 1.7 9.8-8.8-4.6-8.8 4.6 1.7-9.8-7.2-7 9.9-1.4z" fill="none" stroke-width="2.5" stroke-linejoin="round" class="emge-ghost-star"/>
+
+		<!-- Hub: dim base -->
+		<circle cx="480" cy="235" r="100" class="emge-orbit-dots"/>
+		<circle cx="480" cy="235" r="74" fill="none" stroke-width="14" class="emge-ring-base"/>
+		<circle cx="480" cy="235" r="62" fill="url(#emge-core)"/>
+
+		<!-- Built layer -->
+		<g class="emge-built">
+			<!-- Earned fills in -->
+			<path class="emge-ribbon s-teal emge-earn-fill" pathLength="100" d="M56 366 H270 C340 366 360 274 412 260"/>
+			<path class="emge-flow emge-earn-flow" d="M56 366 H270 C340 366 360 274 412 260"/>
+			<text x="98" y="372" class="emg-label emg-label--lg emge-earn-text" fill="#fff">EARNED</text>
+			<g class="emg-packet emge-earn-flow" filter="url(#emge-glow)">
+				<circle r="5" fill="#fff"/>
+				<animateMotion dur="2.6s" begin="1.7s" repeatCount="indefinite"><mpath href="#emge-r-earn"/></animateMotion>
+			</g>
+			<g class="emge-badge">
+				<circle cx="56" cy="366" r="27" fill="#fff" stroke-width="5" class="s-teal"/>
+				<path d="M56 351 l4.4 9 9.9 1.4-7.2 7 1.7 9.8-8.8-4.6-8.8 4.6 1.7-9.8-7.2-7 9.9-1.4z" class="f-teal"/>
+			</g>
+			<g class="emge-spark" stroke-width="3" stroke-linecap="round">
+				<line x1="56" y1="326" x2="56" y2="316" class="s-teal"/>
+				<line x1="88" y1="340" x2="96" y2="334" class="s-pink"/>
+				<line x1="24" y1="340" x2="16" y2="334" class="s-pink"/>
+				<line x1="92" y1="372" x2="102" y2="374" class="s-teal"/>
+				<line x1="20" y1="372" x2="10" y2="374" class="s-teal"/>
+			</g>
+
+			<!-- Hub lights up -->
+			<circle cx="480" cy="235" r="80" class="emge-hub-halo f-teal" filter="url(#emge-halo)"/>
+			<circle cx="480" cy="235" r="74" fill="none" stroke="url(#emge-ring)" stroke-width="14" stroke-linecap="round" pathLength="100" class="emge-ring-lit" transform="rotate(-90 480 235)"/>
+			<g class="emge-ripples">
+				<circle cx="480" cy="235" r="74" class="emge-ripple s-teal"/>
+				<circle cx="480" cy="235" r="74" class="emge-ripple emge-ripple--2 s-pink"/>
+				<circle cx="480" cy="235" r="74" class="emge-ripple emge-ripple--3 s-teal"/>
+			</g>
+
+			<!-- Coverage cards -->
+			<line x1="522" y1="174" x2="596" y2="65" pathLength="100" class="emge-link emge-t-1"/>
+			<line x1="546" y1="201" x2="596" y2="175" pathLength="100" class="emge-link emge-t-2"/>
+			<line x1="548" y1="264" x2="596" y2="285" pathLength="100" class="emge-link emge-t-3"/>
+			<line x1="524" y1="295" x2="596" y2="395" pathLength="100" class="emge-link emge-t-4"/>
+
+			<g class="emge-card emge-t-1">
+				<rect x="596" y="38" width="184" height="54" rx="12" fill="#fff" filter="url(#emge-shadow)"/>
+				<circle cx="619" cy="65" r="13" class="f-pink"/>
+				<g fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round">
+					<rect x="613" y="59" width="12" height="12" rx="1.5"/>
+					<line x1="616" y1="63" x2="622" y2="63"/><line x1="616" y1="67" x2="620" y2="67"/>
+				</g>
+				<text x="640" y="62" class="emg-label emg-label--sm f-navy">PRESS FEATURE</text>
+				<rect x="640" y="70" width="96" height="4" rx="2" class="emge-bar"/>
+			</g>
+			<g class="emge-card emge-t-2">
+				<rect x="596" y="148" width="184" height="54" rx="12" fill="#fff" filter="url(#emge-shadow)"/>
+				<circle cx="619" cy="175" r="13" class="f-blue"/>
+				<g fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round">
+					<rect x="616" y="167" width="6" height="10" rx="3"/>
+					<path d="M613.5 174a5.5 5.5 0 0 0 11 0M619 179.5v3.5"/>
+				</g>
+				<text x="640" y="172" class="emg-label emg-label--sm f-navy">PODCAST GUEST</text>
+				<rect x="640" y="180" width="84" height="4" rx="2" class="emge-bar"/>
+			</g>
+			<g class="emge-card emge-t-3">
+				<rect x="596" y="258" width="184" height="54" rx="12" fill="#fff" filter="url(#emge-shadow)"/>
+				<circle cx="619" cy="285" r="13" class="f-pink"/>
+				<path d="M619 291.5s-6.5-3.9-6.5-8.2a3.4 3.4 0 0 1 6.5-1.5 3.4 3.4 0 0 1 6.5 1.5c0 4.3-6.5 8.2-6.5 8.2z" fill="#fff"/>
+				<text x="640" y="282" class="emg-label emg-label--sm f-navy">INFLUENCER POST</text>
+				<rect x="640" y="290" width="104" height="4" rx="2" class="emge-bar"/>
+			</g>
+			<g class="emge-card emge-t-4">
+				<rect x="596" y="368" width="184" height="54" rx="12" fill="#fff" filter="url(#emge-shadow)"/>
+				<circle cx="619" cy="395" r="13" class="f-teal"/>
+				<g fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round">
+					<circle cx="617.5" cy="393.5" r="4.5"/><line x1="621" y1="397" x2="625" y2="401"/>
+				</g>
+				<text x="640" y="391" class="emg-label emg-label--sm f-navy">SEARCH VISIBILITY</text>
+				<path d="M641 413 L661 409 L677 410 L697 404 L717 405 L739 397" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="100" class="s-teal emge-trend"/>
+				<path d="M732 396 L739 397 L737 404" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="s-teal emge-trend-tip"/>
+			</g>
+		</g>
+
+		<!-- Hub label (always on top) -->
+		<text x="480" y="228" class="emg-label emg-label--sm emge-hub-small" text-anchor="middle">YOUR</text>
+		<text x="480" y="252" class="emg-label emg-label--xl" fill="#fff" text-anchor="middle">STORY</text>
+	</svg>
+</div>
+</div>
+    <div class="demo__copy"><h2>Is Earned Media Missing<br>From Your Strategy?</h2><p>Through traditional press coverage, thought leadership, brand storytelling, and influencer partnerships, we tell your brand’s stories intentionally.</p></div>
+  </div>
+</section>
+<script>
+/* EMG motion graphics: pause when off-screen, respect reduced motion.
+   Optional. The graphics animate without it; this just saves CPU/battery. */
+(function () {
+  var graphics = document.querySelectorAll('.emg-mg');
+  if (!graphics.length) return;
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function setPaused(el, paused) {
+    el.classList.toggle('is-paused', paused);
+    var svg = el.querySelector('svg');
+    if (!svg || !svg.pauseAnimations) return;
+    if (paused) svg.pauseAnimations(); else svg.unpauseAnimations();
+  }
+
+  if (reduce && reduce.matches) {
+    graphics.forEach(function (el) { setPaused(el, true); });
+    return;
+  }
+
+  if (!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) { setPaused(entry.target, !entry.isIntersecting); });
+  }, { rootMargin: '100px 0px' });
+  graphics.forEach(function (el) { io.observe(el); });
+})();
+
+</script>
+</body>
+</html>

@@ -33,6 +33,26 @@ const sections = [
   },
 ];
 
+// Center options for the Digital Marketing graphic, shown side by side
+const dm = read('partials/digital-marketing.html').replace(/<!--[\s\S]*?-->\s*/, '');
+const storeRe = /(<g class="a emgl-store">\n)[\s\S]*?(\t\t\t<\/g>\n\t\t<\/g>)/;
+const centers = [
+  ['logo', 'Your brand', 'A logo tile. Works for any client, any industry.'],
+  ['growth', 'Your growth', 'A bar grows each time a channel does its job.'],
+  ['pin', 'Your location', 'A map pin. Fits franchise and multi-location brands.'],
+  ['building', 'Your company', 'A neutral office building.'],
+  ['storefront', 'Current', 'The storefront, for comparison.'],
+];
+const options = `
+<section class="demo">
+  <p class="demo__tag">Digital Marketing <span>· options for the center</span></p>
+  <div class="opts">${centers.map(([f, name, note]) => `
+    <figure class="opt">${dm.replace(storeRe, (_, a, b) => a + read('partials/dm-centers/' + f + '.html') + b)}
+      <figcaption><strong>${name}</strong> ${note}</figcaption>
+    </figure>`).join('')}
+  </div>
+</section>`;
+
 const blocks = sections.map((s) => `
 <section class="demo">
   <p class="demo__tag">${s.page} <span>· ${s.replaces}</span></p>
@@ -67,6 +87,10 @@ header.top p { margin: 8px auto 0; max-width: 640px; color: #c7d6e6; font-size: 
 .demo__copy h2 { margin: 0 0 14px; font-size: clamp(24px, 3vw, 38px); line-height: 1.05; text-transform: uppercase; font-weight: 500; }
 .demo__copy h2 .pink { color: var(--pink); font-weight: 700; }
 .demo__copy p { margin: 0; font-size: 17px; line-height: 1.4; }
+.opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px 24px; }
+.opt { margin: 0; }
+.opt figcaption { margin-top: 10px; font-size: 14px; line-height: 1.4; color: var(--muted); text-align: center; }
+.opt figcaption strong { display: block; color: var(--navy); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; }
 @media (max-width: 820px) { .demo__row { grid-template-columns: 1fr; gap: 28px; } }
 ${css}
 </style>
@@ -77,6 +101,7 @@ ${css}
   <p>Three looping, code-only animations for the Web Design, Digital Marketing, and Public Relations pages.</p>
 </header>
 ${blocks}
+${options}
 <script>
 ${js}
 </script>

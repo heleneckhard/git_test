@@ -176,6 +176,9 @@ BASE = r"""/* =========================================================
 .emg-mg .wire circle, .emg-mg .wire rect { fill: none; stroke: rgba(7, 60, 114, .2); stroke-width: 1.5; stroke-dasharray: 4 4; }
 
 /* ---------- Web Design ---------- */
+.emg-build .url-text { font-size: 8.5px; font-weight: 500; fill: rgba(7, 60, 114, .7); letter-spacing: .02em; }
+.emg-build .url-lock { stroke: rgba(7, 60, 114, .5); stroke-width: 1.2; }
+.emg-build .wire circle, .emg-build .wire rect { fill: var(--emg-skel); stroke: none; }
 .emg-build .chrome-dot { fill: rgba(7, 60, 114, .18); }
 .emg-build .panel { fill: rgba(54, 197, 193, .15); }
 .emg-build .card-fill { fill: rgba(54, 197, 193, .06); }
@@ -207,6 +210,12 @@ BASE = r"""/* =========================================================
   0%, 8% { transform: scale(1); } 11% { transform: scale(1.06); } 15%, 43% { transform: scale(1); }
   46% { transform: scale(1.06); } 50%, 76% { transform: scale(1); } 79% { transform: scale(1.06); } 83%, 100% { transform: scale(1); }
 }
+.emg-loop .emgl-gbar-1 { animation-name: emgl-gbar-1; }
+.emg-loop .emgl-gbar-2 { animation-name: emgl-gbar-2; }
+.emg-loop .emgl-gbar-3 { animation-name: emgl-gbar-3; }
+@keyframes emgl-gbar-1 { 0%, 8% { transform: scaleY(.25); } 13%, 95% { transform: scaleY(1); } 100% { transform: scaleY(.25); } }
+@keyframes emgl-gbar-2 { 0%, 43% { transform: scaleY(.2); } 48%, 95% { transform: scaleY(1); } 100% { transform: scaleY(.2); } }
+@keyframes emgl-gbar-3 { 0%, 76% { transform: scaleY(.15); } 81%, 95% { transform: scaleY(1); } 100% { transform: scaleY(.15); } }
 .emg-loop .ad-img { fill: rgba(54, 197, 193, .15); }
 .emg-loop .search-text { font-size: 10px; font-weight: 500; fill: var(--emg-navy); }
 

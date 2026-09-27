@@ -1,53 +1,15 @@
-<!-- EMG motion graphic: Web Design · "One page, built in parallel"
-     Strategy lays out the page, then copy, design, and development fill it in
-     at the same time, and client feedback lands in real time.
+<!-- EMG motion graphic: Web Design · "A page coming together"
+     Strategy lays out the wireframe, then copy, design, and development
+     fill the page in together.
      Drop-in replacement for the .elloop block inside .media-content__loop. -->
-<div class="emg-mg emg-build" role="img" aria-label="Strategy lays out the page, then SEO copy, design, and development fill it in at the same time, with client feedback applied in real time">
-	<svg viewBox="0 0 720 470" aria-hidden="true" focusable="false">
+<div class="emg-mg emg-build" role="img" aria-label="A website wireframe fills in with copy, design, and working features all at the same time until the finished page is ready">
+	<svg viewBox="236 16 482 438" aria-hidden="true" focusable="false">
 		<defs>
 			<filter id="emgb-shadow" x="-20%" y="-20%" width="140%" height="150%">
 				<feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#073c72" flood-opacity=".14"/>
 			</filter>
-			<filter id="emgb-shadow-sm" x="-30%" y="-40%" width="160%" height="200%">
-				<feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#073c72" flood-opacity=".18"/>
-			</filter>
 			<clipPath id="emgb-clip"><rect x="250" y="30" width="454" height="410" rx="14"/></clipPath>
 		</defs>
-
-		<!-- ============ Left: the process ============ -->
-		<g class="a reset">
-			<!-- Strategy -->
-			<rect x="58" y="74" width="152" height="6" rx="3" class="track"/>
-			<rect x="58" y="74" width="152" height="6" rx="3" class="f-navy a grow emgb-bar-strat"/>
-			<circle cx="34" cy="72" r="13" class="f-navy"/>
-			<path d="M28 72.5l4 4 7.5-8" class="tick a pop emgb-done-strat"/>
-			<text x="58" y="66" class="lbl f-navy">STRATEGY</text>
-
-			<text x="58" y="132" class="lbl-sm muted">THEN, ALL AT ONCE:</text>
-			<path d="M34 90 V140 M34 140 V346" class="bracket"/>
-			<path d="M34 176 H20 M34 256 H20 M34 336 H20" class="bracket"/>
-
-			<!-- Copy -->
-			<rect x="58" y="182" width="152" height="6" rx="3" class="track"/>
-			<rect x="58" y="182" width="152" height="6" rx="3" class="f-blue a grow emgb-bar-copy"/>
-			<circle cx="34" cy="176" r="13" class="f-blue"/>
-			<path d="M28 176.5l4 4 7.5-8" class="tick a pop emgb-done"/>
-			<text x="58" y="172" class="lbl f-navy">SEO COPY</text>
-
-			<!-- Design -->
-			<rect x="58" y="262" width="152" height="6" rx="3" class="track"/>
-			<rect x="58" y="262" width="152" height="6" rx="3" class="f-teal a grow emgb-bar-design"/>
-			<circle cx="34" cy="256" r="13" class="f-teal"/>
-			<path d="M28 256.5l4 4 7.5-8" class="tick a pop emgb-done"/>
-			<text x="58" y="252" class="lbl f-navy">DESIGN</text>
-
-			<!-- Development -->
-			<rect x="58" y="342" width="152" height="6" rx="3" class="track"/>
-			<rect x="58" y="342" width="152" height="6" rx="3" class="f-pink a grow emgb-bar-dev"/>
-			<circle cx="34" cy="336" r="13" class="f-pink"/>
-			<path d="M28 336.5l4 4 7.5-8" class="tick a pop emgb-done"/>
-			<text x="58" y="332" class="lbl f-navy">DEVELOPMENT</text>
-		</g>
 
 		<!-- ============ Right: the page ============ -->
 		<rect x="250" y="30" width="454" height="410" rx="14" fill="#fff" filter="url(#emgb-shadow)"/>
@@ -96,7 +58,7 @@
 
 				<!-- COPY (blue) -->
 				<rect x="272" y="104" width="40" height="4" rx="2" class="f-pink a grow emgb-c1"/>
-				<g class="emgb-headline">
+				<g>
 					<rect x="272" y="116" width="160" height="14" rx="7" class="f-blue a grow emgb-c2"/>
 					<rect x="272" y="136" width="120" height="14" rx="7" class="f-blue a grow emgb-c3"/>
 				</g>
@@ -141,17 +103,6 @@
 				</g>
 			</g>
 
-			<!-- Real-time feedback -->
-			<g class="a emgb-bubble">
-				<rect x="442" y="108" width="176" height="44" rx="12" fill="#fff" class="hair" filter="url(#emgb-shadow-sm)"/>
-				<path d="M450 130 l-10 6 12 1z" fill="#fff"/>
-				<circle cx="464" cy="130" r="11" class="f-navy"/>
-				<circle cx="464" cy="126.5" r="4" fill="#fff"/>
-				<path d="M456.5 137.5a7.5 7.5 0 0 1 15 0" fill="#fff"/>
-				<text x="482" y="126" class="lbl-xs muted">CLIENT FEEDBACK</text>
-				<text x="482" y="141" class="bubble-text a emgb-ask">Can the headline pop more?</text>
-				<text x="482" y="141" class="bubble-text a emgb-yes">Love it. Approved!</text>
-			</g>
 		</g>
 		<rect x="250.5" y="30.5" width="453" height="409" rx="14" fill="none" class="hair"/>
 	</svg>

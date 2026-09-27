@@ -14,8 +14,8 @@ Open `preview.html` in a browser to see all three. Run `node motion-graphics/bui
 
 Each graphic makes one point from its section's copy, in three steps or fewer.
 
-- **Web Design: one page, built in parallel.** Strategy lays out a wireframe. Then SEO Copy, Design, and Development fill the page in *at the same time*: three progress bars run together and finish together, while words, visuals, and working parts appear side by side on the page. A client feedback bubble asks for a bolder headline, the headline updates, and the client approves ("feedback in real time").
-- **Digital Marketing: follow one customer.** One person moves around the loop. They see your ad (Paid), later search and find you (Organic), then get an email and order again (Lifecycle), and the insights flow back into the next ad. Each card lights up as the customer arrives, which shows the channels handing off to each other.
+- **Web Design: a page coming together.** A dashed wireframe draws in, then copy, visuals, and working parts (buttons, cards, a signup form) fill the page in together until the finished page is on screen.
+- **Digital Marketing: built around your business.** A storefront sits at the center. One customer moves around it: they tap your ad (Paid), search and find you at #1 (Organic), then order again from an email (Lifecycle). Each card lights up as they arrive, and the business at the center pulses with each step.
 - **Public Relations: from story to results.** Your story is written, becomes a featured piece of earned coverage, and that coverage lights up the three results the copy promises: search visibility, foot traffic, and quality leads.
 
 ## Changing the timing
@@ -56,4 +56,4 @@ The graphics size to their container (`width: min(100%, 720px)`). They pick up t
 
 ## Copy to confirm
 
-Small labels written for these graphics that the team may want to reword: "Then, all at once:", the feedback bubble ("Can the headline pop more?" / "Love it. Approved!"), "One team · every channel feeds the next", the three customer captions, and "Earned coverage". Edit them in the partials.
+The only words are the channel labels (Paid, Organic, Lifecycle) and small UI text inside the mock screens ("Get Started", "your brand", "Order placed"). The PR graphic uses "Your Story" and "Earned Coverage". Edit them in the partials.

@@ -1,9 +1,9 @@
 <!-- EMG motion graphic: Digital Marketing · "Follow one customer"
-     One person moves through paid, organic, and lifecycle, and what we learn
-     feeds the next campaign. Shows the channels handing off to each other.
+     One person moves through paid, organic, and lifecycle around your
+     business, which sits at the center. Shows the channels handing off to each other.
      Drop-in replacement for marketing-circle@2x-1.webp inside .media-content__media. -->
-<div class="emg-mg emg-loop" role="img" aria-label="One customer sees your ad, later searches and finds you, then gets an email and buys again, and those insights feed the next ad">
-	<svg viewBox="0 0 600 470" aria-hidden="true" focusable="false">
+<div class="emg-mg emg-loop" role="img" aria-label="Your business sits at the center while one customer moves from your paid ads, to finding you in search, to buying again through lifecycle marketing">
+	<svg viewBox="40 14 520 466" aria-hidden="true" focusable="false">
 		<defs>
 			<filter id="emgl-shadow" x="-30%" y="-30%" width="160%" height="170%">
 				<feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#073c72" flood-opacity=".13"/>
@@ -19,8 +19,7 @@
 		<!-- Track -->
 		<path class="track-arc s-pink" d="M300 100 A185 185 0 0 1 460.2 377.5"/>
 		<path class="track-arc s-teal" d="M460.2 377.5 A185 185 0 0 1 139.8 377.5"/>
-		<path class="return-arc" d="M139.8 377.5 A185 185 0 0 1 300 100"/>
-		<path class="return-flow a emgl-return" d="M139.8 377.5 A185 185 0 0 1 300 100"/>
+		<path class="track-arc s-navy" d="M139.8 377.5 A185 185 0 0 1 300 100"/>
 
 		<!-- The customer (travels behind the cards, which light up as they arrive) -->
 		<g class="emg-packet">
@@ -33,17 +32,25 @@
 				keySplines="0 0 1 1;.45 0 .25 1;0 0 1 1;.45 0 .25 1;0 0 1 1;.45 0 .25 1"><mpath href="#emgl-route"/></animateMotion>
 		</g>
 
-		<!-- Insights chip on the return arc -->
-		<rect x="72" y="178" width="100" height="26" rx="13" fill="#fff" stroke="#c9d3de" stroke-width="2"/>
-		<text x="122" y="195" class="lbl-xs muted" text-anchor="middle">INSIGHTS</text>
-		<g class="a emgl-insight">
-			<rect x="72" y="178" width="100" height="26" rx="13" class="f-navy"/>
-			<text x="122" y="195" class="lbl-xs" fill="#fff" text-anchor="middle">INSIGHTS</text>
+		<!-- Center: your business -->
+		<g transform="translate(300 282)">
+			<circle r="62" class="a emgl-ring emgl-ring-1 s-pink"/>
+			<circle r="62" class="a emgl-ring emgl-ring-2 s-teal"/>
+			<circle r="62" class="a emgl-ring emgl-ring-3 s-navy"/>
+			<circle r="62" class="store-bg"/>
+			<g class="a emgl-store">
+				<line x1="-50" y1="36" x2="50" y2="36" stroke-width="3" stroke-linecap="round" class="s-navy"/>
+				<rect x="-38" y="-14" width="76" height="50" fill="#fff" stroke-width="3" class="s-navy"/>
+				<rect x="-44" y="-38" width="88" height="16" rx="4" class="f-navy"/>
+				<circle cx="0" cy="-30" r="4" class="f-pink"/>
+				<path d="M-44 -22 H44 V-12 a5.5 5.5 0 0 1 -11 0 a5.5 5.5 0 0 1 -11 0 a5.5 5.5 0 0 1 -11 0 a5.5 5.5 0 0 1 -11 0 a5.5 5.5 0 0 1 -11 0 a5.5 5.5 0 0 1 -11 0 a5.5 5.5 0 0 1 -11 0 a5.5 5.5 0 0 1 -11 0 Z" class="f-pink"/>
+				<path d="M-33 -22 h11 v10 a5.5 5.5 0 0 1 -11 0 Z M-11 -22 h11 v10 a5.5 5.5 0 0 1 -11 0 Z M11 -22 h11 v10 a5.5 5.5 0 0 1 -11 0 Z M33 -22 h11 v10 a5.5 5.5 0 0 1 -11 0 Z" fill="#fff"/>
+				<rect x="-29" y="2" width="20" height="18" rx="2" class="window"/>
+				<rect x="9" y="2" width="20" height="18" rx="2" class="window"/>
+				<rect x="-7" y="6" width="14" height="30" rx="1.5" fill="#fff" stroke-width="2.5" class="s-navy"/>
+				<circle cx="3.5" cy="22" r="1.4" class="f-navy"/>
+			</g>
 		</g>
-
-		<!-- Center -->
-		<text x="300" y="262" class="lbl-xl f-navy" text-anchor="middle">ONE TEAM</text>
-		<text x="300" y="284" class="center-sub" text-anchor="middle">every channel feeds the next</text>
 
 		<!-- ===== Paid (top) ===== -->
 		<text x="300" y="34" class="lbl f-pink" text-anchor="middle">PAID</text>
@@ -58,7 +65,6 @@
 		<rect x="237" y="126" width="126" height="16" rx="8" class="f-pink"/>
 		<text x="300" y="137" class="lbl-xxs" fill="#fff" text-anchor="middle">LEARN MORE</text>
 		<circle cx="330" cy="134" r="9" fill="none" stroke="#fff" stroke-width="2.5" class="a emgl-tap"/>
-		<text x="300" y="172" class="caption" text-anchor="middle">Sees your ad</text>
 
 		<!-- ===== Organic (bottom right) ===== -->
 		<text x="460" y="312" class="lbl f-teal-deep" text-anchor="middle">ORGANIC</text>
@@ -80,7 +86,6 @@
 		<rect x="405" y="399" width="88" height="3" rx="1.5" class="ink" opacity=".6"/>
 		<rect x="405" y="410" width="54" height="4" rx="2" class="ink"/>
 		<rect x="405" y="417" width="80" height="3" rx="1.5" class="ink" opacity=".6"/>
-		<text x="460" y="451" class="caption" text-anchor="middle">Searches and finds you</text>
 
 		<!-- ===== Lifecycle (bottom left) ===== -->
 		<text x="140" y="312" class="lbl f-navy" text-anchor="middle">LIFECYCLE</text>
@@ -100,7 +105,6 @@
 			<path d="M88.8 403.2l2.2 2.2 4-4.4" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 			<text x="104" y="406.5" class="lbl-xxs f-navy">ORDER PLACED</text>
 		</g>
-		<text x="140" y="451" class="caption" text-anchor="middle">Buys, then buys again</text>
 
 	</svg>
 </div>

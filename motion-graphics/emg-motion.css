@@ -95,8 +95,7 @@
 /* ---------- Digital Marketing ---------- */
 .emg-loop .track-arc { fill: none; stroke-width: 3; opacity: .3; stroke-linecap: round; }
 .emg-loop .store-bg { fill: rgba(236, 22, 116, .06); }
-.emg-loop .window { fill: rgba(54, 197, 193, .35); stroke: var(--emg-navy); stroke-width: 2; }
-/* Each time the customer reaches a channel, the business at the center feels it */
+/* Each time the customer reaches a channel, the center pulses and a growth bar rises */
 .emg-loop .emgl-ring { fill: none; stroke-width: 3; opacity: 0; animation-timing-function: ease-out; }
 .emg-loop .emgl-ring-1 { animation-name: emgl-ring-1; }
 .emg-loop .emgl-ring-2 { animation-name: emgl-ring-2; }

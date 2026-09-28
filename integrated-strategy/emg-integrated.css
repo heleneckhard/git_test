@@ -1,0 +1,140 @@
+/* =========================================================
+   EMG "Two Sides, One Strategy"
+   Two service lists on either side of a center hub. Every item is
+   wired into the hub; soft pulses flow inward, and hovering an item
+   lights its line and that side of the hub.
+   Lines are drawn by emg-integrated.js (desktop only).
+   ========================================================= */
+
+.emgi {
+  --emgi-navy: #073c72;
+  --emgi-pink: #ec1674;
+  --emgi-teal: #36c5c1;
+  --emgi-teal-deep: #1b8f8b;
+  --emgi-line: #e1e7ee;
+  --emgi-ease: cubic-bezier(.22, .8, .24, 1);
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 300px 1fr;
+  align-items: center;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 44px 40px;
+  border: 1px solid #d9e1ea;
+  border-radius: 28px;
+  background: #fff;
+  font-family: var(--heading-font-pt, 'Futura', 'Jost', 'Century Gothic', Arial, sans-serif);
+  color: var(--emgi-navy);
+}
+.emgi *, .emgi *::before, .emgi *::after { box-sizing: border-box; }
+
+.emgi-col { position: relative; z-index: 1; }
+.emgi-col--left { --side: var(--emgi-pink); --side-soft: rgba(236, 22, 116, .08); --side-deep: #c80f61; }
+.emgi-col--right { --side: var(--emgi-teal); --side-soft: rgba(54, 197, 193, .12); --side-deep: var(--emgi-teal-deep); }
+
+.emgi-title {
+  margin: 0 0 14px;
+  padding: 0 12px 14px;
+  border-bottom: 1px solid #d9e1ea;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--emgi-navy);
+}
+.emgi-col--left .emgi-title { color: var(--emgi-pink); }
+
+.emgi-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.emgi-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.25;
+  transition: background-color .3s ease, color .3s ease, transform .35s var(--emgi-ease);
+}
+.emgi-col--left .emgi-item { justify-content: space-between; }
+.emgi-node {
+  flex: none;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2.5px solid var(--side);
+  transition: background-color .3s ease, transform .35s var(--emgi-ease), box-shadow .3s ease;
+}
+.emgi-item.is-hot { background: var(--side-soft); color: var(--side-deep); }
+.emgi-item.is-hot .emgi-node { background: var(--side); transform: scale(1.35); box-shadow: 0 0 0 5px var(--side-soft); }
+
+/* Hub */
+.emgi-hub-wrap { position: relative; z-index: 1; }
+.emgi-hub {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #15508a, var(--emgi-navy) 70%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 18px 40px rgba(7, 60, 114, .22);
+  transition: transform .4s var(--emgi-ease);
+}
+.emgi-ring { position: absolute; inset: -14px; width: calc(100% + 28px); height: calc(100% + 28px); overflow: visible; }
+.emgi-ring path { fill: none; stroke-width: 3.5; stroke-linecap: round; opacity: .3; transition: opacity .35s ease, stroke-width .35s ease; }
+.emgi-ring-left { stroke: var(--emgi-pink); }
+.emgi-ring-right { stroke: var(--emgi-teal); }
+.emgi--hot-left .emgi-ring-left, .emgi--hot-right .emgi-ring-right { opacity: 1; stroke-width: 5; }
+.emgi--hot-left .emgi-hub, .emgi--hot-right .emgi-hub { animation: emgi-pulse .6s var(--emgi-ease); }
+.emgi-hub-small { font-size: 12px; font-weight: 600; letter-spacing: .32em; text-transform: uppercase; opacity: .75; margin-right: -.32em; }
+.emgi-hub-big { font-size: 21px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+/* Connector lines (built by JS) */
+.emgi-lines { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; overflow: visible; pointer-events: none; }
+.emgi-lines path { fill: none; stroke-linecap: round; }
+.emgi-line { stroke: var(--emgi-line); stroke-width: 2; stroke-dasharray: 100; stroke-dashoffset: 100; }
+.emgi-flow { stroke-width: 2.5; stroke-dasharray: 1.5 11; opacity: 0; animation: emgi-flow 1.3s linear infinite; }
+.emgi-glow { stroke-width: 3; stroke-dasharray: 100; stroke-dashoffset: 100; transition: stroke-dashoffset .5s var(--emgi-ease); }
+.emgi-link--left .emgi-flow, .emgi-link--left .emgi-glow { stroke: var(--emgi-pink); }
+.emgi-link--right .emgi-flow, .emgi-link--right .emgi-glow { stroke: var(--emgi-teal); }
+.emgi-link.is-hot .emgi-glow { stroke-dashoffset: 0; }
+
+/* Draw-in when the section scrolls into view */
+.emgi.is-in .emgi-line { stroke-dashoffset: 0; transition: stroke-dashoffset .8s var(--emgi-ease) calc(var(--i) * 90ms); }
+.emgi.is-in .emgi-flow { opacity: .5; transition: opacity .6s ease calc(900ms + var(--i) * 60ms); }
+.emgi .emgi-item { opacity: 1; }
+.emgi.is-ready:not(.is-in) .emgi-item { opacity: 0; transform: translateY(6px); }
+.emgi.is-in .emgi-item { transition: opacity .5s ease calc(var(--i, 0) * 70ms + 200ms), transform .5s var(--emgi-ease) calc(var(--i, 0) * 70ms + 200ms), background-color .3s ease, color .3s ease; }
+
+@keyframes emgi-flow { to { stroke-dashoffset: -25; } }
+@keyframes emgi-pulse { 0% { transform: scale(1); } 40% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* Stacked: lists above and below the hub, joined by a short line */
+@media (max-width: 1023px) and (min-width: 820px) {
+  .emgi { grid-template-columns: 1fr 220px 1fr; padding: 40px 28px; }
+}
+
+@media (max-width: 819px) {
+  .emgi { grid-template-columns: 1fr; padding: 28px 18px; border-radius: 22px; }
+  .emgi-lines { display: none; }
+  .emgi-hub-wrap { padding: 34px 0; }
+  .emgi-hub-wrap::before {
+    content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; margin-left: -1px;
+    background: linear-gradient(var(--emgi-pink), var(--emgi-pink) 30%, transparent 30%, transparent 70%, var(--emgi-teal) 70%);
+    opacity: .5;
+  }
+  .emgi-hub { width: 124px; height: 124px; }
+  .emgi-hub-big { font-size: 18px; }
+  .emgi-col--left .emgi-item { justify-content: flex-end; flex-direction: row-reverse; }
+  .emgi-item { font-size: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emgi *, .emgi *::before, .emgi *::after { animation: none !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+}

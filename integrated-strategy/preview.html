@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two Sides, One Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --navy: #073c72; --pink: #ec1674; --bg: #ffffff; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #ffffff; } }
+:root[data-theme="dark"] { --bg: #ffffff; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--navy); font-family: 'Jost', 'Futura', Arial, sans-serif; }
+.section { max-width: 1100px; margin: 0 auto; padding: 56px 16px 72px; }
+.section h2 { margin: 0 0 32px; font-size: clamp(24px, 3vw, 34px); font-weight: 700; }
+.cta { text-align: center; margin-top: 40px; }
+.cta a { display: inline-block; padding: 12px 28px; border-radius: 999px; background: var(--pink); color: #fff; font-weight: 700; text-transform: uppercase; text-decoration: none; letter-spacing: .02em; }
+.spacer { height: 40px; }
+/* =========================================================
+   EMG "Two Sides, One Strategy"
+   Two service lists on either side of a center hub. Every item is
+   wired into the hub; soft pulses flow inward, and hovering an item
+   lights its line and that side of the hub.
+   Lines are drawn by emg-integrated.js (desktop only).
+   ========================================================= */
+
+.emgi {
+  --emgi-navy: #073c72;
+  --emgi-pink: #ec1674;
+  --emgi-teal: #36c5c1;
+  --emgi-teal-deep: #1b8f8b;
+  --emgi-line: #e1e7ee;
+  --emgi-ease: cubic-bezier(.22, .8, .24, 1);
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 300px 1fr;
+  align-items: center;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 44px 40px;
+  border: 1px solid #d9e1ea;
+  border-radius: 28px;
+  background: #fff;
+  font-family: var(--heading-font-pt, 'Futura', 'Jost', 'Century Gothic', Arial, sans-serif);
+  color: var(--emgi-navy);
+}
+.emgi *, .emgi *::before, .emgi *::after { box-sizing: border-box; }
+
+.emgi-col { position: relative; z-index: 1; }
+.emgi-col--left { --side: var(--emgi-pink); --side-soft: rgba(236, 22, 116, .08); --side-deep: #c80f61; }
+.emgi-col--right { --side: var(--emgi-teal); --side-soft: rgba(54, 197, 193, .12); --side-deep: var(--emgi-teal-deep); }
+
+.emgi-title {
+  margin: 0 0 14px;
+  padding: 0 12px 14px;
+  border-bottom: 1px solid #d9e1ea;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--emgi-navy);
+}
+.emgi-col--left .emgi-title { color: var(--emgi-pink); }
+
+.emgi-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.emgi-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.25;
+  transition: background-color .3s ease, color .3s ease, transform .35s var(--emgi-ease);
+}
+.emgi-col--left .emgi-item { justify-content: space-between; }
+.emgi-node {
+  flex: none;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2.5px solid var(--side);
+  transition: background-color .3s ease, transform .35s var(--emgi-ease), box-shadow .3s ease;
+}
+.emgi-item.is-hot { background: var(--side-soft); color: var(--side-deep); }
+.emgi-item.is-hot .emgi-node { background: var(--side); transform: scale(1.35); box-shadow: 0 0 0 5px var(--side-soft); }
+
+/* Hub */
+.emgi-hub-wrap { position: relative; z-index: 1; }
+.emgi-hub {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #15508a, var(--emgi-navy) 70%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 18px 40px rgba(7, 60, 114, .22);
+  transition: transform .4s var(--emgi-ease);
+}
+.emgi-ring { position: absolute; inset: -14px; width: calc(100% + 28px); height: calc(100% + 28px); overflow: visible; }
+.emgi-ring path { fill: none; stroke-width: 3.5; stroke-linecap: round; opacity: .3; transition: opacity .35s ease, stroke-width .35s ease; }
+.emgi-ring-left { stroke: var(--emgi-pink); }
+.emgi-ring-right { stroke: var(--emgi-teal); }
+.emgi--hot-left .emgi-ring-left, .emgi--hot-right .emgi-ring-right { opacity: 1; stroke-width: 5; }
+.emgi--hot-left .emgi-hub, .emgi--hot-right .emgi-hub { animation: emgi-pulse .6s var(--emgi-ease); }
+.emgi-hub-small { font-size: 12px; font-weight: 600; letter-spacing: .32em; text-transform: uppercase; opacity: .75; margin-right: -.32em; }
+.emgi-hub-big { font-size: 21px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+/* Connector lines (built by JS) */
+.emgi-lines { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; overflow: visible; pointer-events: none; }
+.emgi-lines path { fill: none; stroke-linecap: round; }
+.emgi-line { stroke: var(--emgi-line); stroke-width: 2; stroke-dasharray: 100; stroke-dashoffset: 100; }
+.emgi-flow { stroke-width: 2.5; stroke-dasharray: 1.5 11; opacity: 0; animation: emgi-flow 1.3s linear infinite; }
+.emgi-glow { stroke-width: 3; stroke-dasharray: 100; stroke-dashoffset: 100; transition: stroke-dashoffset .5s var(--emgi-ease); }
+.emgi-link--left .emgi-flow, .emgi-link--left .emgi-glow { stroke: var(--emgi-pink); }
+.emgi-link--right .emgi-flow, .emgi-link--right .emgi-glow { stroke: var(--emgi-teal); }
+.emgi-link.is-hot .emgi-glow { stroke-dashoffset: 0; }
+
+/* Draw-in when the section scrolls into view */
+.emgi.is-in .emgi-line { stroke-dashoffset: 0; transition: stroke-dashoffset .8s var(--emgi-ease) calc(var(--i) * 90ms); }
+.emgi.is-in .emgi-flow { opacity: .5; transition: opacity .6s ease calc(900ms + var(--i) * 60ms); }
+.emgi .emgi-item { opacity: 1; }
+.emgi.is-ready:not(.is-in) .emgi-item { opacity: 0; transform: translateY(6px); }
+.emgi.is-in .emgi-item { transition: opacity .5s ease calc(var(--i, 0) * 70ms + 200ms), transform .5s var(--emgi-ease) calc(var(--i, 0) * 70ms + 200ms), background-color .3s ease, color .3s ease; }
+
+@keyframes emgi-flow { to { stroke-dashoffset: -25; } }
+@keyframes emgi-pulse { 0% { transform: scale(1); } 40% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* Stacked: lists above and below the hub, joined by a short line */
+@media (max-width: 1023px) and (min-width: 820px) {
+  .emgi { grid-template-columns: 1fr 220px 1fr; padding: 40px 28px; }
+}
+
+@media (max-width: 819px) {
+  .emgi { grid-template-columns: 1fr; padding: 28px 18px; border-radius: 22px; }
+  .emgi-lines { display: none; }
+  .emgi-hub-wrap { padding: 34px 0; }
+  .emgi-hub-wrap::before {
+    content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; margin-left: -1px;
+    background: linear-gradient(var(--emgi-pink), var(--emgi-pink) 30%, transparent 30%, transparent 70%, var(--emgi-teal) 70%);
+    opacity: .5;
+  }
+  .emgi-hub { width: 124px; height: 124px; }
+  .emgi-hub-big { font-size: 18px; }
+  .emgi-col--left .emgi-item { justify-content: flex-end; flex-direction: row-reverse; }
+  .emgi-item { font-size: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emgi *, .emgi *::before, .emgi *::after { animation: none !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+}
+
+</style>
+</head>
+<body>
+<section class="section">
+  <h2>Two Sides of Franchise Growth, One Integrated Strategy</h2>
+<!-- EMG "Two Sides, One Strategy": both service lists connect into one center hub.
+     Replaces .compare-text__wrapper on /franchise-marketing/ (keep the heading and CTA).
+     Needs emg-integrated.css and emg-integrated.js. Without JS the lists and hub still show, minus the connector lines. -->
+<div class="emgi">
+	<div class="emgi-col emgi-col--left" data-side="left">
+		<h4 class="emgi-title">Franchise Development</h4>
+		<ul class="emgi-list">
+			<li class="emgi-item"><span class="emgi-text">Dedicated Websites</span><span class="emgi-node" aria-hidden="true"></span></li>
+			<li class="emgi-item"><span class="emgi-text">Candidate Lead Generation</span><span class="emgi-node" aria-hidden="true"></span></li>
+			<li class="emgi-item"><span class="emgi-text">Franchise PR and Earned Media</span><span class="emgi-node" aria-hidden="true"></span></li>
+			<li class="emgi-item"><span class="emgi-text">Candidate Nurture and CRM</span><span class="emgi-node" aria-hidden="true"></span></li>
+		</ul>
+	</div>
+
+	<div class="emgi-hub-wrap" aria-hidden="true">
+		<div class="emgi-hub">
+			<svg class="emgi-ring" viewBox="0 0 100 100">
+				<path class="emgi-ring-left" d="M50 3 A47 47 0 0 0 50 97"/>
+				<path class="emgi-ring-right" d="M50 3 A47 47 0 0 1 50 97"/>
+			</svg>
+			<span class="emgi-hub-small">One</span>
+			<span class="emgi-hub-big">Strategy</span>
+		</div>
+	</div>
+
+	<div class="emgi-col emgi-col--right" data-side="right">
+		<h4 class="emgi-title">Consumer Marketing</h4>
+		<ul class="emgi-list">
+			<li class="emgi-item"><span class="emgi-node" aria-hidden="true"></span><span class="emgi-text">Multi-Location SEO and GEO</span></li>
+			<li class="emgi-item"><span class="emgi-node" aria-hidden="true"></span><span class="emgi-text">National Brand Campaigns</span></li>
+			<li class="emgi-item"><span class="emgi-node" aria-hidden="true"></span><span class="emgi-text">Local Store Marketing</span></li>
+			<li class="emgi-item"><span class="emgi-node" aria-hidden="true"></span><span class="emgi-text">Listing and Reputation Management</span></li>
+		</ul>
+	</div>
+
+	<svg class="emgi-lines" aria-hidden="true" focusable="false"></svg>
+</div>
+
+  <div class="cta"><a href="#">Let’s talk about your system</a></div>
+</section>
+<script>
+/* EMG "Two Sides, One Strategy": draws each item's line into the hub,
+   lights a line on hover/tap, and gently cycles through the items until
+   the visitor interacts. */
+(function () {
+  var NS = 'http://www.w3.org/2000/svg';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll('.emgi').forEach(function (root) {
+    var svg = root.querySelector('.emgi-lines');
+    var hub = root.querySelector('.emgi-hub');
+    var items = [].slice.call(root.querySelectorAll('.emgi-item'));
+    var narrow = window.matchMedia('(max-width: 819px)');
+    var links = [];
+
+    items.forEach(function (item) {
+      item.side = item.closest('[data-side]').getAttribute('data-side');
+    });
+    var left = items.filter(function (i) { return i.side === 'left'; });
+    var right = items.filter(function (i) { return i.side === 'right'; });
+    // Alternate sides so the auto-cycle reads as "both sides, one hub".
+    var order = [];
+    for (var k = 0; k < Math.max(left.length, right.length); k++) {
+      if (left[k]) order.push(left[k]);
+      if (right[k]) order.push(right[k]);
+    }
+    order.forEach(function (item, i) { item.style.setProperty('--i', i); });
+
+    function el(name, attrs) {
+      var n = document.createElementNS(NS, name);
+      for (var a in attrs) n.setAttribute(a, attrs[a]);
+      return n;
+    }
+
+    function layout() {
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      links = [];
+      if (narrow.matches) return;
+      var box = root.getBoundingClientRect();
+      var h = hub.getBoundingClientRect();
+      var cx = h.left + h.width / 2 - box.left;
+      var cy = h.top + h.height / 2 - box.top;
+      var r = h.width / 2 + 16;
+      svg.setAttribute('viewBox', '0 0 ' + box.width + ' ' + box.height);
+
+      order.forEach(function (item, i) {
+        var n = item.querySelector('.emgi-node').getBoundingClientRect();
+        var nx = n.left + n.width / 2 - box.left;
+        var ny = n.top + n.height / 2 - box.top;
+        var ang = Math.atan2(ny - cy, nx - cx);
+        var ex = cx + Math.cos(ang) * r;
+        var ey = cy + Math.sin(ang) * r;
+        var mx = nx + (ex - nx) * 0.55;
+        var d = 'M' + nx + ' ' + ny + ' C' + mx + ' ' + ny + ' ' + mx + ' ' + ey + ' ' + ex + ' ' + ey;
+        var g = el('g', { 'class': 'emgi-link emgi-link--' + item.side, style: '--i:' + i });
+        g.appendChild(el('path', { 'class': 'emgi-line', d: d, pathLength: 100 }));
+        g.appendChild(el('path', { 'class': 'emgi-flow', d: d }));
+        g.appendChild(el('path', { 'class': 'emgi-glow', d: d, pathLength: 100 }));
+        svg.appendChild(g);
+        links.push(g);
+        item.link = g;
+        if (item.classList.contains('is-hot')) g.classList.add('is-hot');
+      });
+    }
+
+    function heat(item) {
+      items.forEach(function (i) {
+        var on = i === item;
+        i.classList.toggle('is-hot', on);
+        if (i.link) i.link.classList.toggle('is-hot', on);
+      });
+      root.classList.remove('emgi--hot-left', 'emgi--hot-right');
+      if (item) {
+        void root.offsetWidth; // restart the hub pulse
+        root.classList.add('emgi--hot-' + item.side);
+      }
+    }
+
+    // Gentle auto-cycle until the visitor hovers or taps anything.
+    var timer = null, step = 0, touched = false;
+    function startCycle() {
+      if (reduce || touched || timer) return;
+      timer = setInterval(function () { heat(order[step % order.length]); step++; }, 1600);
+    }
+    function stopCycle() { clearInterval(timer); timer = null; }
+
+    items.forEach(function (item) {
+      item.addEventListener('pointerenter', function () { touched = true; stopCycle(); heat(item); });
+      item.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') heat(null); });
+      item.addEventListener('click', function () { touched = true; stopCycle(); heat(item); });
+    });
+
+    root.classList.add('is-ready');
+    layout();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+    if ('ResizeObserver' in window) new ResizeObserver(layout).observe(root);
+    else window.addEventListener('resize', layout);
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            root.classList.add('is-in');
+            setTimeout(startCycle, 1800);
+          } else {
+            stopCycle();
+          }
+        });
+      }, { threshold: 0.35 }).observe(root);
+    } else {
+      root.classList.add('is-in');
+    }
+  });
+})();
+
+</script>
+</body>
+</html>

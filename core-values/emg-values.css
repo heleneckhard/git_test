@@ -1,0 +1,196 @@
+/* =========================================================
+   EMG Core Values tiles (Why Us page)
+   Six tiles in two rows. One is open at a time: it widens,
+   turns navy, shows its full text, and its icon animates.
+   Without JS (no .emgv--ready) every tile shows its full text.
+   ========================================================= */
+
+.emgv {
+  --emgv-navy: #073c72;
+  --emgv-pink: #ec1674;
+  --emgv-pink-light: #ff6fae;
+  --emgv-teal: #36c5c1;
+  --emgv-tile: #f2f5f9;
+  --emgv-ease: cubic-bezier(.22, .8, .24, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: var(--heading-font-pt, 'Futura', 'Jost', 'Century Gothic', Arial, sans-serif);
+  color: var(--emgv-navy);
+}
+.emgv *, .emgv *::before, .emgv *::after { box-sizing: border-box; }
+
+.emgv-row { display: flex; gap: 20px; align-items: stretch; }
+
+.emgv-tile {
+  --icon: var(--emgv-navy);
+  --accent: var(--emgv-pink);
+  --soft: rgba(236, 22, 116, .14);
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 28px 28px 30px;
+  border-radius: 22px;
+  background: var(--emgv-tile);
+  overflow: hidden;
+  cursor: pointer;
+  transition: flex-grow .6s var(--emgv-ease), background-color .45s ease, color .45s ease, box-shadow .45s ease, transform .3s var(--emgv-ease);
+}
+.emgv-tile:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(7, 60, 114, .10); }
+.emgv-tile.is-active {
+  --icon: var(--emgv-teal);
+  --accent: var(--emgv-pink-light);
+  --soft: rgba(255, 111, 174, .22);
+  flex-grow: 2.4;
+  background: var(--emgv-navy);
+  color: #fff;
+  cursor: default;
+  transform: none;
+  box-shadow: 0 22px 44px rgba(7, 60, 114, .22);
+}
+
+/* Header (the whole thing is the toggle button) */
+.emgv-head { margin: 0; font: inherit; }
+.emgv-btn {
+  all: unset;
+  box-sizing: border-box;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "num num" "icon icon" "title title";
+  gap: 10px 14px;
+  width: 100%;
+  cursor: inherit;
+  color: inherit;
+}
+.emgv-btn:focus-visible { outline: 3px solid var(--emgv-teal); outline-offset: 6px; border-radius: 10px; }
+.emgv-num { grid-area: num; font-size: 15px; font-weight: 700; letter-spacing: .12em; color: var(--accent); transition: color .45s ease; }
+.emgv-icon { grid-area: icon; width: 64px; height: 64px; margin: 4px 0 6px; overflow: visible; }
+.emgv-title {
+  grid-area: title;
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 700;
+  line-height: 1.15;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+.emgv-plus {
+  position: absolute; top: -4px; right: -4px;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(7, 60, 114, .12);
+  transition: opacity .3s ease, transform .45s var(--emgv-ease);
+}
+.emgv-plus::before, .emgv-plus::after {
+  content: ""; position: absolute; top: 50%; left: 50%;
+  width: 12px; height: 2.5px; margin: -1.25px 0 0 -6px;
+  border-radius: 2px; background: var(--emgv-pink);
+}
+.emgv-plus::after { transform: rotate(90deg); }
+.emgv-tile:hover .emgv-plus { transform: rotate(90deg); }
+.emgv-tile.is-active .emgv-plus { opacity: 0; transform: rotate(45deg) scale(.6); }
+
+/* Body text */
+.emgv-body { display: grid; grid-template-rows: 1fr; }
+.emgv-body-inner { overflow: hidden; min-height: 0; }
+.emgv-body p { margin: 16px 0 0; font-size: 16.5px; line-height: 1.55; }
+.emgv-tile.is-active .emgv-body p { color: rgba(255, 255, 255, .88); }
+
+.emgv--ready .emgv-body {
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows .55s var(--emgv-ease), visibility 0s linear .55s;
+}
+.emgv--ready .emgv-body-inner { opacity: 0; transition: opacity .2s ease; }
+.emgv--ready .emgv-tile.is-active .emgv-body { grid-template-rows: 1fr; visibility: visible; transition: grid-template-rows .55s var(--emgv-ease); }
+.emgv--ready .emgv-tile.is-active .emgv-body-inner { opacity: 1; transition: opacity .45s ease .3s; }
+
+/* Desktop: keep the open tile's text from reflowing while the tile widens */
+@media (min-width: 900px) {
+  .emgv-tile.is-active .emgv-body-inner { min-width: min(520px, 100%); }
+  .emgv-tile { min-height: 230px; }
+}
+
+/* Stacked on narrower screens */
+@media (max-width: 899px) {
+  .emgv, .emgv-row { gap: 12px; }
+  .emgv-row { flex-direction: column; }
+  .emgv-tile, .emgv-tile.is-active { flex: none; padding: 18px 20px; border-radius: 18px; }
+  .emgv-tile:hover { transform: none; }
+  .emgv-btn {
+    grid-template-columns: auto auto 1fr;
+    grid-template-areas: "num icon title";
+    align-items: center;
+    padding-right: 40px;
+  }
+  .emgv-icon { width: 44px; height: 44px; margin: 0; }
+  .emgv-plus { top: 50%; right: 0; margin-top: -15px; }
+  .emgv-tile:hover .emgv-plus { transform: none; }
+  .emgv-body p { font-size: 16px; }
+}
+
+/* =========================================================
+   Icons: static by default, animate each time a tile opens
+   ========================================================= */
+.emgv-icon * { fill: none; stroke: var(--icon); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; transform-box: fill-box; transform-origin: center; transition: stroke .45s ease, fill .45s ease; }
+.emgv-icon .fill-accent { fill: var(--accent); }
+.emgv-icon .fill-soft { fill: var(--soft); }
+.emgv-icon .i-spark, .emgv-icon .i-dot, .emgv-icon .i-point, .emgv-icon .i-check circle { stroke: none; }
+.emgv-icon .i-check path { stroke: #fff; stroke-width: 2.5; }
+.emgv-tile.is-active .emgv-icon .i-check path { stroke: var(--emgv-navy); }
+.emgv-icon [pathLength] { stroke-dasharray: 100; stroke-dashoffset: 0; }
+
+.is-active .emgv-icon * { animation-fill-mode: both; animation-timing-function: var(--emgv-ease); }
+
+/* 01 Extra mile */
+.is-active .i-road { animation: emgv-draw 1.1s .15s both; }
+.is-active .i-tip { animation: emgv-pop .45s 1.1s both; }
+.i-flag path { transform-origin: left center; }
+.is-active .i-flag { animation: emgv-pop .4s .55s both; }
+.is-active .i-flag path { animation: emgv-wave 1.6s ease-in-out .3s infinite; }
+
+/* 02 Creative */
+.is-active .i-squiggle { animation: emgv-draw 1s .15s both; }
+.is-active .i-spark-1 { animation: emgv-pop .45s .8s both, emgv-twinkle 2.4s ease-in-out 1.4s infinite; }
+.is-active .i-spark-2 { animation: emgv-pop .45s 1s both, emgv-twinkle 2.4s ease-in-out 2s infinite; }
+.is-active .i-spark-3 { animation: emgv-pop .45s 1.2s both, emgv-twinkle 2.4s ease-in-out 2.6s infinite; }
+
+/* 03 Passion */
+.i-ray { opacity: 0; }
+.is-active .i-heart { animation: emgv-beat 1.3s ease-in-out .2s infinite; }
+.is-active .i-ray { animation: emgv-ray 1.3s ease-out .2s infinite; }
+
+/* 04 Responsive */
+.is-active .i-bubble-1 { animation: emgv-pop .45s .1s both; }
+.is-active .i-bubble-2 { animation: emgv-pop .45s .45s both; }
+.is-active .i-dot { animation: emgv-typing 1.1s ease-in-out infinite both; }
+.is-active .i-dot-1 { animation-delay: .8s; }
+.is-active .i-dot-2 { animation-delay: .95s; }
+.is-active .i-dot-3 { animation-delay: 1.1s; }
+
+/* 05 Numbers driven */
+.is-active .i-line { animation: emgv-draw 1s .15s both; }
+.is-active .i-point { animation: emgv-pop .45s 1s both; }
+.is-active .i-check { animation: emgv-pop .45s 1.25s both, emgv-recheck 3s ease-in-out 2s infinite; }
+
+/* 06 Laugh */
+.i-face { transform-origin: center bottom; }
+.is-active .i-face { animation: emgv-giggle 1.6s ease-in-out .2s infinite; }
+.is-active .i-eye { animation: emgv-squint 1.6s ease-in-out .2s infinite; }
+
+@keyframes emgv-draw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+@keyframes emgv-pop { 0% { transform: scale(0); opacity: 0; } 70% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes emgv-wave { 0%, 100% { transform: skewY(0); } 50% { transform: skewY(-8deg) scaleX(.94); } }
+@keyframes emgv-twinkle { 0%, 70%, 100% { transform: scale(1) rotate(0); } 85% { transform: scale(.6) rotate(45deg); } }
+@keyframes emgv-beat { 0%, 60%, 100% { transform: scale(1); } 15% { transform: scale(1.14); } 30% { transform: scale(1); } 45% { transform: scale(1.08); } }
+@keyframes emgv-ray { 0%, 10% { opacity: 0; transform: translateY(3px); } 25% { opacity: 1; transform: none; } 60%, 100% { opacity: 0; transform: translateY(-3px); } }
+@keyframes emgv-typing { 0%, 60%, 100% { transform: translateY(0); opacity: .45; } 30% { transform: translateY(-5px); opacity: 1; } }
+@keyframes emgv-recheck { 0%, 70%, 100% { transform: scale(1); } 80% { transform: scale(1.18); } 90% { transform: scale(.95); } }
+@keyframes emgv-giggle { 0%, 100% { transform: rotate(0) translateY(0); } 20% { transform: rotate(-7deg) translateY(-3px); } 40% { transform: rotate(6deg) translateY(0); } 60% { transform: rotate(-4deg) translateY(-2px); } 80% { transform: rotate(2deg); } }
+@keyframes emgv-squint { 0%, 100% { transform: scaleY(1); } 20%, 60% { transform: scaleY(.6) translateY(1px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .emgv *, .emgv *::before, .emgv *::after { animation: none !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+}

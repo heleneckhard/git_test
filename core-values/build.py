@@ -19,24 +19,26 @@ VALUES = json.loads((HERE / "values.json").read_text())
 # One line icon per value (64x64). Classes starting with i- are animated in emg-values.css.
 ICONS = [
     # 01 Extra mile: the path runs straight past the finish flag and keeps going
-    """<g class="i-flag"><line x1="34" y1="44" x2="34" y2="12"/><path d="M34 12 H48 L44 18 L48 24 H34" class="fill-accent"/></g>
-       <path class="i-road" pathLength="100" d="M4 44 H58"/>
-       <path class="i-tip" d="M52 38 L58 44 L52 50"/>
-       <path d="M8 52 H14 M20 52 H26" opacity=".45"/>""",
-    # 02 Creative: a pen draws a squiggle and sparkles pop
-    """<path class="i-squiggle" pathLength="100" d="M8 46 C14 34 20 34 22 42 S30 50 34 38 S42 28 46 36"/>
-       <path class="i-spark i-spark-1 fill-accent" d="M50 8 l2.2 5.8 5.8 2.2 -5.8 2.2 -2.2 5.8 -2.2 -5.8 -5.8 -2.2 5.8 -2.2z"/>
-       <path class="i-spark i-spark-2 fill-accent" d="M18 10 l1.5 3.8 3.8 1.5 -3.8 1.5 -1.5 3.8 -1.5 -3.8 -3.8 -1.5 3.8 -1.5z"/>
-       <path class="i-spark i-spark-3 fill-accent" d="M54 40 l1.3 3.2 3.2 1.3 -3.2 1.3 -1.3 3.2 -1.3 -3.2 -3.2 -1.3 3.2 -1.3z"/>""",
+    """<path class="i-road" pathLength="100" d="M4 46 H58"/>
+       <path class="i-tip" d="M52 40 L58 46 L52 52"/>
+       <path d="M8 54 H14 M20 54 H26" opacity=".45"/>
+       <g class="i-flag"><path class="i-pennant fill-accent" d="M34 10 H48 L44 16 L48 22 H34 Z"/><line x1="34" y1="46" x2="34" y2="6"/></g>""",
+    # 02 Creative: a paint palette fills with color while the brush dabs
+    """<path d="M30 8 C16 8 6 18 6 31 C6 44 16 55 28 55 C33 55 34 51 32 48 C30 45 32 41 36 41 H44 C51 41 56 36 56 29 C56 17 44 8 30 8 Z"/>
+       <circle class="i-well i-well-1 fill-accent" cx="17" cy="28" r="4.5"/>
+       <circle class="i-well i-well-2 w-teal" cx="22" cy="17" r="4.5"/>
+       <circle class="i-well i-well-3 w-blue" cx="33" cy="14" r="4.5"/>
+       <g class="i-brush"><path d="M60 4 L45 25" stroke-width="4"/><path class="fill-accent" d="M45 25 C41 26 38 30 39 35 C44 35 47 32 47.5 28 Z" stroke-width="2"/></g>
+       <path class="i-spark fill-accent" d="M50 47 l1.5 3.8 3.8 1.5 -3.8 1.5 -1.5 3.8 -1.5 -3.8 -3.8 -1.5 3.8 -1.5z"/>""",
     # 03 Passion: a heart beats
-    """<path class="i-heart" d="M32 52 C20 43 9 35 9 23 A11 11 0 0 1 32 17 A11 11 0 0 1 55 23 C55 35 44 43 32 52Z"/>
-       <path class="i-ray i-ray-1" d="M32 6 V2"/><path class="i-ray i-ray-2" d="M12 9 L9 6"/><path class="i-ray i-ray-3" d="M52 9 L55 6"/>""",
+    """<path class="i-heart" d="M32 54 C32 54 8 40 8 23 C8 15 14 10 21 10 C26 10 30 13 32 17 C34 13 38 10 43 10 C50 10 56 15 56 23 C56 40 32 54 32 54 Z"/>
+       <path class="i-ray i-ray-1" d="M32 6 V2"/><path class="i-ray i-ray-2" d="M12 8 L9 5"/><path class="i-ray i-ray-3" d="M52 8 L55 5"/>""",
     # 04 Responsive: chat bubbles, the reply is typing
-    """<path class="i-bubble i-bubble-1" d="M8 12 H38 A4 4 0 0 1 42 16 V28 A4 4 0 0 1 38 32 H18 L11 38 V32 H8 A4 4 0 0 1 4 28 V16 A4 4 0 0 1 8 12Z"/>
-       <path class="i-bubble i-bubble-2 fill-soft" d="M26 34 H56 A4 4 0 0 1 60 38 V50 A4 4 0 0 1 56 54 H53 V60 L46 54 H26 A4 4 0 0 1 22 50 V38 A4 4 0 0 1 26 34Z"/>
-       <circle class="i-dot i-dot-1 fill-accent" cx="33" cy="44" r="2.6"/>
-       <circle class="i-dot i-dot-2 fill-accent" cx="41" cy="44" r="2.6"/>
-       <circle class="i-dot i-dot-3 fill-accent" cx="49" cy="44" r="2.6"/>""",
+    """<path class="i-bubble i-bubble-1" d="M7 4 H33 A4 4 0 0 1 37 8 V19 A4 4 0 0 1 33 23 H16 L9 29 V23 H7 A4 4 0 0 1 3 19 V8 A4 4 0 0 1 7 4 Z"/>
+       <path class="i-bubble i-bubble-2 fill-soft" d="M27 34 H57 A4 4 0 0 1 61 38 V50 A4 4 0 0 1 57 54 H54 V60 L47 54 H27 A4 4 0 0 1 23 50 V38 A4 4 0 0 1 27 34 Z"/>
+       <circle class="i-dot i-dot-1 fill-accent" cx="34" cy="44" r="2.6"/>
+       <circle class="i-dot i-dot-2 fill-accent" cx="42" cy="44" r="2.6"/>
+       <circle class="i-dot i-dot-3 fill-accent" cx="50" cy="44" r="2.6"/>""",
     # 05 Numbers driven: the chart ticks up, then gets checked again
     """<path d="M10 10 V54 H58"/>
        <path class="i-line" pathLength="100" d="M16 46 L28 36 L38 40 L52 22"/>
@@ -54,7 +56,6 @@ def tile(i, v):
     return f"""		<div class="emgv-tile{' is-active' if i == 0 else ''}" data-value="{n}">
 			<h3 class="emgv-head">
 				<button type="button" class="emgv-btn" id="emgv-btn-{n}" aria-expanded="{'true' if i == 0 else 'false'}" aria-controls="emgv-body-{n}">
-					<span class="emgv-num">{v['num']}</span>
 					<svg class="emgv-icon emgv-icon-{n}" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
 						{ICONS[i]}
 					</svg>

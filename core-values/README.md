@@ -2,7 +2,7 @@
 
 Replaces the Core Values carousel (`section.image-content-slider` on `/why-us/`) with six interactive tiles. The heading and all six values' text are unchanged, and the reviews image is gone.
 
-- **Desktop:** two rows of three tiles. Clicking a tile widens it, turns it navy, reveals its full text, and plays its icon's animation. The first value starts open.
+- **Desktop:** two rows of three tiles (no numbers). Clicking a tile widens it, turns it navy, reveals its full text, and plays its icon's animation. The first value starts open.
 - **Phones and tablets:** a stacked list that expands the same way.
 - **Keyboard:** each tile is a button; arrow keys, Home and End move between them.
 - **Without JavaScript:** every tile shows its full text.

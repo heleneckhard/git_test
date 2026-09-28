@@ -58,15 +58,14 @@
   box-sizing: border-box;
   position: relative;
   display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-areas: "num num" "icon icon" "title title";
+  grid-template-columns: 1fr;
+  grid-template-areas: "icon" "title";
   gap: 10px 14px;
   width: 100%;
   cursor: inherit;
   color: inherit;
 }
 .emgv-btn:focus-visible { outline: 3px solid var(--emgv-teal); outline-offset: 6px; border-radius: 10px; }
-.emgv-num { grid-area: num; font-size: 15px; font-weight: 700; letter-spacing: .12em; color: var(--accent); transition: color .45s ease; }
 .emgv-icon { grid-area: icon; width: 64px; height: 64px; margin: 4px 0 6px; overflow: visible; }
 .emgv-title {
   grid-area: title;
@@ -120,8 +119,8 @@
   .emgv-tile, .emgv-tile.is-active { flex: none; padding: 18px 20px; border-radius: 18px; }
   .emgv-tile:hover { transform: none; }
   .emgv-btn {
-    grid-template-columns: auto auto 1fr;
-    grid-template-areas: "num icon title";
+    grid-template-columns: auto 1fr;
+    grid-template-areas: "icon title";
     align-items: center;
     padding-right: 40px;
   }
@@ -147,19 +146,24 @@
 /* 01 Extra mile */
 .is-active .i-road { animation: emgv-draw 1.1s .15s both; }
 .is-active .i-tip { animation: emgv-pop .45s 1.1s both; }
-.i-flag path { transform-origin: left center; }
-.is-active .i-flag { animation: emgv-pop .4s .55s both; }
-.is-active .i-flag path { animation: emgv-wave 1.6s ease-in-out .3s infinite; }
+.i-pennant { transform-origin: left center; }
+.is-active .i-pennant { animation: emgv-wave 1.6s ease-in-out .3s infinite; }
 
 /* 02 Creative */
-.is-active .i-squiggle { animation: emgv-draw 1s .15s both; }
-.is-active .i-spark-1 { animation: emgv-pop .45s .8s both, emgv-twinkle 2.4s ease-in-out 1.4s infinite; }
-.is-active .i-spark-2 { animation: emgv-pop .45s 1s both, emgv-twinkle 2.4s ease-in-out 2s infinite; }
-.is-active .i-spark-3 { animation: emgv-pop .45s 1.2s both, emgv-twinkle 2.4s ease-in-out 2.6s infinite; }
+.emgv-icon .w-teal { fill: var(--emgv-teal); stroke: none; }
+.emgv-icon .w-blue { fill: #8fb7e0; stroke: none; }
+.emgv-icon .i-well { stroke: none; }
+.is-active .i-well-1 { animation: emgv-pop .4s .25s both; }
+.is-active .i-well-2 { animation: emgv-pop .4s .45s both; }
+.is-active .i-well-3 { animation: emgv-pop .4s .65s both; }
+.i-brush { transform-origin: 100% 0%; }
+.is-active .i-brush { animation: emgv-dab 1.8s ease-in-out .2s infinite; }
+.is-active .i-spark { animation: emgv-pop .45s .9s both, emgv-twinkle 2.4s ease-in-out 1.5s infinite; }
 
 /* 03 Passion */
 .i-ray { opacity: 0; }
-.is-active .i-heart { animation: emgv-beat 1.3s ease-in-out .2s infinite; }
+.i-heart { will-change: transform; }
+.is-active .i-heart { animation: emgv-beat 1.4s cubic-bezier(.4, 0, .2, 1) .2s infinite; }
 .is-active .i-ray { animation: emgv-ray 1.3s ease-out .2s infinite; }
 
 /* 04 Responsive */
@@ -180,11 +184,12 @@
 .is-active .i-face { animation: emgv-giggle 1.6s ease-in-out .2s infinite; }
 .is-active .i-eye { animation: emgv-squint 1.6s ease-in-out .2s infinite; }
 
+@keyframes emgv-dab { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-9deg); } 45% { transform: rotate(3deg); } 60% { transform: rotate(-5deg); } }
 @keyframes emgv-draw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 @keyframes emgv-pop { 0% { transform: scale(0); opacity: 0; } 70% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
 @keyframes emgv-wave { 0%, 100% { transform: skewY(0); } 50% { transform: skewY(-8deg) scaleX(.94); } }
 @keyframes emgv-twinkle { 0%, 70%, 100% { transform: scale(1) rotate(0); } 85% { transform: scale(.6) rotate(45deg); } }
-@keyframes emgv-beat { 0%, 60%, 100% { transform: scale(1); } 15% { transform: scale(1.14); } 30% { transform: scale(1); } 45% { transform: scale(1.08); } }
+@keyframes emgv-beat { 0%, 60%, 100% { transform: scale(1); } 15% { transform: scale(1.1); } 30% { transform: scale(1); } 45% { transform: scale(1.06); } }
 @keyframes emgv-ray { 0%, 10% { opacity: 0; transform: translateY(3px); } 25% { opacity: 1; transform: none; } 60%, 100% { opacity: 0; transform: translateY(-3px); } }
 @keyframes emgv-typing { 0%, 60%, 100% { transform: translateY(0); opacity: .45; } 30% { transform: translateY(-5px); opacity: 1; } }
 @keyframes emgv-recheck { 0%, 70%, 100% { transform: scale(1); } 80% { transform: scale(1.18); } 90% { transform: scale(.95); } }

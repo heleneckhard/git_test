@@ -198,24 +198,6 @@ BASE = r"""/* =========================================================
 
 /* ---------- Digital Marketing ---------- */
 .emg-loop .track-arc { fill: none; stroke-width: 3; opacity: .3; stroke-linecap: round; }
-.emg-loop .store-bg { fill: rgba(236, 22, 116, .06); }
-/* Each time the customer reaches a channel, the center pulses as the growth arrow keeps climbing */
-.emg-loop .emgl-ring { fill: none; stroke-width: 3; opacity: 0; animation-timing-function: ease-out; }
-.emg-loop .emgl-ring-1 { animation-name: emgl-ring-1; }
-.emg-loop .emgl-ring-2 { animation-name: emgl-ring-2; }
-.emg-loop .emgl-ring-3 { animation-name: emgl-ring-3; }
-@keyframes emgl-ring-1 { 0%, 8% { opacity: 0; transform: scale(1); } 9% { opacity: .7; transform: scale(1); } 20%, 100% { opacity: 0; transform: scale(1.5); } }
-@keyframes emgl-ring-2 { 0%, 43% { opacity: 0; transform: scale(1); } 44% { opacity: .7; transform: scale(1); } 55%, 100% { opacity: 0; transform: scale(1.5); } }
-@keyframes emgl-ring-3 { 0%, 76% { opacity: 0; transform: scale(1); } 77% { opacity: .7; transform: scale(1); } 88%, 100% { opacity: 0; transform: scale(1.5); } }
-.emg-loop .emgl-store { transform-origin: center bottom; animation-name: emgl-store; animation-timing-function: ease-in-out; }
-@keyframes emgl-store {
-  0%, 8% { transform: scale(1); } 11% { transform: scale(1.06); } 15%, 43% { transform: scale(1); }
-  46% { transform: scale(1.06); } 50%, 76% { transform: scale(1); } 79% { transform: scale(1.06); } 83%, 100% { transform: scale(1); }
-}
-.emg-mg .static-only { display: none; }
-.emg-loop .climb { fill: none; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
-.emg-loop .emgl-grow-line { animation-name: emgl-grow-line; animation-timing-function: linear; }
-@keyframes emgl-grow-line { 0% { stroke-dashoffset: 100; opacity: 1; } 88%, 95% { stroke-dashoffset: 0; opacity: 1; } 98%, 100% { stroke-dashoffset: 0; opacity: 0; } }
 .emg-loop .ad-img { fill: rgba(54, 197, 193, .15); }
 .emg-loop .search-text { font-size: 10px; font-weight: 500; fill: var(--emg-navy); }
 
@@ -271,7 +253,6 @@ TAILCSS = r"""
 @media (prefers-reduced-motion: reduce) {
   .emg-mg *, .emg-mg *::before, .emg-mg *::after { animation: none !important; }
   .emg-mg .emg-packet { display: none; }
-  .emg-mg .static-only { display: inline; }
 }
 """
 

@@ -15,7 +15,7 @@ Open `preview.html` in a browser to see all three. Run `node motion-graphics/bui
 Each graphic makes one point from its section's copy, in three steps or fewer.
 
 - **Web Design: a page coming together.** A dashed wireframe draws in, then copy, visuals, and working parts (buttons, cards, a signup form) fill the page in together until the finished page is on screen.
-- **Digital Marketing: built around your growth.** A growth arrow sits at the center. One customer moves around it: they tap your ad (Paid), search and find you at #1 (Organic), then order again from an email (Lifecycle). Each card lights up as they arrive, and the arrow in the center grows smoothly up and to the right over the whole loop.
+- **Digital Marketing: follow one customer.** One customer moves around a loop: they tap your ad (Paid), search and find you at #1 (Organic), then order again from an email (Lifecycle), and head back around. Each card lights up as they arrive. The center of the loop is left empty.
 - **Public Relations: from story to results.** Your story is written, becomes a featured piece of earned coverage, and that coverage lights up the three results the copy promises: search visibility, foot traffic, and quality leads.
 
 ## Changing the timing

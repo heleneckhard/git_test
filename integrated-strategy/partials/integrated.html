@@ -1,37 +1,36 @@
-<!-- EMG "Two Sides, One Strategy": both service lists connect into one center hub.
+<!-- EMG "Two Sides, One Strategy": the two service lists split by a divider,
+     with two rings (one per side) that slide together and overlap in the middle.
      Replaces .compare-text__wrapper on /franchise-marketing/ (keep the heading and CTA).
-     Needs emg-integrated.css and emg-integrated.js. Without JS the lists and hub still show, minus the connector lines. -->
+     Needs emg-integrated.css and emg-integrated.js. Without JS the rings simply show overlapped. -->
 <div class="emgi">
 	<div class="emgi-col emgi-col--left" data-side="left">
 		<h4 class="emgi-title">Franchise Development</h4>
 		<ul class="emgi-list">
-			<li class="emgi-item"><span class="emgi-text">Dedicated Websites</span><span class="emgi-node" aria-hidden="true"></span></li>
-			<li class="emgi-item"><span class="emgi-text">Candidate Lead Generation</span><span class="emgi-node" aria-hidden="true"></span></li>
-			<li class="emgi-item"><span class="emgi-text">Franchise PR and Earned Media</span><span class="emgi-node" aria-hidden="true"></span></li>
-			<li class="emgi-item"><span class="emgi-text">Candidate Nurture and CRM</span><span class="emgi-node" aria-hidden="true"></span></li>
+			<li>Dedicated Websites</li>
+			<li>Candidate Lead Generation</li>
+			<li>Franchise PR and Earned Media</li>
+			<li>Candidate Nurture and CRM</li>
 		</ul>
 	</div>
 
-	<div class="emgi-hub-wrap" aria-hidden="true">
-		<div class="emgi-hub">
-			<svg class="emgi-ring" viewBox="0 0 100 100">
-				<path class="emgi-ring-left" d="M50 3 A47 47 0 0 0 50 97"/>
-				<path class="emgi-ring-right" d="M50 3 A47 47 0 0 1 50 97"/>
-			</svg>
-			<span class="emgi-hub-small">One</span>
-			<span class="emgi-hub-big">Strategy</span>
-		</div>
+	<div class="emgi-mid" aria-hidden="true">
+		<svg class="emgi-venn" viewBox="0 0 120 80" focusable="false">
+			<defs>
+				<clipPath id="emgi-clip-left"><circle cx="46" cy="40" r="28"/></clipPath>
+			</defs>
+			<g class="emgi-lens"><circle cx="74" cy="40" r="28" clip-path="url(#emgi-clip-left)"/></g>
+			<circle class="emgi-ring emgi-ring--left" cx="46" cy="40" r="28"/>
+			<circle class="emgi-ring emgi-ring--right" cx="74" cy="40" r="28"/>
+		</svg>
 	</div>
 
 	<div class="emgi-col emgi-col--right" data-side="right">
 		<h4 class="emgi-title">Consumer Marketing</h4>
 		<ul class="emgi-list">
-			<li class="emgi-item"><span class="emgi-node" aria-hidden="true"></span><span class="emgi-text">Multi-Location SEO and GEO</span></li>
-			<li class="emgi-item"><span class="emgi-node" aria-hidden="true"></span><span class="emgi-text">National Brand Campaigns</span></li>
-			<li class="emgi-item"><span class="emgi-node" aria-hidden="true"></span><span class="emgi-text">Local Store Marketing</span></li>
-			<li class="emgi-item"><span class="emgi-node" aria-hidden="true"></span><span class="emgi-text">Listing and Reputation Management</span></li>
+			<li>Multi-Location SEO and GEO</li>
+			<li>National Brand Campaigns</li>
+			<li>Local Store Marketing</li>
+			<li>Listing and Reputation Management</li>
 		</ul>
 	</div>
-
-	<svg class="emgi-lines" aria-hidden="true" focusable="false"></svg>
 </div>

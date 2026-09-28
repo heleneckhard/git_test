@@ -1,26 +1,23 @@
 /* =========================================================
    EMG "Two Sides, One Strategy"
-   Two service lists on either side of a center hub. Every item is
-   wired into the hub; soft pulses flow inward, and hovering an item
-   lights its line and that side of the hub.
-   Lines are drawn by emg-integrated.js (desktop only).
+   Two lists split by a divider. In the middle of the divider, two
+   rings (pink = Franchise Development, teal = Consumer Marketing)
+   slide together and overlap when the section scrolls into view.
+   Hovering a list gives its ring a gentle lift.
    ========================================================= */
 
 .emgi {
   --emgi-navy: #073c72;
   --emgi-pink: #ec1674;
   --emgi-teal: #36c5c1;
-  --emgi-teal-deep: #1b8f8b;
-  --emgi-line: #e1e7ee;
+  --emgi-rule: #d9e1ea;
   --emgi-ease: cubic-bezier(.22, .8, .24, 1);
-  position: relative;
   display: grid;
-  grid-template-columns: 1fr 300px 1fr;
-  align-items: center;
-  max-width: 1120px;
+  grid-template-columns: 1fr 120px 1fr;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 44px 40px;
-  border: 1px solid #d9e1ea;
+  padding: 44px 48px;
+  border: 1px solid var(--emgi-rule);
   border-radius: 28px;
   background: #fff;
   font-family: var(--heading-font-pt, 'Futura', 'Jost', 'Century Gothic', Arial, sans-serif);
@@ -28,113 +25,84 @@
 }
 .emgi *, .emgi *::before, .emgi *::after { box-sizing: border-box; }
 
-.emgi-col { position: relative; z-index: 1; }
-.emgi-col--left { --side: var(--emgi-pink); --side-soft: rgba(236, 22, 116, .08); --side-deep: #c80f61; }
-.emgi-col--right { --side: var(--emgi-teal); --side-soft: rgba(54, 197, 193, .12); --side-deep: var(--emgi-teal-deep); }
-
 .emgi-title {
-  margin: 0 0 14px;
-  padding: 0 12px 14px;
-  border-bottom: 1px solid #d9e1ea;
+  margin: 0 0 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--emgi-rule);
   font-size: 15px;
   font-weight: 600;
   letter-spacing: .06em;
   text-transform: uppercase;
-  color: var(--emgi-navy);
 }
 .emgi-col--left .emgi-title { color: var(--emgi-pink); }
 
-.emgi-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
-.emgi-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 9px 12px;
-  border-radius: 12px;
+.emgi-list { list-style: none; margin: 0; padding: 0 0 0 26px; }
+.emgi-list li {
+  position: relative;
+  padding: 3px 0 3px 16px;
   font-size: 17px;
   font-weight: 600;
-  line-height: 1.25;
-  transition: background-color .3s ease, color .3s ease, transform .35s var(--emgi-ease);
+  line-height: 1.3;
 }
-.emgi-col--left .emgi-item { justify-content: space-between; }
-.emgi-node {
-  flex: none;
-  width: 11px;
-  height: 11px;
+.emgi-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .72em;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: #fff;
-  border: 2.5px solid var(--side);
-  transition: background-color .3s ease, transform .35s var(--emgi-ease), box-shadow .3s ease;
+  background: var(--emgi-pink);
 }
-.emgi-item.is-hot { background: var(--side-soft); color: var(--side-deep); }
-.emgi-item.is-hot .emgi-node { background: var(--side); transform: scale(1.35); box-shadow: 0 0 0 5px var(--side-soft); }
+.emgi-col--right .emgi-list li::before { background: var(--emgi-teal); }
 
-/* Hub */
-.emgi-hub-wrap { position: relative; z-index: 1; }
-.emgi-hub {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  margin: 0 auto;
-  border-radius: 50%;
-  background: radial-gradient(circle at 38% 32%, #15508a, var(--emgi-navy) 70%);
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 18px 40px rgba(7, 60, 114, .22);
-  transition: transform .4s var(--emgi-ease);
+/* The divider, broken in the middle by the rings */
+.emgi-mid { position: relative; display: flex; align-items: center; justify-content: center; }
+.emgi-mid::before, .emgi-mid::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 1.5px;
+  margin-left: -.75px;
+  background: #9fb3c8;
 }
-.emgi-ring { position: absolute; inset: -14px; width: calc(100% + 28px); height: calc(100% + 28px); overflow: visible; }
-.emgi-ring path { fill: none; stroke-width: 3.5; stroke-linecap: round; opacity: .3; transition: opacity .35s ease, stroke-width .35s ease; }
-.emgi-ring-left { stroke: var(--emgi-pink); }
-.emgi-ring-right { stroke: var(--emgi-teal); }
-.emgi--hot-left .emgi-ring-left, .emgi--hot-right .emgi-ring-right { opacity: 1; stroke-width: 5; }
-.emgi--hot-left .emgi-hub, .emgi--hot-right .emgi-hub { animation: emgi-pulse .6s var(--emgi-ease); }
-.emgi-hub-small { font-size: 12px; font-weight: 600; letter-spacing: .32em; text-transform: uppercase; opacity: .75; margin-right: -.32em; }
-.emgi-hub-big { font-size: 21px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.emgi-mid::before { top: 0; bottom: calc(50% + 34px); }
+.emgi-mid::after { bottom: 0; top: calc(50% + 34px); }
 
-/* Connector lines (built by JS) */
-.emgi-lines { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; overflow: visible; pointer-events: none; }
-.emgi-lines path { fill: none; stroke-linecap: round; }
-.emgi-line { stroke: var(--emgi-line); stroke-width: 2; stroke-dasharray: 100; stroke-dashoffset: 100; }
-.emgi-flow { stroke-width: 2.5; stroke-dasharray: 1.5 11; opacity: 0; animation: emgi-flow 1.3s linear infinite; }
-.emgi-glow { stroke-width: 3; stroke-dasharray: 100; stroke-dashoffset: 100; transition: stroke-dashoffset .5s var(--emgi-ease); }
-.emgi-link--left .emgi-flow, .emgi-link--left .emgi-glow { stroke: var(--emgi-pink); }
-.emgi-link--right .emgi-flow, .emgi-link--right .emgi-glow { stroke: var(--emgi-teal); }
-.emgi-link.is-hot .emgi-glow { stroke-dashoffset: 0; }
-
-/* Draw-in when the section scrolls into view */
-.emgi.is-in .emgi-line { stroke-dashoffset: 0; transition: stroke-dashoffset .8s var(--emgi-ease) calc(var(--i) * 90ms); }
-.emgi.is-in .emgi-flow { opacity: .5; transition: opacity .6s ease calc(900ms + var(--i) * 60ms); }
-.emgi .emgi-item { opacity: 1; }
-.emgi.is-ready:not(.is-in) .emgi-item { opacity: 0; transform: translateY(6px); }
-.emgi.is-in .emgi-item { transition: opacity .5s ease calc(var(--i, 0) * 70ms + 200ms), transform .5s var(--emgi-ease) calc(var(--i, 0) * 70ms + 200ms), background-color .3s ease, color .3s ease; }
-
-@keyframes emgi-flow { to { stroke-dashoffset: -25; } }
-@keyframes emgi-pulse { 0% { transform: scale(1); } 40% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-/* Stacked: lists above and below the hub, joined by a short line */
-@media (max-width: 1023px) and (min-width: 820px) {
-  .emgi { grid-template-columns: 1fr 220px 1fr; padding: 40px 28px; }
+.emgi-venn { position: relative; width: 104px; height: auto; overflow: visible; }
+.emgi-ring {
+  fill: none;
+  stroke-width: 4;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform .9s var(--emgi-ease), stroke-width .3s ease;
 }
+.emgi-ring--left { stroke: var(--emgi-pink); }
+.emgi-ring--right { stroke: var(--emgi-teal); }
+.emgi-lens circle { fill: var(--emgi-navy); }
+.emgi-lens { transition: opacity .5s ease .55s; }
 
-@media (max-width: 819px) {
-  .emgi { grid-template-columns: 1fr; padding: 28px 18px; border-radius: 22px; }
-  .emgi-lines { display: none; }
-  .emgi-hub-wrap { padding: 34px 0; }
-  .emgi-hub-wrap::before {
-    content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; margin-left: -1px;
-    background: linear-gradient(var(--emgi-pink), var(--emgi-pink) 30%, transparent 30%, transparent 70%, var(--emgi-teal) 70%);
-    opacity: .5;
-  }
-  .emgi-hub { width: 124px; height: 124px; }
-  .emgi-hub-big { font-size: 18px; }
-  .emgi-col--left .emgi-item { justify-content: flex-end; flex-direction: row-reverse; }
-  .emgi-item { font-size: 16px; }
+/* Before it scrolls into view (JS only): rings apart, no overlap */
+.emgi.is-ready:not(.is-in) .emgi-ring--left { transform: translateX(-16px); }
+.emgi.is-ready:not(.is-in) .emgi-ring--right { transform: translateX(16px); }
+.emgi.is-ready:not(.is-in) .emgi-lens { opacity: 0; transition: none; }
+
+/* Hovering a side lifts its ring */
+.emgi.is-in.is-hot-left .emgi-ring--left,
+.emgi.is-in.is-hot-right .emgi-ring--right { stroke-width: 6; transition: stroke-width .3s ease; }
+
+/* Stacked on narrow screens: rings sit between the lists, divider runs sideways */
+@media (max-width: 767px) {
+  .emgi { grid-template-columns: 1fr; padding: 28px 22px; border-radius: 22px; }
+  .emgi-list { padding-left: 4px; }
+  .emgi-mid { padding: 22px 0; }
+  .emgi-mid::before, .emgi-mid::after { top: 50%; bottom: auto; left: 0; width: auto; height: 1.5px; margin: -.75px 0 0; }
+  .emgi-mid::before { right: calc(50% + 50px); }
+  .emgi-mid::after { left: calc(50% + 50px); right: 0; }
+  .emgi-venn { width: 88px; }
+  .emgi-list li { font-size: 16px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .emgi *, .emgi *::before, .emgi *::after { animation: none !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+  .emgi *, .emgi *::before, .emgi *::after { transition-duration: .01ms !important; transition-delay: 0s !important; }
 }

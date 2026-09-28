@@ -7,7 +7,7 @@ Replaces the two-column box in `section.compare-text` on `/franchise-marketing/`
 - It keeps the original layout: two lists in a rounded box with a divider between them.
 - In the middle of the divider, a pink ring (Franchise Development) and a teal ring (Consumer Marketing) overlap, and the shared middle is filled navy.
 - When the section scrolls into view, the rings slide in from each side and lock together. That's the only animation.
-- Hovering either list thickens that side's ring.
+- Hovering either list brings that side forward: its ring grows and fills with a light tint, its bullets grow, and the other list and ring fade back.
 - **Under 768px:** the rings sit between the stacked lists, and the divider runs sideways.
 - **Without JS, or with reduced motion:** the rings simply show overlapped.
 

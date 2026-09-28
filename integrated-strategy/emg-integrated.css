@@ -87,9 +87,20 @@
 .emgi.is-ready:not(.is-in) .emgi-ring--right { transform: translateX(16px); }
 .emgi.is-ready:not(.is-in) .emgi-lens { opacity: 0; transition: none; }
 
-/* Hovering a side lifts its ring */
+/* Hovering a side: that side and its ring come forward, the other side steps back */
+.emgi-col { transition: opacity .35s ease; }
+.emgi-list li::before { transition: transform .3s var(--emgi-ease); }
+.emgi-ring { transition: transform .9s var(--emgi-ease), stroke-width .3s ease, opacity .35s ease, fill .35s ease; }
+.emgi.is-hot-left .emgi-col--right,
+.emgi.is-hot-right .emgi-col--left { opacity: .35; }
+.emgi.is-hot-left .emgi-col--left li::before,
+.emgi.is-hot-right .emgi-col--right li::before { transform: scale(1.6); }
 .emgi.is-in.is-hot-left .emgi-ring--left,
-.emgi.is-in.is-hot-right .emgi-ring--right { stroke-width: 6; transition: stroke-width .3s ease; }
+.emgi.is-in.is-hot-right .emgi-ring--right { stroke-width: 6; transform: scale(1.12); transition: transform .35s var(--emgi-ease), stroke-width .3s ease, fill .35s ease; }
+.emgi.is-in.is-hot-left .emgi-ring--left { fill: rgba(236, 22, 116, .12); }
+.emgi.is-in.is-hot-right .emgi-ring--right { fill: rgba(54, 197, 193, .16); }
+.emgi.is-in.is-hot-left .emgi-ring--right,
+.emgi.is-in.is-hot-right .emgi-ring--left { opacity: .35; }
 
 /* Stacked on narrow screens: rings sit between the lists, divider runs sideways */
 @media (max-width: 767px) {

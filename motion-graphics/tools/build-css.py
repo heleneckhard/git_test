@@ -196,7 +196,7 @@ BASE = r"""/* =========================================================
 /* ---------- Digital Marketing ---------- */
 .emg-loop .track-arc { fill: none; stroke-width: 3; opacity: .3; stroke-linecap: round; }
 .emg-loop .store-bg { fill: rgba(236, 22, 116, .06); }
-/* Each time the customer reaches a channel, the center pulses and a growth bar rises */
+/* Each time the customer reaches a channel, the center pulses and the growth arrow climbs */
 .emg-loop .emgl-ring { fill: none; stroke-width: 3; opacity: 0; animation-timing-function: ease-out; }
 .emg-loop .emgl-ring-1 { animation-name: emgl-ring-1; }
 .emg-loop .emgl-ring-2 { animation-name: emgl-ring-2; }
@@ -209,12 +209,15 @@ BASE = r"""/* =========================================================
   0%, 8% { transform: scale(1); } 11% { transform: scale(1.06); } 15%, 43% { transform: scale(1); }
   46% { transform: scale(1.06); } 50%, 76% { transform: scale(1); } 79% { transform: scale(1.06); } 83%, 100% { transform: scale(1); }
 }
-.emg-loop .emgl-gbar-1 { animation-name: emgl-gbar-1; }
-.emg-loop .emgl-gbar-2 { animation-name: emgl-gbar-2; }
-.emg-loop .emgl-gbar-3 { animation-name: emgl-gbar-3; }
-@keyframes emgl-gbar-1 { 0%, 8% { transform: scaleY(.25); } 13%, 95% { transform: scaleY(1); } 100% { transform: scaleY(.25); } }
-@keyframes emgl-gbar-2 { 0%, 43% { transform: scaleY(.2); } 48%, 95% { transform: scaleY(1); } 100% { transform: scaleY(.2); } }
-@keyframes emgl-gbar-3 { 0%, 76% { transform: scaleY(.15); } 81%, 95% { transform: scaleY(1); } 100% { transform: scaleY(.15); } }
+.emg-loop .climb { fill: none; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+.emg-loop .emgl-climb-1 { animation-name: emgl-climb-1; }
+.emg-loop .emgl-climb-2 { animation-name: emgl-climb-2; }
+.emg-loop .emgl-climb-3 { animation-name: emgl-climb-3; }
+@keyframes emgl-climb-1 { 0%, 8% { stroke-dashoffset: 100; opacity: 1; } 14%, 95% { stroke-dashoffset: 0; opacity: 1; } 98%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes emgl-climb-2 { 0%, 43% { stroke-dashoffset: 100; opacity: 1; } 50%, 95% { stroke-dashoffset: 0; opacity: 1; } 98%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes emgl-climb-3 { 0%, 76% { stroke-dashoffset: 100; opacity: 1; } 81%, 95% { stroke-dashoffset: 0; opacity: 1; } 98%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+.emg-loop .emgl-climb-head { animation-name: emgl-climb-head; }
+@keyframes emgl-climb-head { 0%, 80% { opacity: 0; transform: translate(-6px, 6px); } 83%, 95% { opacity: 1; transform: none; } 98%, 100% { opacity: 0; transform: none; } }
 .emg-loop .ad-img { fill: rgba(54, 197, 193, .15); }
 .emg-loop .search-text { font-size: 10px; font-weight: 500; fill: var(--emg-navy); }
 

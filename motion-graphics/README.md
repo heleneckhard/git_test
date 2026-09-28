@@ -26,7 +26,25 @@ Each graphic makes one point from its section's copy, in three steps or fewer.
 python3 motion-graphics/tools/build-css.py && node motion-graphics/build-preview.js
 ```
 
-## Installing in the theme
+## Quick install (no theme edits)
+
+`wp-install/emg-motion-graphics.php` is a must-use plugin that swaps the old graphics for the new ones when each of the three pages renders. It leaves the theme files alone and does nothing on any other page. If the page markup ever changes so the old graphic can't be found, the page renders exactly as before.
+
+1. Run `bash motion-graphics/wp-install/build-zip.sh` to get `emg-motion-graphics.zip`.
+2. Unzip it into `wp-content/mu-plugins/` over SFTP or SSH. That gives you `mu-plugins/emg-motion-graphics.php` and `mu-plugins/emg-motion/`. Create `mu-plugins` if it doesn't exist.
+3. Clear the WP Engine page cache (User Portal → your environment → Caching → Clear all caches).
+
+To undo, delete `emg-motion-graphics.php` and the `emg-motion` folder from `mu-plugins`.
+
+Over SSH on WP Engine, from the folder holding the zip:
+
+```
+scp emg-motion-graphics.zip elysiummar1dev@elysiummar1dev.ssh.wpengine.net:sites/elysiummar1dev/wp-content/
+ssh elysiummar1dev@elysiummar1dev.ssh.wpengine.net \
+  'cd sites/elysiummar1dev/wp-content && mkdir -p mu-plugins && unzip -o emg-motion-graphics.zip -d mu-plugins && rm emg-motion-graphics.zip && wp cache flush'
+```
+
+## Installing in the theme (permanent)
 
 1. Copy `emg-motion.css` and `emg-motion.js` into `wp-content/themes/elysiumtheme/dist/`.
 2. Enqueue them on the three pages. This follows the same pattern `functions.php` already uses for `elysium-loop.css`:

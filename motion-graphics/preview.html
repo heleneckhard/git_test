@@ -123,24 +123,6 @@ header.top p { margin: 8px auto 0; max-width: 640px; color: #c7d6e6; font-size: 
 
 /* ---------- Digital Marketing ---------- */
 .emg-loop .track-arc { fill: none; stroke-width: 3; opacity: .3; stroke-linecap: round; }
-.emg-loop .store-bg { fill: rgba(236, 22, 116, .06); }
-/* Each time the customer reaches a channel, the center pulses as the growth arrow keeps climbing */
-.emg-loop .emgl-ring { fill: none; stroke-width: 3; opacity: 0; animation-timing-function: ease-out; }
-.emg-loop .emgl-ring-1 { animation-name: emgl-ring-1; }
-.emg-loop .emgl-ring-2 { animation-name: emgl-ring-2; }
-.emg-loop .emgl-ring-3 { animation-name: emgl-ring-3; }
-@keyframes emgl-ring-1 { 0%, 8% { opacity: 0; transform: scale(1); } 9% { opacity: .7; transform: scale(1); } 20%, 100% { opacity: 0; transform: scale(1.5); } }
-@keyframes emgl-ring-2 { 0%, 43% { opacity: 0; transform: scale(1); } 44% { opacity: .7; transform: scale(1); } 55%, 100% { opacity: 0; transform: scale(1.5); } }
-@keyframes emgl-ring-3 { 0%, 76% { opacity: 0; transform: scale(1); } 77% { opacity: .7; transform: scale(1); } 88%, 100% { opacity: 0; transform: scale(1.5); } }
-.emg-loop .emgl-store { transform-origin: center bottom; animation-name: emgl-store; animation-timing-function: ease-in-out; }
-@keyframes emgl-store {
-  0%, 8% { transform: scale(1); } 11% { transform: scale(1.06); } 15%, 43% { transform: scale(1); }
-  46% { transform: scale(1.06); } 50%, 76% { transform: scale(1); } 79% { transform: scale(1.06); } 83%, 100% { transform: scale(1); }
-}
-.emg-mg .static-only { display: none; }
-.emg-loop .climb { fill: none; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
-.emg-loop .emgl-grow-line { animation-name: emgl-grow-line; animation-timing-function: linear; }
-@keyframes emgl-grow-line { 0% { stroke-dashoffset: 100; opacity: 1; } 88%, 95% { stroke-dashoffset: 0; opacity: 1; } 98%, 100% { stroke-dashoffset: 0; opacity: 0; } }
 .emg-loop .ad-img { fill: rgba(54, 197, 193, .15); }
 .emg-loop .search-text { font-size: 10px; font-weight: 500; fill: var(--emg-navy); }
 
@@ -320,7 +302,6 @@ header.top p { margin: 8px auto 0; max-width: 640px; color: #c7d6e6; font-size: 
 @media (prefers-reduced-motion: reduce) {
   .emg-mg *, .emg-mg *::before, .emg-mg *::after { animation: none !important; }
   .emg-mg .emg-packet { display: none; }
-  .emg-mg .static-only { display: inline; }
 }
 
 </style>
@@ -449,8 +430,8 @@ header.top p { margin: 8px auto 0; max-width: 640px; color: #c7d6e6; font-size: 
 <section class="demo">
   <p class="demo__tag">Digital Marketing <span>· Replaces marketing-circle@2x-1.webp</span></p>
   <div class="demo__row">
-    <div class="demo__media"><div class="emg-mg emg-loop" role="img" aria-label="One customer moves from your paid ads, to finding you in search, to buying again through lifecycle marketing, and your growth rises with each step">
-	<svg viewBox="40 14 520 466" aria-hidden="true" focusable="false">
+    <div class="demo__media"><div class="emg-mg emg-loop" role="img" aria-label="One customer moves from your paid ads, to finding you in search, to buying again through lifecycle marketing, and back around">
+	<svg viewBox="78 46 444 404" aria-hidden="true" focusable="false">
 		<defs>
 			<filter id="emgl-shadow" x="-30%" y="-30%" width="160%" height="170%">
 				<feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#073c72" flood-opacity=".13"/>
@@ -460,13 +441,13 @@ header.top p { margin: 8px auto 0; max-width: 640px; color: #c7d6e6; font-size: 
 				<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
 			</filter>
 			<!-- Full loop, starting at Paid (top) and running clockwise -->
-			<path id="emgl-route" d="M300 100 A185 185 0 0 1 460.2 377.5 A185 185 0 0 1 139.8 377.5 A185 185 0 0 1 300 100"/>
+			<path id="emgl-route" d="M300 135 A150 150 0 0 1 429.9 360 A150 150 0 0 1 170.1 360 A150 150 0 0 1 300 135"/>
 		</defs>
 
 		<!-- Track -->
-		<path class="track-arc s-pink" d="M300 100 A185 185 0 0 1 460.2 377.5"/>
-		<path class="track-arc s-teal" d="M460.2 377.5 A185 185 0 0 1 139.8 377.5"/>
-		<path class="track-arc s-navy" d="M139.8 377.5 A185 185 0 0 1 300 100"/>
+		<path class="track-arc s-pink" d="M300 135 A150 150 0 0 1 429.9 360"/>
+		<path class="track-arc s-teal" d="M429.9 360 A150 150 0 0 1 170.1 360"/>
+		<path class="track-arc s-navy" d="M170.1 360 A150 150 0 0 1 300 135"/>
 
 		<!-- The customer (travels behind the cards, which light up as they arrive) -->
 		<g class="emg-packet">
@@ -479,34 +460,9 @@ header.top p { margin: 8px auto 0; max-width: 640px; color: #c7d6e6; font-size: 
 				keySplines="0 0 1 1;.45 0 .25 1;0 0 1 1;.45 0 .25 1;0 0 1 1;.45 0 .25 1"><mpath href="#emgl-route"/></animateMotion>
 		</g>
 
-		<!-- Center: your growth (an arrow grows up and to the right over the whole loop) -->
-		<g transform="translate(300 282)">
-			<circle r="62" class="a emgl-ring emgl-ring-1 s-pink"/>
-			<circle r="62" class="a emgl-ring emgl-ring-2 s-teal"/>
-			<circle r="62" class="a emgl-ring emgl-ring-3 s-navy"/>
-			<circle r="62" class="store-bg"/>
-			<g class="a emgl-store">
-				<defs>
-					<linearGradient id="emgl-grow-grad" gradientUnits="userSpaceOnUse" x1="-40" y1="30" x2="36" y2="-30">
-						<stop offset="0%" class="stop-pink"/>
-						<stop offset="55%" class="stop-teal"/>
-						<stop offset="100%" class="stop-navy"/>
-					</linearGradient>
-					<path id="emgl-grow-path" d="M-40 30 C-30 24 -24 10 -12 12 S0 16 8 2 S24 -20 36 -30"/>
-				</defs>
-				<g transform="scale(1.2)">
-					<path d="M-40 30 C-30 24 -24 10 -12 12 S0 16 8 2 S24 -20 36 -30" pathLength="100" stroke="url(#emgl-grow-grad)" class="climb draw a emgl-grow-line"/>
-					<g class="emg-packet">
-						<path d="M-7 -9 L4 0 L-7 9" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" class="s-navy"/>
-						<animateMotion dur="9s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;1" keyTimes="0;.88;1" calcMode="linear"><mpath href="#emgl-grow-path"/></animateMotion>
-						<animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;1;1;0;0" keyTimes="0;.02;.95;.98;1"/>
-					</g>
-					<path d="M-7 -9 L4 0 L-7 9" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" class="s-navy static-only" transform="translate(36 -30) rotate(-40)"/>
-				</g>
-			</g>
-		</g>
-
+		<!-- Cards are drawn at their original spots and shifted in to sit on the tighter loop -->
 		<!-- ===== Paid (top) ===== -->
+		<g transform="translate(0 35)">
 		<text x="300" y="34" class="lbl f-pink" text-anchor="middle">PAID</text>
 		<rect x="225" y="46" width="150" height="104" rx="14" fill="#fff" filter="url(#emgl-shadow)"/>
 		<rect x="225" y="46" width="150" height="104" rx="14" class="card-ring s-pink a emgl-on-1"/>
@@ -520,7 +476,10 @@ header.top p { margin: 8px auto 0; max-width: 640px; color: #c7d6e6; font-size: 
 		<text x="300" y="137" class="lbl-xxs" fill="#fff" text-anchor="middle">LEARN MORE</text>
 		<circle cx="330" cy="134" r="9" fill="none" stroke="#fff" stroke-width="2.5" class="a emgl-tap"/>
 
+		</g>
+
 		<!-- ===== Organic (bottom right) ===== -->
+		<g transform="translate(-30.3 -17.5)">
 		<text x="460" y="312" class="lbl f-teal-deep" text-anchor="middle">ORGANIC</text>
 		<rect x="385" y="325" width="150" height="104" rx="14" fill="#fff" filter="url(#emgl-shadow)"/>
 		<rect x="385" y="325" width="150" height="104" rx="14" class="card-ring s-teal a emgl-on-2"/>
@@ -541,7 +500,10 @@ header.top p { margin: 8px auto 0; max-width: 640px; color: #c7d6e6; font-size: 
 		<rect x="405" y="410" width="54" height="4" rx="2" class="ink"/>
 		<rect x="405" y="417" width="80" height="3" rx="1.5" class="ink" opacity=".6"/>
 
+		</g>
+
 		<!-- ===== Lifecycle (bottom left) ===== -->
+		<g transform="translate(30.3 -17.5)">
 		<text x="140" y="312" class="lbl f-navy" text-anchor="middle">LIFECYCLE</text>
 		<rect x="65" y="325" width="150" height="104" rx="14" fill="#fff" filter="url(#emgl-shadow)"/>
 		<rect x="65" y="325" width="150" height="104" rx="14" class="card-ring s-navy a emgl-on-3"/>
@@ -559,7 +521,7 @@ header.top p { margin: 8px auto 0; max-width: 640px; color: #c7d6e6; font-size: 
 			<path d="M88.8 403.2l2.2 2.2 4-4.4" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 			<text x="104" y="406.5" class="lbl-xxs f-navy">ORDER PLACED</text>
 		</g>
-
+		</g>
 	</svg>
 </div>
 </div>

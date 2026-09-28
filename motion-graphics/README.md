@@ -15,7 +15,7 @@ Open `preview.html` in a browser to see all three. Run `node motion-graphics/bui
 Each graphic makes one point from its section's copy, in three steps or fewer.
 
 - **Web Design: a page coming together.** A dashed wireframe draws in, then copy, visuals, and working parts (buttons, cards, a signup form) fill the page in together until the finished page is on screen.
-- **Digital Marketing: follow one customer.** One customer moves around a loop: they tap your ad (Paid), search and find you at #1 (Organic), then order again from an email (Lifecycle), and head back around. Each card lights up as they arrive. The center of the loop is left empty.
+- **Digital Marketing: follow one customer.** One customer moves around a loop: they tap your ad (Paid), search and find you at #1 (Organic), then book a call from a follow-up email (Lifecycle), and head back around. Each card lights up as they arrive. The center of the loop is left empty.
 - **Public Relations: from story to results.** Your story is written, becomes a featured piece of earned coverage, and that coverage lights up the three results the copy promises: search visibility, foot traffic, and quality leads.
 
 ## Changing the timing
@@ -74,4 +74,4 @@ The graphics size to their container (`width: min(100%, 720px)`). They pick up t
 
 ## Copy to confirm
 
-The only words are the channel labels (Paid, Organic, Lifecycle) and small UI text inside the mock screens ("Get Started", "your brand", "Order placed"). The PR graphic uses "Your Story" and "Earned Coverage". Edit them in the partials.
+The only words are the channel labels (Paid, Organic, Lifecycle) and small UI text inside the mock screens ("Get Started", "your brand", "Book a call", "Call booked"). The PR graphic uses "Your Story" and "Earned Coverage". Edit them in the partials.
